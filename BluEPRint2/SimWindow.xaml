@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BluEPRint2"
         mc:Ignorable="d"
-        Title="SimWindow" Height="397.981" Width="808.314"
+        Title="Simulate Spectra with easyspin" Height="397.981" Width="808.314"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
