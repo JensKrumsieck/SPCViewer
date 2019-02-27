@@ -12,8 +12,8 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal" 
-        TextOptions.TextRenderingMode="Auto"        
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}" SizeChanged="Window_SizeChanged">
     <Grid>
@@ -102,7 +102,7 @@
                         <TextBlock HorizontalAlignment="Center" FontSize="5">Settings</TextBlock>
                     </StackPanel>
                 </Button>
-                    <Button ToolTip="Info" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="6">
+                    <Button ToolTip="Info" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="6" x:Name="InfoButton" Click="InfoButton_Click">
                     <StackPanel>
                         <materialDesign:PackIcon Kind="InfoOutline" HorizontalAlignment="Center" Width="16" Height="16"/>
                         <TextBlock HorizontalAlignment="Center" FontSize="5">Info</TextBlock>
@@ -118,7 +118,7 @@
             
             <TabItem Header="Hello World">
                 <StackPanel Orientation="Horizontal">
-                    <oxy:Plot MinHeight="100" MinWidth="400">
+                    <oxy:Plot MinHeight="100" MinWidth="900">
                         <oxy:Plot.Series>
                             <oxy:LineSeries ItemsSource="{Binding Points}"/>
                         </oxy:Plot.Series>

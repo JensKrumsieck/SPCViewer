@@ -560,5 +560,11 @@ namespace BluEPRint2
                 this.DerivButton.Foreground = Brushes.Black;
             }
         }
+
+        private void InfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            InfoWindow iw = new InfoWindow();
+            iw.Show();
+        }
     }
 }
