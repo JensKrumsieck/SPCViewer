@@ -28,8 +28,8 @@
                 <ComboBox HorizontalAlignment="Left" Margin="211,40,0,0" VerticalAlignment="Top" Width="179" SelectedIndex="0" x:Name="CB_Spectra">
                     <ComboBoxItem x:Name="cbi_all">All Files</ComboBoxItem>
                 </ComboBox>
-                <Button x:Name="svBtn" Margin="10,173,234.5,10">Save</Button>
-                <Button x:Name="svcBtn" Margin="232,173,12.5,10">Save &amp; Close</Button>
+                <Button x:Name="svBtn" Margin="10,161,234.5,9" Click="SvBtn_Click" Height="Auto">Save</Button>
+                <Button x:Name="svcBtn" Margin="232,161,12.5,9" Height="Auto" Click="SvcBtn_Click">Save &amp; Close</Button>
             </Grid>
         </materialDesign:Card>
     </Grid>

@@ -32,15 +32,15 @@
                     </StackPanel>
                 </Button>
                 <StackPanel>
-                    <Button ToolTip="Export ASCII" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="6" IsEnabled="False"> 
+                    <Button ToolTip="Export ASCII" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="6" IsEnabled="False" x:Name="ExAsciiBtn" Click="ExAsciiBtn_Click"> 
                         <materialDesign:PackIcon Kind="Export" Width="8" Height="8"/>
                     </Button>
                     <Separator />
-                    <Button ToolTip="Export PNG" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="6" IsEnabled="False">
+                    <Button ToolTip="Export PNG" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="6" IsEnabled="False" x:Name="ExPngBtn" Click="ExPngBtn_Click">
                         <materialDesign:PackIcon Kind="ImageOutline" Width="8" Height="8"/>
                     </Button>
                     <Separator />
-                    <Button ToolTip="Export PDF" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="6" IsEnabled="False">
+                    <Button ToolTip="Export PDF" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="6" IsEnabled="False" x:Name="ExPdfBtn" Click="ExPdfBtn_Click">
                         <materialDesign:PackIcon Kind="FilePdfBox" Width="8" Height="8"/>
                     </Button>
                 </StackPanel>

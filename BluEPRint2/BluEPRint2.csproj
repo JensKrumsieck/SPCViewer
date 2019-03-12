@@ -128,6 +128,7 @@
     <Compile Include="Spectrum\PlottableEPRSpectrum.cs" />
     <Compile Include="Utility\BPUtil.cs" />
     <Compile Include="Utility\EPRDataPoint.cs" />
+    <Compile Include="Utility\FileHandler.cs" />
     <Page Include="InfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

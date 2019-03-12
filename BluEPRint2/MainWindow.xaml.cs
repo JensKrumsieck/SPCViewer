@@ -381,6 +381,9 @@ namespace BluEPRint2
                 this.IntButton.IsEnabled = true;
                 this.DerivButton.IsEnabled = true;
                 this.SaveButton.IsEnabled = true;
+                this.ExAsciiBtn.IsEnabled = true;
+                this.ExPdfBtn.IsEnabled = true;
+                this.ExPngBtn.IsEnabled = true;
 
                 //show state
                 if (this.getActiveSpectrum().showInt)
@@ -410,6 +413,9 @@ namespace BluEPRint2
                 this.IntButton.IsEnabled = false;
                 this.DerivButton.IsEnabled = false;
                 this.SaveButton.IsEnabled = false;
+                this.ExAsciiBtn.IsEnabled = false;
+                this.ExPdfBtn.IsEnabled = false;
+                this.ExPngBtn.IsEnabled = false;
             }
         }
 
@@ -481,13 +487,9 @@ namespace BluEPRint2
                 List<string> sessionFiles = new List<string>();
                 foreach (PlottableEPRSpectrum spc in EPRSpectra)
                 {
-                    string spc_filename = spc.fileName + ".bp2";
-                    using (StreamWriter sw = File.CreateText(spc_filename))
-                    {
-                        JsonSerializer json = new JsonSerializer();
-                        json.Serialize(sw, spc);
-                    }
-                    sessionFiles.Add(spc_filename);
+                    //save bp2
+                    FileHandler.HandleSave(spc, FileHandler.Format.bp2);
+                    sessionFiles.Add(spc.fileName + ".bp2");
                 }
                 using (StreamWriter sw = File.CreateText(filename))
                 {
@@ -589,6 +591,21 @@ namespace BluEPRint2
             List<PlottableEPRSpectrum> EPRSpectra = this.getAllSpectra();
             SaveWindow sw = new SaveWindow(EPRSpectra);
             sw.Show();
+        }
+
+        private void ExAsciiBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FileHandler.HandleSave(this.getActiveSpectrum(), FileHandler.Format.dat);
+        }
+
+        private void ExPngBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FileHandler.HandleSave(this.getActiveSpectrum(), FileHandler.Format.png);
+        }
+
+        private void ExPdfBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FileHandler.HandleSave(this.getActiveSpectrum(), FileHandler.Format.pdf);
         }
     }
 }
