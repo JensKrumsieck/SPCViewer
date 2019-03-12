@@ -8,7 +8,7 @@ BluEPRint is a viewer for Bruker EMX Spectrometer files (.par/.spc) with [easysp
 - Mark g-values and measure hyperfine couplings
 - calculate absorption (integral of signal) and 2nd derivative (derivative of signal)
 - spin quantification (**TODO**)
-- Multiple exports (**TODO**)
+- Multiple exports
 - Integration of [easyspin](http://www.easyspin.org/) with ESPlug (GUI for easyspin, MatLab Installation with easyspin needed)
 
 ### Used Libraries
