@@ -25,7 +25,7 @@
                         <TextBlock HorizontalAlignment="Center" FontSize="5">Open</TextBlock>
                     </StackPanel>
                 </Button>
-                <Button ToolTip="Open Save Dialog" IsEnabled="False">
+                <Button ToolTip="Open Save Dialog" IsEnabled="False" x:Name="SaveButton" Click="SaveButton_Click">
                     <StackPanel>
                         <materialDesign:PackIcon Kind="ContentSave" />
                         <TextBlock HorizontalAlignment="Center" FontSize="5">Save</TextBlock>

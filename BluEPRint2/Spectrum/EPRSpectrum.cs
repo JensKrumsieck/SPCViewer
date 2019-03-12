@@ -183,6 +183,11 @@ namespace BluEPRint2.Spectrum
             return Path.GetFileNameWithoutExtension(this.fileName);
         }
 
+        public override string ToString()
+        {
+            return this.getTitle();
+        }
+
         //formatter for oxyplot axis
         public string _formatter(double d)
         {

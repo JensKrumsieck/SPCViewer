@@ -380,6 +380,7 @@ namespace BluEPRint2
                 this.sessionSaveButton.IsEnabled = true;
                 this.IntButton.IsEnabled = true;
                 this.DerivButton.IsEnabled = true;
+                this.SaveButton.IsEnabled = true;
 
                 //show state
                 if (this.getActiveSpectrum().showInt)
@@ -408,6 +409,7 @@ namespace BluEPRint2
                 this.sessionSaveButton.IsEnabled = false;
                 this.IntButton.IsEnabled = false;
                 this.DerivButton.IsEnabled = false;
+                this.SaveButton.IsEnabled = false;
             }
         }
 
@@ -474,13 +476,11 @@ namespace BluEPRint2
             if (mdiTabMenu.Items.Count != 0)
             {
                 //save session-File
+                List<PlottableEPRSpectrum> EPRSpectra = this.getAllSpectra();
                 string filename = AppDomain.CurrentDomain.BaseDirectory + "last.session";
                 List<string> sessionFiles = new List<string>();
-                foreach (TabItem tab in mdiTabMenu.Items)
+                foreach (PlottableEPRSpectrum spc in EPRSpectra)
                 {
-                    StackPanel sp = (StackPanel)tab.Content;
-                    EPRPlotView plotView = (EPRPlotView)sp.Children[0];
-                    PlottableEPRSpectrum spc = plotView.spc;
                     string spc_filename = spc.fileName + ".bp2";
                     using (StreamWriter sw = File.CreateText(spc_filename))
                     {
@@ -565,6 +565,30 @@ namespace BluEPRint2
         {
             InfoWindow iw = new InfoWindow();
             iw.Show();
+        }
+
+        public List<PlottableEPRSpectrum> getAllSpectra()
+        {
+            List<PlottableEPRSpectrum> EPRSpectra = new List<PlottableEPRSpectrum>();
+
+            if (mdiTabMenu.Items.Count != 0)
+            {
+                foreach (TabItem tab in mdiTabMenu.Items)
+                {
+                    StackPanel sp = (StackPanel)tab.Content;
+                    EPRPlotView plotView = (EPRPlotView)sp.Children[0];
+                    PlottableEPRSpectrum spc = plotView.spc;
+                    EPRSpectra.Add(spc);
+                }
+            }
+            return EPRSpectra;
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<PlottableEPRSpectrum> EPRSpectra = this.getAllSpectra();
+            SaveWindow sw = new SaveWindow(EPRSpectra);
+            sw.Show();
         }
     }
 }
