@@ -1,6 +1,4 @@
 # BluEPRint2
-[![Build status](https://ci.appveyor.com/api/projects/status/1sox8hd8p8yfsd8o?svg=true)](https://ci.appveyor.com/project/Jenso666/blueprint2)
- | [![Build Status](https://travis-ci.org/Jenso666/BluEPRint2.svg?branch=master)](https://travis-ci.org/Jenso666/BluEPRint2)
 
 BluEPRint is a viewer for Bruker EMX Spectrometer files (.par/.spc) with [easyspin](http://www.easyspin.org/)-Integration (ESPlug).
 
