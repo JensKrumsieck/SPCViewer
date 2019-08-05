@@ -1,0 +1,7 @@
+version: 2.0.{build}
+image: Visual Studio 2017
+before_build:
+  nuget restore
+build:
+  project: BluEPRint2.sln
+  verbosity: normal
