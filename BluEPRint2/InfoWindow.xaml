@@ -40,6 +40,8 @@
                 <Hyperlink NavigateUri="https://github.com/ButchersBoy/Dragablz" RequestNavigate="Hyperlink_RequestNavigate">Dragablz</Hyperlink> by ButchersBoy (MIT License)<LineBreak />
                 <Hyperlink NavigateUri="https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit" RequestNavigate="Hyperlink_RequestNavigate">MaterialDesign in XAML</Hyperlink> (MIT License)<LineBreak />
                 <Hyperlink NavigateUri="https://github.com/JamesNK/Newtonsoft.Json" RequestNavigate="Hyperlink_RequestNavigate">Newtonsoft.Json</Hyperlink> by JamesNK (MIT License)<LineBreak />
+                <Hyperlink NavigateUri="https://github.com/Fody/Fody" RequestNavigate="Hyperlink_RequestNavigate">Fody</Hyperlink> (MIT License)<LineBreak/>
+                <Hyperlink NavigateUri="https://github.com/Fody/Costura" RequestNavigate="Hyperlink_RequestNavigate">Fody.Costura</Hyperlink> (MIT License)<LineBreak/>
             </TextBlock>
         </materialDesign:Card>
     </Grid>
