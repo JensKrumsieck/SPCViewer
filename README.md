@@ -1,3 +1,6 @@
+<img src="https://raw.githubusercontent.com/JensKrumsieck/BluEPRint2/master/BluEPRint2/Resources/favicon.ico" alt="logo" width="128"/>
+
+
 # BluEPRint2
 
 BluEPRint is a viewer for Bruker EMX Spectrometer files (.par/.spc) with [easyspin](http://www.easyspin.org/)-Integration (ESPlug).
@@ -11,8 +14,11 @@ BluEPRint is a viewer for Bruker EMX Spectrometer files (.par/.spc) with [easysp
 - Integration of [easyspin](http://www.easyspin.org/) with ESPlug (GUI for easyspin, MatLab Installation with easyspin needed)
 
 ### Used Libraries
-- [Oxyplot](https://github.com/oxyplot/oxyplot) by Oxyplot (MIT License)
-- [easyspin](http://www.easyspin.org/) by Stefan Stoll ([See License](http://www.easyspin.org/download.html))
-- [Dragablz](https://github.com/ButchersBoy/Dragablz) by ButchersBoy (MIT License)
-- [MaterialDesign in XAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit) (MIT License)
-- [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) by JamesNK (MIT License)
+* [Oxyplot](https://github.com/oxyplot/oxyplot) by Oxyplot (MIT License)
+* [easyspin](http://www.easyspin.org/) by Stefan Stoll ([See License](http://www.easyspin.org/download.html))
+* [Dragablz](https://github.com/ButchersBoy/Dragablz) by ButchersBoy (MIT License)
+* [MaterialDesign in XAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit) (MIT License)
+* [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) by JamesNK (MIT License)
+* [Fody](https://github.com/Fody/Fody) (MIT License)
+* [Fody.Costura](https://github.com/Fody/Costura) (MIT License)
+
