@@ -34,18 +34,12 @@ namespace BluEPRint2.Spectrum
         {
             //get y Data
             double[] yData;
-            using (BinaryReader br = new BinaryReader(File.OpenRead(this.fileName + ".spc")))
+            
+            var bytes = File.ReadAllBytes(this.fileName + ".spc");
+            yData = new double[bytes.Length / 4];
+            for(int i = 0; i < bytes.Length / 4; i++)
             {
-                yData = new double[br.BaseStream.Length / 4];
-                br.BaseStream.Position = 0;
-                while (br.BaseStream.Position < br.BaseStream.Length)
-                {
-                    float cur;
-                    if ((cur = br.ReadSingle()) != 0)
-                    {
-                        yData[(br.BaseStream.Position / 4) - 1] = cur;
-                    }
-                }
+                yData[i] = BitConverter.ToSingle(bytes, i * 4);
             }
 
             //getting params and save as dictionary first
