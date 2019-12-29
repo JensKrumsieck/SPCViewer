@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/JensKrumsieck/BluEPRint2/master/BluEPRint2/Resources/favicon.ico" alt="logo" width="128"/>
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/5de2661404b812018d002d46/maintainability)](https://codeclimate.com/github/JensKrumsieck/BluEPRint2/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8da3cda66ed7e6c4e0af/maintainability)](https://codeclimate.com/github/JensKrumsieck/BluEPRint2/maintainability)
 ![GitHub repo size](https://img.shields.io/github/repo-size/JensKrumsieck/BluEPRint2)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/JensKrumsieck/BluEPRint2)
 ![GitHub Pre-Releases](https://img.shields.io/github/downloads-pre/JensKrumsieck/BluEPRint2/latest/total)
