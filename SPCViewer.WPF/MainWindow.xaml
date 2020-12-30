@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SPCViewer.WPF"
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:viewModel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         AllowDrop="True"
         Title="MainWindow" Height="450" Width="800" >
@@ -36,7 +37,17 @@
             </Grid>
         </DataTemplate>
     </Window.Resources>
-    <Grid>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top" Style="{DynamicResource MaterialDesignToolBarTray}">
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                <Button Style="{StaticResource ToolbarButton}">
+                    <StackPanel>
+                        <materialDesign:PackIcon Kind="Folder"/>
+                            <TextBlock Text="Open"/>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
         <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 
                     ItemsSource="{Binding Path=TabItems}" Drop="OnFileDrop" 
                     SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
@@ -46,5 +57,5 @@
                 </Style>
             </TabControl.ItemContainerStyle>
         </TabControl>
-    </Grid>
+    </DockPanel>
 </Window>

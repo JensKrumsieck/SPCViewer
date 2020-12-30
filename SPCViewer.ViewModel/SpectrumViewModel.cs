@@ -41,6 +41,15 @@ namespace SPCViewer.ViewModel
         /// </summary>
         public LineSeries ExperimentalSeries { get; set; }
 
+        /// <summary>
+        /// The Series containing integrated data
+        /// </summary>
+        public LineSeries IntegralSeries { get; set; }
+
+        /// <summary>
+        /// The Series containing derived data
+        /// </summary>
+        public LineSeries DerivSeries { get; set; }
 
         /// <summary>
         /// ctor
@@ -54,6 +63,8 @@ namespace SPCViewer.ViewModel
             InitSeries();
             InitModel();
             Model.Series.Add(ExperimentalSeries);
+            Model.Series.Add(IntegralSeries);
+            Model.Series.Add(DerivSeries);
         }
 
         private void InitModel()
@@ -71,12 +82,26 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// Initializes Series Data Binding
         /// </summary>
-        private void InitSeries() =>
+        private void InitSeries()
+        {
             ExperimentalSeries = new LineSeries
             {
                 ItemsSource = Spectrum.XYData,
                 Mapping = s => ((ChemSharp.DataPoint)s).Mapping()
             };
+            IntegralSeries = new LineSeries
+            {
+                ItemsSource = Spectrum.Integral,
+                Mapping = s => ((ChemSharp.DataPoint)s).Mapping(),
+                IsVisible = false
+            };
+            DerivSeries = new LineSeries()
+            {
+                ItemsSource = Spectrum.Derivative,
+                Mapping = s => ((ChemSharp.DataPoint)s).Mapping(),
+                IsVisible = false
+            };
+        }
 
 
         /// <summary>
