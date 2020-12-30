@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ChemSharp.DataProviders;
+using ChemSharp.Spectroscopy.DataProviders;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
-using ChemSharp.DataProviders;
-using ChemSharp.Spectroscopy.DataProviders;
 
 namespace SPCViewer.Core
 {
@@ -32,7 +32,7 @@ namespace SPCViewer.Core
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static IDataProvider Handle(string path)
+        public static AbstractXYDataProvider Handle(string path)
         {
             var ext = Path.GetExtension(path);
             //fallback for nmr files
@@ -43,13 +43,12 @@ namespace SPCViewer.Core
             var type = DataProviderDictionary[ext];
             var param = Expression.Parameter(typeof(string), "path");
             var creator = Expression
-                .Lambda<Func<string, IDataProvider>>(
+                .Lambda<Func<string, AbstractXYDataProvider>>(
                     Expression.New(
-                        type.GetConstructor(new[] {typeof(string)}) ??
+                        type.GetConstructor(new[] { typeof(string) }) ??
                         throw new InvalidOperationException("null given, Extension Handling failed"), param), param)
                 .Compile();
             return creator(path);
         }
-
     }
 }
