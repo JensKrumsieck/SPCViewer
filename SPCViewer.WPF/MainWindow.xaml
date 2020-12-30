@@ -7,8 +7,22 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:viewModel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
         mc:Ignorable="d"
+        AllowDrop="True"
         Title="MainWindow" Height="450" Width="800" >
+    <Window.Resources>
+        <DataTemplate x:Key="TabTemplate">
+            <oxy:PlotView x:Name="ThePlotView" Model="{Binding Path=Model}"/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-        <oxy:PlotView x:Name="ThePlotView" Model="{Binding Path=Model}"/>
+        <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 
+                    ItemsSource="{Binding Path=TabItems}" Drop="OnFileDrop" 
+                    SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="Header" Value="{Binding Title}"/>
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
     </Grid>
 </Window>

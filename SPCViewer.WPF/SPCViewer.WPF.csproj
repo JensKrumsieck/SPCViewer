@@ -1,8 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <PackageId>SPCViewer</PackageId>
+    <Authors>Jens Krumsieck</Authors>
+    <Version>3.0.0-alpha20201230</Version>
+    <LangVersion>latest</LangVersion>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <PackageProjectUrl>https://github.com/JensKrumsieck/BluEPRint2</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JensKrumsieck/BluEPRint2</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <ApplicationIcon>Resources\spc_icon.ico</ApplicationIcon>
+    <Product>SPCViewer</Product>
+    <PackageIcon></PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>

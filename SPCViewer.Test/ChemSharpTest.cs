@@ -1,21 +1,31 @@
 using ChemSharp.Spectroscopy;
 using ChemSharp.Spectroscopy.DataProviders;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SPCViewer.Core.Extension;
 
 namespace SPCViewer.Test
 {
     [TestClass]
     public class ChemSharpTest
     {
-        [TestMethod]
-        public void TestEPR()
+        private Spectrum _spc;
+
+        [TestInitialize]
+        public void Init()
         {
             const string path = "files/epr.par";
-            var spc = new Spectrum()
+            _spc = new Spectrum()
             {
                 DataProvider = new BrukerEPRProvider(path)
             };
-            Assert.AreEqual(2048, spc.XYData.Count);
+        }
+
+        [TestMethod]
+        public void TestEPR()
+        {
+            Assert.AreEqual(2048, _spc.XYData.Count);
+            Assert.AreEqual("B", _spc.Quantity());
+            Assert.AreEqual(_spc["JUN"], _spc.Unit());
         }
     }
 }

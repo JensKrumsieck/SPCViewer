@@ -9,14 +9,32 @@ namespace SPCViewer.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        public SpectrumViewModel ViewModel;
+        public MainViewModel ViewModel;
 
         public MainWindow()
         {
-            Settings.Instance.Load();
-            ViewModel = new SpectrumViewModel(@"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\uvvis.dsw");
+            Settings.Instance.Load("settings.json");
+            ViewModel = new MainViewModel();
             DataContext = ViewModel;
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Drag and Drop Handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnFileDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (files == null) return;
+            foreach (var file in files)
+            {
+                var page = new SpectrumViewModel(file);
+                ViewModel.TabItems.Add(page);
+                ViewModel.SelectedIndex = ViewModel.TabItems.IndexOf(page);
+            }
         }
     }
 }

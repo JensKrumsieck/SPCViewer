@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace SPCViewer.Core
@@ -31,22 +33,40 @@ namespace SPCViewer.Core
         #endregion
 
         /// <summary>
-        /// ctor
+        /// json ctor
+        /// use for json only!
+        /// For accessing settings use <see cref="Instance"/>
         /// </summary>
-        private Settings()
-        {
-        }
+        [JsonConstructor]
+        public Settings() { }
 
+        /// <summary>
+        /// Load Settings
+        /// Loads defaults if no path is given...
+        /// </summary>
+        /// <param name="path"></param>
         public void Load(string path = "")
         {
-            //TODO: Handle Deserialization
-            if (string.IsNullOrEmpty(path))
+            var settings = Default();
+            if (File.Exists(path))
             {
-                // ReSharper disable once InconsistentNaming
-                var _default = Default();
-                var properties = typeof(Settings).GetProperties();
-                foreach (var p in properties.Where(s => s.PropertyType != typeof(Settings))) p.SetValue(this, p.GetValue(_default));
+                var file = File.ReadAllText(path);
+                settings = JsonSerializer.Deserialize<Settings>(file);
             }
+            // ReSharper disable once InconsistentNaming
+
+            var properties = typeof(Settings).GetProperties();
+            foreach (var p in properties.Where(s => s.PropertyType != typeof(Settings))) p.SetValue(this, p.GetValue(settings));
+
+        }
+
+        /// <summary>
+        /// Save Settings
+        /// </summary>
+        public void Save()
+        {
+            var content = JsonSerializer.Serialize(Instance);
+            File.WriteAllText("settings.json", content);
         }
 
         /// <summary>

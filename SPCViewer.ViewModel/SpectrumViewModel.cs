@@ -26,6 +26,11 @@ namespace SPCViewer.ViewModel
         }
 
         /// <summary>
+        /// Pass Through the Spectrums title
+        /// </summary>
+        public string Title => Spectrum?.Title;
+
+        /// <summary>
         /// The used PlotModel
         /// </summary>
         public DefaultPlotModel Model { get; }
@@ -58,6 +63,8 @@ namespace SPCViewer.ViewModel
             //setup x axis description
             Model.XAxis.Title = Spectrum.Quantity();
             Model.XAxis.Unit = Spectrum.Unit();
+            //setup y axis
+            Model.YAxis.Title = Spectrum.YQuantity();
         }
 
         /// <summary>
