@@ -22,5 +22,15 @@ namespace SPCViewer.Test
             Assert.AreEqual(1, ViewModel.Model.Series.Count);
             Assert.AreEqual(2, ViewModel.Model.Axes.Count);
         }
+
+        [TestMethod]
+        public void TestMainViewModel()
+        {
+            var mvm = new MainViewModel();
+            mvm.TabItems.Add(ViewModel);
+            mvm.SelectedIndex = 0;
+            Assert.AreEqual(1, mvm.TabItems.Count);
+            Assert.AreEqual(2048, mvm.SelectedItem.Spectrum.XYData.Count);
+        }
     }
 }

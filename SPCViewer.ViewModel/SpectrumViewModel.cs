@@ -1,5 +1,6 @@
 ﻿using ChemSharp.Spectroscopy;
 using ChemSharp.Spectroscopy.DataProviders;
+using ChemSharp.Spectroscopy.Extension;
 using OxyPlot.Series;
 using SPCViewer.Core;
 using SPCViewer.Core.Extension;
@@ -28,7 +29,7 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// Pass Through the Spectrums title
         /// </summary>
-        public string Title => Spectrum?.Title;
+        public string Title => Path.GetFileName(Spectrum?.Title);
 
         /// <summary>
         /// The used PlotModel
