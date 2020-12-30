@@ -18,19 +18,22 @@ namespace SPCViewer.Core
             DefaultFont = Settings.Instance.Font;
             PlotAreaBorderThickness = new OxyThickness(Settings.Instance.BorderThickness);
             TitleFontWeight = Settings.Instance.FontWeight;
+            Background = OxyColors.Transparent;
 
             XAxis = new LinearAxis()
             {
                 Position = AxisPosition.Bottom,
                 Key = "X",
-                TitleFormatString = Settings.Instance.AxisFormat
+                TitleFormatString = Settings.Instance.AxisFormat,
+                AxislineThickness = Settings.Instance.AxisThickness 
             };
             Axes.Add(XAxis);
             YAxis = new LinearAxis()
             {
                 Position = AxisPosition.Left,
                 Key = "Y",
-                TitleFormatString = Settings.Instance.AxisFormat
+                TitleFormatString = Settings.Instance.AxisFormat,
+                AxislineThickness = Settings.Instance.AxisThickness
             };
             Axes.Add(YAxis);
         }

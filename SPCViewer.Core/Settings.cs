@@ -30,6 +30,7 @@ namespace SPCViewer.Core
 
         #region Axis
         public string AxisFormat { get; set; }
+        public double AxisThickness { get; set; }
         #endregion
 
         /// <summary>
@@ -81,7 +82,8 @@ namespace SPCViewer.Core
                 FontSize = 14,
                 BorderThickness = 1.5,
                 Padding = 1.5,
-                AxisFormat = "{0} / {1}"
+                AxisFormat = "{0} / {1}",
+                AxisThickness = 0
             };
     }
 }

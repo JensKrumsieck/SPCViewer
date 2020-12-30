@@ -1,6 +1,7 @@
 ﻿using ChemSharp.Spectroscopy;
 using ChemSharp.Spectroscopy.DataProviders;
 using ChemSharp.Spectroscopy.Extension;
+using OxyPlot;
 using OxyPlot.Series;
 using SPCViewer.Core;
 using SPCViewer.Core.Extension;
@@ -103,6 +104,10 @@ namespace SPCViewer.ViewModel
             };
         }
 
+        /// <summary>
+        /// Gets the PlotController
+        /// </summary>
+        public PlotController Controller => PlotControls.DefaultController;
 
         /// <summary>
         /// <inheritdoc />
