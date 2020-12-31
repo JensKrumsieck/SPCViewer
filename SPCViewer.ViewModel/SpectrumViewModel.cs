@@ -7,6 +7,7 @@ using SPCViewer.Core;
 using SPCViewer.Core.Extension;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace SPCViewer.ViewModel
@@ -73,9 +74,11 @@ namespace SPCViewer.ViewModel
             Model.Title = Path.GetFileName(Spectrum.Title);
             if (Spectrum.DataProvider is BrukerNMRProvider) Model.InvertX();
             if (Spectrum.DataProvider is BrukerEPRProvider || Spectrum.DataProvider is BrukerNMRProvider) Model.ToggleY();
-            //setup x axis description
+            //setup x axis 
             Model.XAxis.Title = Spectrum.Quantity();
             Model.XAxis.Unit = Spectrum.Unit();
+            Model.XAxis.AbsoluteMinimum = Spectrum.XYData.Min(s => s.X);
+            Model.XAxis.AbsoluteMaximum = Spectrum.XYData.Max(s => s.X);
             //setup y axis
             Model.YAxis.Title = Spectrum.YQuantity();
         }

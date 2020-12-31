@@ -25,7 +25,7 @@ namespace SPCViewer.Core
                 Position = AxisPosition.Bottom,
                 Key = "X",
                 TitleFormatString = Settings.Instance.AxisFormat,
-                AxislineThickness = Settings.Instance.AxisThickness 
+                AxislineThickness = Settings.Instance.AxisThickness
             };
             Axes.Add(XAxis);
             YAxis = new LinearAxis()
@@ -35,6 +35,11 @@ namespace SPCViewer.Core
                 TitleFormatString = Settings.Instance.AxisFormat,
                 AxislineThickness = Settings.Instance.AxisThickness
             };
+            if (PlotAreaBorderThickness.Equals(new OxyThickness(0)))
+            {
+                YAxis.AxislineStyle = LineStyle.Solid;
+                XAxis.AxislineStyle = LineStyle.Solid;
+            }
             Axes.Add(YAxis);
         }
 

@@ -9,7 +9,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         AllowDrop="True"
-        Title="MainWindow" Height="450" Width="800" >
+        Title="MainWindow" Height="550" Width="900" >
     <Window.Resources>
         <DataTemplate x:Key="TabTemplate">
             <Grid>
@@ -38,14 +38,47 @@
         </DataTemplate>
     </Window.Resources>
     <DockPanel>
-        <ToolBarTray DockPanel.Dock="Top" Style="{DynamicResource MaterialDesignToolBarTray}">
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                <Button Style="{StaticResource ToolbarButton}">
+        <ToolBarTray DockPanel.Dock="Top" Style="{DynamicResource MaterialDesignToolBarTray}" Background="#222831">
+            <ToolBar Style="{DynamicResource ToolbarStyle}">
+                <Button Style="{StaticResource ToolbarButton}" Click="Open_Click">
                     <StackPanel>
-                        <materialDesign:PackIcon Kind="Folder"/>
-                            <TextBlock Text="Open"/>
+                        <materialDesign:PackIcon Kind="Folder" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Open" TextWrapping="Wrap" TextAlignment="Center"/>
                     </StackPanel>
                 </Button>
+                <Button Style="{StaticResource ToolbarButton}">
+                    <StackPanel>
+                        <materialDesign:PackIcon Kind="ContentSave" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Save" TextWrapping="Wrap" TextAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Separator Style="{StaticResource SeparatorStyle}"/>
+                <ListBox SelectedIndex="0" Background="Transparent" SelectionChanged="Selector_OnSelectionChanged">
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="MagnifyScan" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Zoom" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="FitToPageOutline" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Normalize" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="BoxCutter" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Peak Picking" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="MathIntegral" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Integrate" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
             </ToolBar>
         </ToolBarTray>
         <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 

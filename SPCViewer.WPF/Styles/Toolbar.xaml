@@ -4,22 +4,79 @@
                     xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToolBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <sys:Double x:Key="FontSize">9</sys:Double>
+    <sys:Double x:Key="Width">70</sys:Double>
+    <SolidColorBrush x:Key="Foreground">#eeeeee</SolidColorBrush>
+    <SolidColorBrush x:Key="Background">#222831</SolidColorBrush>
+    <SolidColorBrush x:Key="HoverColor">#2d4059</SolidColorBrush>
+
+    <Style x:Key="ToolbarStyle" TargetType="ToolBar" BasedOn="{StaticResource MaterialDesignToolBar}">
+        <Setter Property="Background" Value="#222831"></Setter>
+    </Style>
+
     <Style x:Key="ToolbarButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-        <Setter Property="Margin" Value="5 0 0 0" />
         <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
-        <Setter Property="FontSize" Value="9"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
+        <Setter Property="Background" Value="{StaticResource Background}"/>
+        <Setter Property="Width" Value="{StaticResource Width}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"  CornerRadius="2">
+                        <wpf:Ripple Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False"
+                                    Feedback="{TemplateBinding Foreground}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Padding="{TemplateBinding Padding}" 
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource HoverColor}" TargetName="Border" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="ToolbarToggleButton" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
-        <Setter Property="Margin" Value="5 0 0 0" />
         <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
-        <Setter Property="FontSize" Value="9"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
+        <Setter Property="Background" Value="{StaticResource Background}"/>
+        <Setter Property="Width" Value="{StaticResource Width}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="ToolbarListItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignToolToggleListBoxItem}">
+        <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Background" Value="{StaticResource Background}"/>
+        <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
+        <Setter Property="Width" Value="{StaticResource Width}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#ff5722"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource HoverColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="SeparatorStyle" TargetType="Separator">
+        <Setter Property="Background" Value="{StaticResource Foreground}"/>
+        <Setter Property="Opacity" Value=".25"/>
     </Style>
 
     <Style x:Key="MenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}" >

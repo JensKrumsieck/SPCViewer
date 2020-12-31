@@ -38,5 +38,20 @@ namespace SPCViewer.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        /// <summary>
+        /// Used to open files / create tabviewmodel
+        /// </summary>
+        /// <param name="files"></param>
+        public void OpenFiles(string[] files)
+        {
+            if (files == null) return;
+            foreach (var file in files)
+            {
+                var page = new SpectrumViewModel(file);
+                TabItems.Add(page);
+                SelectedIndex = TabItems.IndexOf(page);
+            }
+        }
     }
 }

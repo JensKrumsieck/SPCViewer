@@ -1,6 +1,7 @@
 ﻿using SPCViewer.Core;
 using SPCViewer.ViewModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SPCViewer.WPF
 {
@@ -30,13 +31,25 @@ namespace SPCViewer.WPF
         {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
             var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            if (files == null) return;
-            foreach (var file in files)
-            {
-                var page = new SpectrumViewModel(file);
-                ViewModel.TabItems.Add(page);
-                ViewModel.SelectedIndex = ViewModel.TabItems.IndexOf(page);
-            }
+            ViewModel.OpenFiles(files);
+        }
+
+        /// <summary>
+        /// Handles File Open by Dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Open_Click(object sender, RoutedEventArgs e) => ViewModel.OpenFiles(new[]
+            {@"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\uvvis.dsw"});
+
+        /// <summary>
+        /// Prevents Deselection of Last Item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ListBox lb && lb.SelectedIndex == -1) lb.SelectedIndex = 0;
         }
     }
 }
