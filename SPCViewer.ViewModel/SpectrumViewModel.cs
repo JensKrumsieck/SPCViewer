@@ -5,6 +5,10 @@ using OxyPlot;
 using OxyPlot.Series;
 using SPCViewer.Core;
 using SPCViewer.Core.Extension;
+using SPCViewer.Core.Plots;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -54,6 +58,25 @@ namespace SPCViewer.ViewModel
         public LineSeries DerivSeries { get; set; }
 
         /// <summary>
+        /// List of Integrals
+        /// </summary>
+        public ObservableCollection<Integral> Integrals { get; set; } = new ObservableCollection<Integral>(new List<Integral>());
+
+        /// <summary>
+        /// Currently Active UI Action
+        /// </summary>
+        private UIAction _mouseAction;
+        public UIAction MouseAction
+        {
+            get => _mouseAction;
+            set
+            {
+                _mouseAction = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// ctor
         /// </summary>
         /// <param name="path"></param>
@@ -67,10 +90,12 @@ namespace SPCViewer.ViewModel
             Model.Series.Add(ExperimentalSeries);
             Model.Series.Add(IntegralSeries);
             Model.Series.Add(DerivSeries);
+            PropertyChanged += OnPropertyChanged;
         }
 
         private void InitModel()
         {
+            Controller = PlotControls.DefaultController;
             Model.Title = Path.GetFileName(Spectrum.Title);
             if (Spectrum.DataProvider is BrukerNMRProvider) Model.InvertX();
             if (Spectrum.DataProvider is BrukerEPRProvider || Spectrum.DataProvider is BrukerNMRProvider) Model.ToggleY();
@@ -110,7 +135,40 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// Gets the PlotController
         /// </summary>
-        public PlotController Controller => PlotControls.DefaultController;
+        public PlotController Controller { get; private set; }
+
+        /// <summary>
+        /// Adds an Integral to List
+        /// </summary>
+        /// <param name="rect"></param>
+        private void AddIntegral((DataPoint, DataPoint) rect)
+        {
+            var (item1, item2) = rect;
+            var min = item1.X < item2.X ? item1 : item2;
+            var max = item1.X > item2.X ? item1 : item2;
+            var points = Spectrum.XYData.Where(s => s.X >= min.X && s.X <= max.X).ToArray();
+            if(!points.Any()) return;
+            Integrals.Add(new Integral(points));
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged" />
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(MouseAction)) return;
+            //bind action to plotcontroller
+            Action<(DataPoint, DataPoint)> rectAction = MouseAction switch
+            {
+                UIAction.Integrate => AddIntegral,
+                _ => null
+            };
+            var action = new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
+                controller.AddMouseManipulator(view, new Core.Plots.ZoomRectangleManipulator(view, rectAction), args));
+            Controller.BindMouseDown(OxyMouseButton.Left, action);
+        }
 
         /// <summary>
         /// <inheritdoc />

@@ -1,6 +1,6 @@
 ﻿using OxyPlot;
 
-namespace SPCViewer.Core
+namespace SPCViewer.Core.Plots
 {
     public static class PlotControls
     {
@@ -32,15 +32,10 @@ namespace SPCViewer.Core
                 ctrl.BindMouseWheel(OxyModifierKeys.Shift, PlotCommands.ZoomWheelFine);
 
                 //Rectangle Zoom, Zoom X Only unless CTRL is pressed
-                ctrl.BindMouseDown(OxyMouseButton.Left, ZoomX);
                 ctrl.BindMouseDown(OxyMouseButton.Left, OxyModifierKeys.Control, PlotCommands.ZoomRectangle);
 
                 return ctrl;
             }
         }
-
-        private static readonly DelegatePlotCommand<OxyMouseDownEventArgs> ZoomX = 
-            new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) => 
-                controller.AddMouseManipulator(view, new SPCViewer.Core.ZoomRectangleManipulator(view), args));
     }
 }

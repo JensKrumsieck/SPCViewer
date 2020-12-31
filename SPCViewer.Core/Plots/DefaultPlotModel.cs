@@ -1,7 +1,7 @@
 ﻿using OxyPlot;
 using OxyPlot.Axes;
 
-namespace SPCViewer.Core
+namespace SPCViewer.Core.Plots
 {
     public class DefaultPlotModel : PlotModel
     {

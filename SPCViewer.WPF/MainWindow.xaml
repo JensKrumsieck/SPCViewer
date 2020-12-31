@@ -32,7 +32,10 @@
                         <LineBreak/>
                         <Run Text="{Binding Path=Spectrum.CreationDate, Mode=OneWay}"/>
                     </TextBlock>
-                    <TextBlock Text="" TextWrapping="Wrap"/>
+                    <TextBlock TextWrapping="Wrap">
+                        <Run Text="Integrals:" FontWeight="Bold"/>
+                    </TextBlock>
+                    <ItemsControl ItemsSource="{Binding Integrals}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -53,7 +56,7 @@
                     </StackPanel>
                 </Button>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
-                <ListBox SelectedIndex="0" Background="Transparent" SelectionChanged="Selector_OnSelectionChanged">
+                <ListBox SelectedIndex="{Binding SelectedAction, Mode=TwoWay}" Background="Transparent" SelectionMode="Single">
                     <ListBoxItem Style="{StaticResource ToolbarListItem}">
                         <StackPanel>
                             <materialDesign:PackIcon Kind="MagnifyScan" HorizontalAlignment="Center"/>

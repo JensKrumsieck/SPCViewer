@@ -26,17 +26,34 @@ namespace SPCViewer.ViewModel
             }
         }
 
+        private int _selectedAction;
+        /// <summary>
+        /// Gets or Sets the selectedIndex
+        /// </summary>
+        public int SelectedAction
+        {
+            get => _selectedAction;
+            set
+            {
+                _selectedAction = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Gets the SelectedItem
         /// </summary>
         public SpectrumViewModel SelectedItem => TabItems[SelectedIndex];
 
+        /// <summary>
+        /// Gets the SelectedUIAction
+        /// </summary>
+        public UIAction SelectedUIAction => (UIAction) SelectedAction;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public MainViewModel()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            //register event
+            PropertyChanged += OnPropertyChanged;
         }
 
         /// <summary>
@@ -52,6 +69,26 @@ namespace SPCViewer.ViewModel
                 TabItems.Add(page);
                 SelectedIndex = TabItems.IndexOf(page);
             }
+        }
+
+        /// <summary>
+        /// PropertyChanged
+        /// Sets UI Action to children
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(SelectedAction)) return;
+            if (SelectedAction == -1 || SelectedAction > (int)UIAction.Integrate) SelectedAction = 0;
+            foreach (var tab in TabItems) tab.MouseAction = SelectedUIAction;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
