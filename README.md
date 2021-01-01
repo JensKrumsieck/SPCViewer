@@ -1,27 +1,26 @@
-<img src="https://raw.githubusercontent.com/JensKrumsieck/BluEPRint2/master/BluEPRint2/Resources/favicon.ico" alt="logo" width="128"/>
+<img src="https://raw.githubusercontent.com/JensKrumsieck/BluEPRint2/chemsharp/SPCViewer.WPF/Resources/spc_icon.ico" alt="logo" width="128"/>
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/8da3cda66ed7e6c4e0af/maintainability)](https://codeclimate.com/github/JensKrumsieck/BluEPRint2/maintainability)
 ![GitHub repo size](https://img.shields.io/github/repo-size/JensKrumsieck/BluEPRint2)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/JensKrumsieck/BluEPRint2)
 ![GitHub Pre-Releases](https://img.shields.io/github/downloads-pre/JensKrumsieck/BluEPRint2/latest/total)
-# BluEPRint2
+# SPCViewer
 
-BluEPRint is a viewer for Bruker EMX Spectrometer files (.par/.spc) with [easyspin](http://www.easyspin.org/)-Integration (ESPlug).
+SPCViewer (fka. BluEPRint) is capable of viewing and analyzing Spectra from Spectrometers listed below.
+
+##Supported Spectra
+- Bruker EMX EPR
+- Bruker NMR
+- Varian UV/Vis
+- Generic CSV
 
 ## Features
-- View and analyze EPR spectra
-- Mark g-values and measure hyperfine couplings
-- calculate absorption (integral of signal) and 2nd derivative (derivative of signal)
-- spin quantification (**TODO**)
+- View and analyze spectra
+- Mark Integrals, Peaks, ...
 - Multiple exports
-- Integration of [easyspin](http://www.easyspin.org/) with ESPlug (GUI for easyspin, MatLab Installation with easyspin needed)
 
 ### Used Libraries
+* [ChemSharp](https://github.com/JensKrumsieck/ChemSharp) by Jens Krumsieck (MIT License)
 * [Oxyplot](https://github.com/oxyplot/oxyplot) by Oxyplot (MIT License)
-* [easyspin](http://www.easyspin.org/) by Stefan Stoll ([See License](http://www.easyspin.org/download.html))
-* [Dragablz](https://github.com/ButchersBoy/Dragablz) by ButchersBoy (MIT License)
 * [MaterialDesign in XAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit) (MIT License)
-* [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) by JamesNK (MIT License)
-* [Fody](https://github.com/Fody/Fody) (MIT License)
-* [Fody.Costura](https://github.com/Fody/Costura) (MIT License)
 

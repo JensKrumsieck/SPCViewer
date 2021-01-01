@@ -3,13 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPCViewer.Test", "SPCViewer.Test\SPCViewer.Test.csproj", "{9E19CEF1-CC1A-4B92-B14A-7899E5704171}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPCViewer.Test", "SPCViewer.Test\SPCViewer.Test.csproj", "{9E19CEF1-CC1A-4B92-B14A-7899E5704171}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPCViewer.ViewModel", "SPCViewer.ViewModel\SPCViewer.ViewModel.csproj", "{72D7B572-3C00-4B8B-92CD-458EF0579452}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPCViewer.ViewModel", "SPCViewer.ViewModel\SPCViewer.ViewModel.csproj", "{72D7B572-3C00-4B8B-92CD-458EF0579452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPCViewer.Core", "SPCViewer.Core\SPCViewer.Core.csproj", "{C89D85E1-A7D4-4F77-8992-0160828BE807}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPCViewer.Core", "SPCViewer.Core\SPCViewer.Core.csproj", "{C89D85E1-A7D4-4F77-8992-0160828BE807}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPCViewer.WPF", "SPCViewer.WPF\SPCViewer.WPF.csproj", "{C6F0C1D3-01F9-4529-9FD4-87CDB106FB9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPCViewer.WPF", "SPCViewer.WPF\SPCViewer.WPF.csproj", "{C6F0C1D3-01F9-4529-9FD4-87CDB106FB9B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B95148C6-477A-454D-8E82-B2CEA0233649}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
