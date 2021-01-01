@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/JensKrumsieck/BluEPRint2/chemsharp/SPCViewer.WPF/Resources/spc_icon.ico" alt="logo" width="128"/>
+<img src="https://raw.githubusercontent.com/JensKrumsieck/BluEPRint2/chemsharp/.github/spc.png" alt="logo" width="128"/>
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/8da3cda66ed7e6c4e0af/maintainability)](https://codeclimate.com/github/JensKrumsieck/BluEPRint2/maintainability)
 ![GitHub repo size](https://img.shields.io/github/repo-size/JensKrumsieck/BluEPRint2)
