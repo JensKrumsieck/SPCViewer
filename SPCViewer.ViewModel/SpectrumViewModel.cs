@@ -1,4 +1,11 @@
-﻿using ChemSharp.Spectroscopy;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using ChemSharp.Spectroscopy;
 using ChemSharp.Spectroscopy.DataProviders;
 using ChemSharp.Spectroscopy.Extension;
 using OxyPlot;
@@ -6,13 +13,9 @@ using OxyPlot.Series;
 using SPCViewer.Core;
 using SPCViewer.Core.Extension;
 using SPCViewer.Core.Plots;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
+using DataPoint = ChemSharp.DataPoint;
+using OxyDataPoint = OxyPlot.DataPoint;
+using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
 
 namespace SPCViewer.ViewModel
 {
@@ -65,8 +68,8 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// List of Peaks
         /// </summary>
-        public ObservableCollection<ChemSharp.DataPoint> Peaks { get; set; } =
-            new ObservableCollection<ChemSharp.DataPoint>(new List<ChemSharp.DataPoint>());
+        public ObservableCollection<DataPoint> Peaks { get; set; } =
+            new ObservableCollection<DataPoint>(new List<DataPoint>());
 
         /// <summary>
         /// Currently Active UI Action
@@ -88,17 +91,17 @@ namespace SPCViewer.ViewModel
         /// <param name="path"></param>
         public SpectrumViewModel(string path)
         {
+            PropertyChanged += OnPropertyChanged;
             var provider = ExtensionHandler.Handle(path);
-            Spectrum = new Spectrum() { DataProvider = provider };
+            Spectrum = new Spectrum { DataProvider = provider };
             Model = new DefaultPlotModel();
             InitSeries();
             InitModel();
-            Model.Series.Add(ExperimentalSeries);
-            Model.Series.Add(IntegralSeries);
-            Model.Series.Add(DerivSeries);
-            PropertyChanged += OnPropertyChanged;
         }
 
+        /// <summary>
+        /// Initializes PlotModel
+        /// </summary>
         private void InitModel()
         {
             Controller = PlotControls.DefaultController;
@@ -112,6 +115,10 @@ namespace SPCViewer.ViewModel
             Model.XAxis.AbsoluteMaximum = Spectrum.XYData.Max(s => s.X);
             //setup y axis
             Model.YAxis.Title = Spectrum.YQuantity();
+
+            Model.Series.Add(ExperimentalSeries);
+            Model.Series.Add(IntegralSeries);
+            Model.Series.Add(DerivSeries);
         }
 
         /// <summary>
@@ -122,18 +129,18 @@ namespace SPCViewer.ViewModel
             ExperimentalSeries = new LineSeries
             {
                 ItemsSource = Spectrum.XYData,
-                Mapping = s => ((ChemSharp.DataPoint)s).Mapping()
+                Mapping = s => ((DataPoint)s).Mapping()
             };
             IntegralSeries = new LineSeries
             {
                 ItemsSource = Spectrum.Integral,
-                Mapping = s => ((ChemSharp.DataPoint)s).Mapping(),
+                Mapping = s => ((DataPoint)s).Mapping(),
                 IsVisible = false
             };
-            DerivSeries = new LineSeries()
+            DerivSeries = new LineSeries
             {
                 ItemsSource = Spectrum.Derivative,
-                Mapping = s => ((ChemSharp.DataPoint)s).Mapping(),
+                Mapping = s => ((DataPoint)s).Mapping(),
                 IsVisible = false
             };
         }
@@ -147,9 +154,9 @@ namespace SPCViewer.ViewModel
         /// Adds an Integral to List
         /// </summary>
         /// <param name="rect"></param>
-        private void AddIntegral((DataPoint, DataPoint) rect)
+        private void AddIntegral((OxyDataPoint, OxyDataPoint) rect)
         {
-            var points = PointsFromRect(rect);
+            var points = Spectrum.XYData.PointsFromRect(rect);
             if(!points.Any()) return;
             Integrals.Add(new Integral(points));
         }
@@ -158,21 +165,15 @@ namespace SPCViewer.ViewModel
         /// Adds Peaks to List
         /// </summary>
         /// <param name="rect"></param>
-        private void AddPeak((DataPoint, DataPoint) rect)
+        private void AddPeak((OxyDataPoint, OxyDataPoint) rect)
         {
-            var points = PointsFromRect(rect);
+            var points = Spectrum.XYData.PointsFromRect(rect);
             if (!points.Any()) return;
             var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions();
             foreach (var index in peaksIndices) Peaks.Add(points[index]);
         }
 
-        private ChemSharp.DataPoint[] PointsFromRect((DataPoint, DataPoint) rect)
-        {
-            var (item1, item2) = rect;
-            var min = item1.X < item2.X ? item1 : item2;
-            var max = item1.X > item2.X ? item1 : item2;
-            return Spectrum.XYData.Where(s => s.X >= min.X && s.X <= max.X).ToArray();
-        }
+        
 
         /// <summary>
         /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged" />
@@ -183,14 +184,14 @@ namespace SPCViewer.ViewModel
         {
             if (e.PropertyName != nameof(MouseAction)) return;
             //bind action to plotcontroller
-            Action<(DataPoint, DataPoint)> rectAction = MouseAction switch
+            Action<(OxyDataPoint, OxyDataPoint)> rectAction = MouseAction switch
             {
                 UIAction.Integrate => AddIntegral,
                 UIAction.PeakPicking => AddPeak,
                 _ => null
             };
             var action = new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
-                controller.AddMouseManipulator(view, new Core.Plots.ZoomRectangleManipulator(view, rectAction), args));
+                controller.AddMouseManipulator(view, new ZoomRectangleManipulator(view, rectAction), args));
             Controller.BindMouseDown(OxyMouseButton.Left, action);
         }
 
