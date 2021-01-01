@@ -170,7 +170,9 @@ namespace SPCViewer.ViewModel
             var points = Spectrum.XYData.PointsFromRect(rect);
             if (!points.Any()) return;
             var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions();
-            foreach (var index in peaksIndices) Peaks.Add(points[index]);
+            foreach (var index in peaksIndices)
+                if (Peaks.All(s => s != points[index]))
+                    Peaks.Add(points[index]);
         }
 
         
