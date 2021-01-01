@@ -63,6 +63,12 @@ namespace SPCViewer.ViewModel
         public ObservableCollection<Integral> Integrals { get; set; } = new ObservableCollection<Integral>(new List<Integral>());
 
         /// <summary>
+        /// List of Peaks
+        /// </summary>
+        public ObservableCollection<ChemSharp.DataPoint> Peaks { get; set; } =
+            new ObservableCollection<ChemSharp.DataPoint>(new List<ChemSharp.DataPoint>());
+
+        /// <summary>
         /// Currently Active UI Action
         /// </summary>
         private UIAction _mouseAction;
@@ -143,12 +149,29 @@ namespace SPCViewer.ViewModel
         /// <param name="rect"></param>
         private void AddIntegral((DataPoint, DataPoint) rect)
         {
+            var points = PointsFromRect(rect);
+            if(!points.Any()) return;
+            Integrals.Add(new Integral(points));
+        }
+
+        /// <summary>
+        /// Adds Peaks to List
+        /// </summary>
+        /// <param name="rect"></param>
+        private void AddPeak((DataPoint, DataPoint) rect)
+        {
+            var points = PointsFromRect(rect);
+            if (!points.Any()) return;
+            var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions();
+            foreach (var index in peaksIndices) Peaks.Add(points[index]);
+        }
+
+        private ChemSharp.DataPoint[] PointsFromRect((DataPoint, DataPoint) rect)
+        {
             var (item1, item2) = rect;
             var min = item1.X < item2.X ? item1 : item2;
             var max = item1.X > item2.X ? item1 : item2;
-            var points = Spectrum.XYData.Where(s => s.X >= min.X && s.X <= max.X).ToArray();
-            if(!points.Any()) return;
-            Integrals.Add(new Integral(points));
+            return Spectrum.XYData.Where(s => s.X >= min.X && s.X <= max.X).ToArray();
         }
 
         /// <summary>
@@ -163,6 +186,7 @@ namespace SPCViewer.ViewModel
             Action<(DataPoint, DataPoint)> rectAction = MouseAction switch
             {
                 UIAction.Integrate => AddIntegral,
+                UIAction.PeakPicking => AddPeak,
                 _ => null
             };
             var action = new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>

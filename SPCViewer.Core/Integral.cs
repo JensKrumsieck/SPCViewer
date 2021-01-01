@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using ChemSharp;
+using ChemSharp.Extensions;
+using System;
 using System.Collections.Generic;
-using ChemSharp;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using ChemSharp.Extensions;
 
 namespace SPCViewer.Core
 {

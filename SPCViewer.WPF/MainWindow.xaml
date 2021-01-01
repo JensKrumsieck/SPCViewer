@@ -36,6 +36,10 @@
                         <Run Text="Integrals:" FontWeight="Bold"/>
                     </TextBlock>
                     <ItemsControl ItemsSource="{Binding Integrals}"/>
+                    <TextBlock TextWrapping="Wrap">
+                        <Run Text="Peaks:" FontWeight="Bold"/>
+                    </TextBlock>
+                    <ItemsControl ItemsSource="{Binding Peaks}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
