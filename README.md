@@ -8,7 +8,7 @@
 
 SPCViewer (fka. BluEPRint) is capable of viewing and analyzing Spectra from Spectrometers listed below.
 
-##Supported Spectra
+## Supported Spectra
 - Bruker EMX EPR
 - Bruker NMR
 - Varian UV/Vis
