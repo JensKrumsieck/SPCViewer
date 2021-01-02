@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using ChemSharp;
+using System.Collections.Generic;
 using System.Linq;
-using ChemSharp;
 using OxyDataPoint = OxyPlot.DataPoint;
 
 namespace SPCViewer.Core.Extension

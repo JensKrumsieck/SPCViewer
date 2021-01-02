@@ -34,7 +34,7 @@ namespace SPCViewer.Core.Extension
             {
                 StartPoint = new DataPoint(integral.From, -.1),
                 EndPoint = new DataPoint(integral.To, -.1),
-                TextPosition = new DataPoint((integral.From + integral.To)/2, -.6),
+                TextPosition = new DataPoint((integral.From + integral.To) / 2, -.6),
                 Text = integral.Value.ToString("N3"),
                 Tag = integral,
                 StrokeThickness = Settings.Instance.AxisThickness,

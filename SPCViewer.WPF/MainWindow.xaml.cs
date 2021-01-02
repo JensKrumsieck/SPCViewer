@@ -1,8 +1,8 @@
-﻿using SPCViewer.Core;
+﻿using ChemSharp;
+using MaterialDesignThemes.Wpf;
+using SPCViewer.Core;
 using SPCViewer.ViewModel;
 using System.Windows;
-using ChemSharp;
-using MaterialDesignThemes.Wpf;
 
 namespace SPCViewer.WPF
 {
@@ -50,8 +50,8 @@ namespace SPCViewer.WPF
         /// <param name="e"></param>
         private void Peak_OnClick(object sender, RoutedEventArgs e)
         {
-            var chip = (Chip) e.Source;
-            var dp = (DataPoint) chip.Tag;
+            var chip = (Chip)e.Source;
+            var dp = (DataPoint)chip.Tag;
             ViewModel.SelectedItem.Peaks.Remove(dp);
         }
     }

@@ -28,7 +28,7 @@ namespace SPCViewer.ViewModel
 
         private int _selectedAction;
         /// <summary>
-        /// Gets or Sets the selectedIndex
+        /// Gets or Sets the selected action Index
         /// </summary>
         public int SelectedAction
         {
@@ -48,7 +48,7 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// Gets the SelectedUIAction
         /// </summary>
-        public UIAction SelectedUIAction => (UIAction) SelectedAction;
+        public UIAction SelectedUIAction => (UIAction)SelectedAction;
 
         public MainViewModel()
         {
@@ -71,6 +71,8 @@ namespace SPCViewer.ViewModel
             }
         }
 
+        #region Event Stuff
+
         /// <summary>
         /// PropertyChanged
         /// Sets UI Action to children
@@ -82,15 +84,15 @@ namespace SPCViewer.ViewModel
             switch (e.PropertyName)
             {
                 case nameof(SelectedAction):
-                {
-                    //set selected action to active tab
-                    if (SelectedAction == -1 || SelectedAction > (int)UIAction.Integrate) SelectedAction = 0;
-                    SelectedItem.MouseAction = SelectedUIAction;
-                    break;
-                }
+                    {
+                        //set selected action to active tab
+                        if (SelectedAction == -1 || SelectedAction > (int)UIAction.Integrate) SelectedAction = 0;
+                        SelectedItem.MouseAction = SelectedUIAction;
+                        break;
+                    }
                 case nameof(SelectedIndex):
                     //set selected action from tab
-                    SelectedAction = (int) SelectedItem.MouseAction;
+                    SelectedAction = (int)SelectedItem.MouseAction;
                     break;
             }
         }
@@ -101,5 +103,7 @@ namespace SPCViewer.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

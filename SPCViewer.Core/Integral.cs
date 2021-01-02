@@ -71,7 +71,7 @@ namespace SPCViewer.Core
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != nameof(DataPoints) && e.PropertyName != nameof(Factor)) return;
-                Value = DataPoints.Integrate().Last().Y / Factor;
+            Value = DataPoints.Integrate().Last().Y / Factor;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

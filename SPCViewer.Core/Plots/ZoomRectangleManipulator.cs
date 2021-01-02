@@ -1,5 +1,5 @@
-﻿using System;
-using OxyPlot;
+﻿using OxyPlot;
+using System;
 
 namespace SPCViewer.Core.Plots
 {
@@ -29,7 +29,7 @@ namespace SPCViewer.Core.Plots
             var w = Math.Abs(this.StartPosition.X - e.Position.X);
             var y = Math.Min(this.StartPosition.Y, e.Position.Y);
             var h = Math.Abs(this.StartPosition.Y - e.Position.Y);
-            var rectangle = new OxyRect(x,y,w,h);
+            var rectangle = new OxyRect(x, y, w, h);
             var p0 = InverseTransform(rectangle.Left, rectangle.Top);
             var p1 = InverseTransform(rectangle.Right, rectangle.Bottom);
             var rect = (p0, p1);
