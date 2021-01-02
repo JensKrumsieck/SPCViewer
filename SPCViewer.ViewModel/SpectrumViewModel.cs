@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using ChemSharp.Extensions;
 using DataPoint = ChemSharp.DataPoint;
 using OxyDataPoint = OxyPlot.DataPoint;
 using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
@@ -37,7 +38,7 @@ namespace SPCViewer.ViewModel
         }
 
         /// <summary>
-        /// Pass Through the Spectrums title
+        /// Pass Through the Spectrum's title
         /// </summary>
         public string Title => Path.GetFileName(Spectrum?.Title);
 
@@ -65,6 +66,11 @@ namespace SPCViewer.ViewModel
         /// List of Integrals
         /// </summary>
         public ObservableCollection<Integral> Integrals { get; set; } = new ObservableCollection<Integral>();
+
+        /// <summary>
+        /// Integral factor used for Normalization
+        /// </summary>
+        public double IntegralFactor { get; set; } = 1;
 
         /// <summary>
         /// List of Peaks
@@ -115,8 +121,6 @@ namespace SPCViewer.ViewModel
         {
             Controller = PlotControls.DefaultController;
             Model.Title = Path.GetFileName(Spectrum.Title);
-            if (Spectrum.DataProvider is BrukerNMRProvider) Model.InvertX();
-            if (Spectrum.DataProvider is BrukerEPRProvider || Spectrum.DataProvider is BrukerNMRProvider) Model.ToggleY();
             //setup x axis 
             Model.XAxis.Title = Spectrum.Quantity();
             Model.XAxis.Unit = Spectrum.Unit();
@@ -124,7 +128,13 @@ namespace SPCViewer.ViewModel
             Model.XAxis.AbsoluteMaximum = Spectrum.XYData.Max(s => s.X);
             //setup y axis
             Model.YAxis.Title = Spectrum.YQuantity();
+            var min = Spectrum.XYData.Min(s => s.Y);
+            var max = Spectrum.XYData.Max(s => s.Y);
+            Model.YAxis.Zoom(min - max * .1, max + max * .1);
 
+            if (Spectrum.DataProvider is BrukerNMRProvider) Model.InvertX();
+            if (Spectrum.DataProvider is BrukerEPRProvider || Spectrum.DataProvider is BrukerNMRProvider) Model.DisableY();
+            
             Model.Series.Add(ExperimentalSeries);
             Model.Series.Add(IntegralSeries);
             Model.Series.Add(DerivSeries);
@@ -167,7 +177,11 @@ namespace SPCViewer.ViewModel
         {
             var points = Spectrum.XYData.PointsFromRect(rect);
             if (!points.Any()) return;
-            Integrals.Add(new Integral(points));
+            if (Integrals.Count == 0) IntegralFactor = points.Integrate().Last().Y;
+            Integrals.Add(new Integral(points)
+            {
+                Factor = IntegralFactor
+            });
         }
 
         /// <summary>

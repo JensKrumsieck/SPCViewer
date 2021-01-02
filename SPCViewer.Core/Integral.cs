@@ -39,10 +39,24 @@ namespace SPCViewer.Core
         /// </summary>
         public double Value { get; set; }
 
+        private double _factor = 1;
+        /// <summary>
+        /// Factor of Integral
+        /// </summary>
+        public double Factor
+        {
+            get => _factor; set
+
+            {
+                _factor = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Integral(IEnumerable<DataPoint> selection)
         {
             var dataPoints = selection as DataPoint[] ?? selection.ToArray();
-            if(!dataPoints.Any()) throw new ArgumentNullException(nameof(selection));
+            if (!dataPoints.Any()) throw new ArgumentNullException(nameof(selection));
             PropertyChanged += OnPropertyChanged;
             DataPoints = dataPoints.ToArray();
         }
@@ -56,8 +70,8 @@ namespace SPCViewer.Core
         /// <param name="e"></param>
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != nameof(DataPoints)) return;
-            Value = DataPoints.Integrate().Last().Y;
+            if (e.PropertyName != nameof(DataPoints) && e.PropertyName != nameof(Factor)) return;
+                Value = DataPoints.Integrate().Last().Y / Factor;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

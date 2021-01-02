@@ -33,7 +33,8 @@ namespace SPCViewer.Core.Plots
                 Position = AxisPosition.Left,
                 Key = "Y",
                 TitleFormatString = Settings.Instance.AxisFormat,
-                AxislineThickness = Settings.Instance.AxisThickness
+                AxislineThickness = Settings.Instance.AxisThickness,
+                IsZoomEnabled = true
             };
             if (PlotAreaBorderThickness.Equals(new OxyThickness(0)))
             {
@@ -56,6 +57,12 @@ namespace SPCViewer.Core.Plots
         /// <summary>
         /// toggles Y Axis visibility
         /// </summary>
-        public void ToggleY() => YAxis.IsAxisVisible = !YAxis.IsAxisVisible;
+        public void DisableY()
+        {
+            YAxis.TickStyle = TickStyle.None;
+            YAxis.LabelFormatter = d => null;
+            YAxis.Title = null;
+            YAxis.AxislineStyle = LineStyle.None;
+        }
     }
 }
