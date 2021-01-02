@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using ChemSharp.Spectroscopy;
+﻿using ChemSharp.Spectroscopy;
 using ChemSharp.Spectroscopy.DataProviders;
 using ChemSharp.Spectroscopy.Extension;
 using OxyPlot;
+using OxyPlot.Annotations;
 using OxyPlot.Series;
 using SPCViewer.Core;
 using SPCViewer.Core.Extension;
 using SPCViewer.Core.Plots;
+using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using DataPoint = ChemSharp.DataPoint;
 using OxyDataPoint = OxyPlot.DataPoint;
 using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
@@ -63,13 +64,18 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// List of Integrals
         /// </summary>
-        public ObservableCollection<Integral> Integrals { get; set; } = new ObservableCollection<Integral>(new List<Integral>());
+        public ObservableCollection<Integral> Integrals { get; set; } = new ObservableCollection<Integral>();
 
         /// <summary>
         /// List of Peaks
         /// </summary>
         public ObservableCollection<DataPoint> Peaks { get; set; } =
-            new ObservableCollection<DataPoint>(new List<DataPoint>());
+            new ObservableCollection<DataPoint>();
+
+        /// <summary>
+        /// List of Annotations
+        /// </summary>
+        public ObservableCollection<Annotation> Annotations { get; set; } = new ObservableCollection<Annotation>();
 
         /// <summary>
         /// Currently Active UI Action
@@ -95,6 +101,7 @@ namespace SPCViewer.ViewModel
             var provider = ExtensionHandler.Handle(path);
             Spectrum = new Spectrum { DataProvider = provider };
             Model = new DefaultPlotModel();
+            Annotations.CollectionChanged += AnnotationsOnCollectionChanged;
             InitSeries();
             InitModel();
         }
@@ -157,7 +164,7 @@ namespace SPCViewer.ViewModel
         private void AddIntegral((OxyDataPoint, OxyDataPoint) rect)
         {
             var points = Spectrum.XYData.PointsFromRect(rect);
-            if(!points.Any()) return;
+            if (!points.Any()) return;
             Integrals.Add(new Integral(points));
         }
 
@@ -175,8 +182,8 @@ namespace SPCViewer.ViewModel
                     Peaks.Add(points[index]);
         }
 
-        
 
+        #region EventStuff
         /// <summary>
         /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged" />
         /// </summary>
@@ -198,6 +205,24 @@ namespace SPCViewer.ViewModel
         }
 
         /// <summary>
+        /// Handles changing in Annotations Collection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AnnotationsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            //Handles Sync to Model Annotations as you can't bind to it...
+            if (e.NewItems != null)
+                foreach (Annotation annotation in e.NewItems)
+                    Model.Annotations.Add(annotation);
+            if (e.OldItems != null)
+                foreach (Annotation annotation in e.OldItems)
+                    Model.Annotations.Remove(annotation);
+            //Redraw
+            Model.InvalidatePlot(true);
+        }
+
+        /// <summary>
         /// <inheritdoc />
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -210,5 +235,6 @@ namespace SPCViewer.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }
