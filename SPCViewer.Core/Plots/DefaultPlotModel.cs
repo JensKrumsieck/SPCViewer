@@ -1,5 +1,7 @@
 ﻿using OxyPlot;
 using OxyPlot.Axes;
+using SPCViewer.Core.Extension;
+using System;
 
 namespace SPCViewer.Core.Plots
 {
@@ -7,6 +9,16 @@ namespace SPCViewer.Core.Plots
     {
         public LinearAxis XAxis { get; }
         public LinearAxis YAxis { get; }
+
+        /// <summary>
+        /// Mapping Factor
+        /// </summary>
+        public double NormalizationFactor { get; set; } = 1;
+
+        /// <summary>
+        /// Global Mapping Function
+        /// </summary>
+        public Func<object, DataPoint> Mapping { get; set; }
 
         /// <summary>
         /// Constructor with default values
@@ -42,6 +54,7 @@ namespace SPCViewer.Core.Plots
                 XAxis.AxislineStyle = LineStyle.Solid;
             }
             Axes.Add(YAxis);
+            Mapping = s => ((ChemSharp.DataPoint)s).Mapping(NormalizationFactor);
         }
 
         /// <summary>

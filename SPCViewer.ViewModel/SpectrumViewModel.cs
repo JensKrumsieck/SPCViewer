@@ -1,4 +1,5 @@
-﻿using ChemSharp.Spectroscopy;
+﻿using ChemSharp.Extensions;
+using ChemSharp.Spectroscopy;
 using ChemSharp.Spectroscopy.DataProviders;
 using ChemSharp.Spectroscopy.Extension;
 using OxyPlot;
@@ -14,7 +15,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using ChemSharp.Extensions;
 using DataPoint = ChemSharp.DataPoint;
 using OxyDataPoint = OxyPlot.DataPoint;
 using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
@@ -130,11 +130,13 @@ namespace SPCViewer.ViewModel
             Model.YAxis.Title = Spectrum.YQuantity();
             var min = Spectrum.XYData.Min(s => s.Y);
             var max = Spectrum.XYData.Max(s => s.Y);
-            Model.YAxis.Zoom(min - max * .1, max + max * .1);
+            Model.YAxis.AbsoluteMinimum = -min - max * 0.5;
+            Model.YAxis.AbsoluteMaximum = max * 1.5;
+            Model.YAxis.Zoom(min - max * .1, max * 1.1);
 
             if (Spectrum.DataProvider is BrukerNMRProvider) Model.InvertX();
             if (Spectrum.DataProvider is BrukerEPRProvider || Spectrum.DataProvider is BrukerNMRProvider) Model.DisableY();
-            
+
             Model.Series.Add(ExperimentalSeries);
             Model.Series.Add(IntegralSeries);
             Model.Series.Add(DerivSeries);
@@ -148,18 +150,18 @@ namespace SPCViewer.ViewModel
             ExperimentalSeries = new LineSeries
             {
                 ItemsSource = Spectrum.XYData,
-                Mapping = s => ((DataPoint)s).Mapping()
+                Mapping = Model.Mapping
             };
             IntegralSeries = new LineSeries
             {
                 ItemsSource = Spectrum.Integral,
-                Mapping = s => ((DataPoint)s).Mapping(),
+                Mapping = Model.Mapping,
                 IsVisible = false
             };
             DerivSeries = new LineSeries
             {
                 ItemsSource = Spectrum.Derivative,
-                Mapping = s => ((DataPoint)s).Mapping(),
+                Mapping = Model.Mapping,
                 IsVisible = false
             };
         }
@@ -197,6 +199,18 @@ namespace SPCViewer.ViewModel
                 if (Peaks.All(s => s != points[index])) Peaks.Add(points[index]);
         }
 
+        /// <summary>
+        /// Adds Peaks to List
+        /// </summary>
+        /// <param name="rect"></param>
+        private void Normalize((OxyDataPoint, OxyDataPoint) rect)
+        {
+            var points = Spectrum.XYData.PointsFromRect(rect);
+            if (!points.Any()) return;
+            var max = points.Max(s => s.Y);
+            Model.NormalizationFactor = max;
+        }
+
 
         #region EventStuff
         /// <summary>
@@ -212,6 +226,7 @@ namespace SPCViewer.ViewModel
             {
                 UIAction.Integrate => AddIntegral,
                 UIAction.PeakPicking => AddPeak,
+                UIAction.Normalize => Normalize,
                 _ => null
             };
             var action = new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
