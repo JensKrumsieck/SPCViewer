@@ -37,31 +37,55 @@
                         <TextBlock TextWrapping="Wrap">
                             <Run Text="Integrals:" FontWeight="Bold"/>
                         </TextBlock>
-                        <ItemsControl ItemsSource="{Binding Integrals}"/>
+                        <ListBox ItemsSource="{Binding Integrals}" Style="{StaticResource MaterialDesignFilterChipPrimaryListBox}" SelectionMode="Single">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}[{0:N2} - {1:N2}]: {2:N2}">
+                                                <Binding Path="From"/>
+                                                <Binding Path="To"/>
+                                                <Binding Path="Value"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label>Integration Factor:</Label>
+                            <TextBox Grid.Column="1" Text="{Binding IntegralFactor, Mode=TwoWay}" 
+                                     materialDesign:HintAssist.HelperText="1 = absolute Integrals"
+                                     materialDesign:HintAssist.Hint="Integration Factor"/>
+                        </Grid>
                         <TextBlock TextWrapping="Wrap">
                             <Run Text="Peaks:" FontWeight="Bold"/>
                         </TextBlock>
-                        <ItemsControl ItemsSource="{Binding Peaks}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
+                        <ListBox ItemsSource="{Binding Peaks}" Style="{StaticResource MaterialDesignFilterChipPrimaryListBox}" SelectionMode="Single">
+                            <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <materialDesign:Chip Click="Peak_OnClick" Tag="{Binding}">
-                                        <TextBlock>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock VerticalAlignment="Center">
                                             <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0:N1}, {1:N2}">
+                                                <MultiBinding StringFormat="{}{0:N2}, {1:N2}">
                                                     <Binding Path="X"/>
-                                                    <Binding Path="Y"/>
+                                                    <Binding Path="Value"/>
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
-                                    </materialDesign:Chip>
+                                        <Button VerticalAlignment="Center" Width="22" Padding="0" Margin="5 0" Height="22"
+                                                Style="{StaticResource MaterialDesignFlatButton}" 
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}">
+                                            <materialDesign:PackIcon Kind="Delete" Foreground="{DynamicResource SecondaryAccentBrush}" Width="16" Height="16"/>
+                                        </Button>
+                                    </StackPanel>
                                 </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

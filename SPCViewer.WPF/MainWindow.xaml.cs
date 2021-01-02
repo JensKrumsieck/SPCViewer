@@ -50,9 +50,9 @@ namespace SPCViewer.WPF
         /// <param name="e"></param>
         private void Peak_OnClick(object sender, RoutedEventArgs e)
         {
-            var chip = (Chip)e.Source;
-            var dp = (DataPoint)chip.Tag;
-            ViewModel.SelectedItem.Peaks.Remove(dp);
+            //var chip = (Chip)e.Source;
+            //var dp = (DataPoint)chip.Tag;
+            //ViewModel.SelectedItem.Peaks.Remove(dp);
         }
     }
 }

@@ -34,10 +34,19 @@ namespace SPCViewer.Core
         /// </summary>
         public double To => DataPoints.Max(s => s.X);
 
+        private double _value;
         /// <summary>
         /// Value of Integral
         /// </summary>
-        public double Value { get; set; }
+        public double Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                OnPropertyChanged();
+            }
+        }
 
         private double _factor = 1;
         /// <summary>
@@ -60,8 +69,6 @@ namespace SPCViewer.Core
             PropertyChanged += OnPropertyChanged;
             DataPoints = dataPoints.ToArray();
         }
-
-        public override string ToString() => $"[{From:N2};{To:N2}] : {Value:N2}";
 
         /// <summary>
         /// Recalculates Integral

@@ -66,17 +66,26 @@ namespace SPCViewer.ViewModel
         /// List of Integrals
         /// </summary>
         public ObservableCollection<Integral> Integrals { get; set; } = new ObservableCollection<Integral>();
-
+        
+        private double _integralFactor = 1;
         /// <summary>
         /// Integral factor used for Normalization
         /// </summary>
-        public double IntegralFactor { get; set; } = 1;
+        public double IntegralFactor
+        {
+            get => _integralFactor;
+            set
+            {
+                _integralFactor = value; 
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// List of Peaks
         /// </summary>
-        public ObservableCollection<DataPoint> Peaks { get; set; } =
-            new ObservableCollection<DataPoint>();
+        public ObservableCollection<Peak> Peaks { get; set; } =
+            new ObservableCollection<Peak>();
 
         /// <summary>
         /// List of Annotations
@@ -87,6 +96,7 @@ namespace SPCViewer.ViewModel
         /// Currently Active UI Action
         /// </summary>
         private UIAction _mouseAction;
+
         public UIAction MouseAction
         {
             get => _mouseAction;
@@ -173,7 +183,7 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// Gets the PlotController
         /// </summary>
-        public PlotController Controller { get; private set; }
+        public PlotController Controller { get; }
 
         /// <summary>
         /// Adds an Integral to List
@@ -200,7 +210,7 @@ namespace SPCViewer.ViewModel
             if (!points.Any()) return;
             var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions();
             foreach (var index in peaksIndices)
-                if (Peaks.All(s => s != points[index])) Peaks.Add(points[index]);
+                if (Peaks.Count(s => s.X - points[index].X < 1e-6 ) < 1) Peaks.Add(new Peak(points[index]));
         }
 
         /// <summary>
@@ -212,7 +222,10 @@ namespace SPCViewer.ViewModel
             var points = Spectrum.XYData.PointsFromRect(rect);
             if (!points.Any()) return;
             var max = points.Max(s => s.Y);
+            //send normalization factor to model
             Model.NormalizationFactor = max;
+            //send factor to peaks
+            foreach (var peak in Peaks) peak.Factor = max;
             Model.InvalidatePlot(true);
         }
 
@@ -225,18 +238,29 @@ namespace SPCViewer.ViewModel
         /// <param name="e"></param>
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != nameof(MouseAction)) return;
-            //bind action to plotcontroller
-            Action<(OxyDataPoint, OxyDataPoint)> rectAction = MouseAction switch
+            switch (e.PropertyName)
             {
-                UIAction.Integrate => AddIntegral,
-                UIAction.PeakPicking => AddPeak,
-                UIAction.Normalize => Normalize,
-                _ => null
-            };
-            var action = new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
-                controller.AddMouseManipulator(view, new ZoomRectangleManipulator(view, rectAction), args));
-            Controller.BindMouseDown(OxyMouseButton.Left, action);
+                case nameof(MouseAction):
+                {
+                    //bind action to plot controller
+                    Action<(OxyDataPoint, OxyDataPoint)> rectAction = MouseAction switch
+                    {
+                        UIAction.Integrate => AddIntegral,
+                        UIAction.PeakPicking => AddPeak,
+                        UIAction.Normalize => Normalize,
+                        _ => null
+                    };
+                    var action = new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
+                        controller.AddMouseManipulator(view, new ZoomRectangleManipulator(view, rectAction), args));
+                    Controller.BindMouseDown(OxyMouseButton.Left, action);
+                    break;
+                }
+                case nameof(IntegralFactor):
+                {
+                    foreach (var integral in Integrals) integral.Factor = IntegralFactor;
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -266,10 +290,10 @@ namespace SPCViewer.ViewModel
         {
             var maxY = Spectrum.XYData.Max(s => s.Y);
             if (e.NewItems != null)
-                foreach (DataPoint peak in e.NewItems)
-                    Annotations.Add(AnnotationUtil.PeakAnnotation(Model.Mapping(peak), maxY));
+                foreach (Peak peak in e.NewItems)
+                    Annotations.Add(AnnotationUtil.PeakAnnotation(peak));
             if (e.OldItems != null)
-                foreach (DataPoint peak in e.OldItems)
+                foreach (Peak peak in e.OldItems)
                 {
                     var an = Annotations.FirstOrDefault(s =>
                     {

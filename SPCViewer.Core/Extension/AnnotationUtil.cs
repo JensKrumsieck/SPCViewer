@@ -8,11 +8,10 @@ namespace SPCViewer.Core.Extension
         /// <summary>
         /// Returns default PeakAnnotation Settings
         /// </summary>
-        /// <param name="point"></param>
-        /// <param name="maxY"></param>
+        /// <param name="peak"></param>
         /// <returns></returns>
-        public static ArrowAnnotation PeakAnnotation(DataPoint point, double maxY) =>
-            new PeakAnnotation(point)
+        public static ArrowAnnotation PeakAnnotation(Peak peak) =>
+            new PeakAnnotation(peak)
             {
                 StrokeThickness = Settings.Instance.AxisThickness,
             };

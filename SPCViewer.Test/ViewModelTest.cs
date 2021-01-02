@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SPCViewer.Core;
 using SPCViewer.ViewModel;
 
 namespace SPCViewer.Test
@@ -19,7 +20,7 @@ namespace SPCViewer.Test
         public void TestSpectrumViewModel()
         {
             Assert.AreEqual(2048, ViewModel.Spectrum.XYData.Count);
-            Assert.AreEqual(1, ViewModel.Model.Series.Count);
+            Assert.AreEqual(3, ViewModel.Model.Series.Count);
             Assert.AreEqual(2, ViewModel.Model.Axes.Count);
         }
 
@@ -29,8 +30,10 @@ namespace SPCViewer.Test
             var mvm = new MainViewModel();
             mvm.TabItems.Add(ViewModel);
             mvm.SelectedIndex = 0;
+            mvm.SelectedAction = 3;
             Assert.AreEqual(1, mvm.TabItems.Count);
             Assert.AreEqual(2048, mvm.SelectedItem.Spectrum.XYData.Count);
+            Assert.AreEqual(UIAction.Integrate, mvm.SelectedUIAction);
         }
     }
 }

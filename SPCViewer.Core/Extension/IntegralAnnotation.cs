@@ -1,4 +1,5 @@
-﻿using OxyPlot;
+﻿using System.ComponentModel;
+using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Series;
 using System.Linq;
@@ -18,8 +19,20 @@ namespace SPCViewer.Core.Extension
             HeadLength = 0;
             Tag = integral;
             Text = integral.Value.ToString("N1");
+            Integral.PropertyChanged += IntegralOnPropertyChanged;
         }
 
+        /// <summary>
+        /// Refresh Text
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void IntegralOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(Integral.Value)) return;
+            Text = Integral.Value.ToString("N1");
+            PlotModel.InvalidatePlot(true);
+        }
 
         /// <inheritdoc />
         public override void Render(IRenderContext rc)
@@ -31,14 +44,14 @@ namespace SPCViewer.Core.Extension
             var data =series?.ItemsSource;
             var lowest = data?.Cast<ChemSharp.DataPoint>().Min(s => s.Y) ?? 0d;
 
-            StartPoint = new DataPoint(Integral.From,  lowest - height *0.01);
-            EndPoint = new DataPoint(Integral.To,  lowest - height * 0.01);
+            StartPoint = new DataPoint(Integral.From,  lowest - height *0.005);
+            EndPoint = new DataPoint(Integral.To,  lowest - height * 0.005);
 
             //text in screen space
             var textUpper = Transform(new DataPoint((Integral.To + Integral.From) / 2, lowest));
             var textHeight = rc.MeasureText(Text, ActualFont, ActualFontSize, ActualFontWeight, TextRotation).Height;
 
-            TextPosition = InverseTransform(new ScreenPoint(textUpper.X, textUpper.Y + textHeight));
+            TextPosition = InverseTransform(new ScreenPoint(textUpper.X, textUpper.Y + textHeight - height * 0.005));
 
             base.Render(rc);
         }
