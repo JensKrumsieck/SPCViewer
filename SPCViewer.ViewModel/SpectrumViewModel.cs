@@ -103,6 +103,7 @@ namespace SPCViewer.ViewModel
             Model = new DefaultPlotModel();
             Annotations.CollectionChanged += AnnotationsOnCollectionChanged;
             Peaks.CollectionChanged += PeaksOnCollectionChanged;
+            Integrals.CollectionChanged += IntegralsOnCollectionChanged;
             InitSeries();
             InitModel();
         }
@@ -236,7 +237,26 @@ namespace SPCViewer.ViewModel
             if (e.OldItems != null)
                 foreach (DataPoint peak in e.OldItems)
                 {
-                    var an = Annotations.FirstOrDefault<Annotation>(s => (DataPoint)s.Tag == peak);
+                    var an = Annotations.FirstOrDefault(s => s.Tag as DataPoint? == peak);
+                    Annotations.Remove(an);
+                }
+            Model.InvalidatePlot(true);
+        }
+
+        /// <summary>
+        /// Do a collection changed here to sync annotations to integrals
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void IntegralsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+                foreach (Integral integral in e.NewItems)
+                    Annotations.Add(AnnotationUtil.IntegralAnnotation(integral));
+            if (e.OldItems != null)
+                foreach (Integral integral in e.OldItems)
+                {
+                    var an = Annotations.FirstOrDefault(s => s.Tag as Integral == integral);
                     Annotations.Remove(an);
                 }
             Model.InvalidatePlot(true);

@@ -43,6 +43,11 @@ namespace SPCViewer.WPF
         private void Open_Click(object sender, RoutedEventArgs e) => ViewModel.OpenFiles(new[]
             {@"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\uvvis.dsw"});
 
+        /// <summary>
+        /// Handles Peak Chip Click Event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Peak_OnClick(object sender, RoutedEventArgs e)
         {
             var chip = (Chip) e.Source;

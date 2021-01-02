@@ -24,6 +24,16 @@ namespace SPCViewer.Core
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// X Value of beginning
+        /// </summary>
+        public double From => DataPoints.Min(s => s.X);
+        /// <summary>
+        /// X Vlue of End
+        /// </summary>
+        public double To => DataPoints.Max(s => s.X);
+
         /// <summary>
         /// Value of Integral
         /// </summary>
@@ -37,8 +47,7 @@ namespace SPCViewer.Core
             DataPoints = dataPoints.ToArray();
         }
 
-        public override string ToString() =>
-            $"[{DataPoints.Min(s => s.X):N2};{DataPoints.Max(s => s.X):N2}] : {Value:N2}";
+        public override string ToString() => $"[{From:N2};{To:N2}] : {Value:N2}";
 
         /// <summary>
         /// Recalculates Integral
