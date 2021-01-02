@@ -11,17 +11,10 @@ namespace SPCViewer.Core.Extension
         /// <param name="point"></param>
         /// <param name="maxY"></param>
         /// <returns></returns>
-        public static ArrowAnnotation PeakAnnotation(ChemSharp.DataPoint point, double maxY) =>
-            new ArrowAnnotation()
+        public static ArrowAnnotation PeakAnnotation(DataPoint point, double maxY) =>
+            new PeakAnnotation(point)
             {
-                StartPoint = new DataPoint(point.X, point.Y + .1),
-                EndPoint = new DataPoint(point.X, point.Y + 1),
-                Text = point.X.ToString("N3"),
                 StrokeThickness = Settings.Instance.AxisThickness,
-                HeadLength = 0,
-                TextRotation = -90,
-                TextPosition = new DataPoint(point.X, maxY),
-                Tag = point
             };
 
         /// <summary>
@@ -30,15 +23,9 @@ namespace SPCViewer.Core.Extension
         /// <param name="integral"></param>
         /// <returns></returns>
         public static ArrowAnnotation IntegralAnnotation(Integral integral) =>
-            new ArrowAnnotation()
+            new IntegralAnnotation(integral)
             {
-                StartPoint = new DataPoint(integral.From, -.1),
-                EndPoint = new DataPoint(integral.To, -.1),
-                TextPosition = new DataPoint((integral.From + integral.To) / 2, -.6),
-                Text = integral.Value.ToString("N3"),
-                Tag = integral,
-                StrokeThickness = Settings.Instance.AxisThickness,
-                HeadLength = 0
+                StrokeThickness = Settings.Instance.AxisThickness
             };
 
     }

@@ -134,7 +134,7 @@ namespace SPCViewer.ViewModel
             Model.YAxis.Title = Spectrum.YQuantity();
             var min = Spectrum.XYData.Min(s => s.Y);
             var max = Spectrum.XYData.Max(s => s.Y);
-            Model.YAxis.AbsoluteMinimum = -min - max * 0.5;
+            Model.YAxis.AbsoluteMinimum = min - max * 0.5;
             Model.YAxis.AbsoluteMaximum = max * 1.5;
             Model.YAxis.Zoom(min - max * .1, max * 1.1);
 
@@ -213,6 +213,7 @@ namespace SPCViewer.ViewModel
             if (!points.Any()) return;
             var max = points.Max(s => s.Y);
             Model.NormalizationFactor = max;
+            Model.InvalidatePlot(true);
         }
 
 
@@ -266,11 +267,15 @@ namespace SPCViewer.ViewModel
             var maxY = Spectrum.XYData.Max(s => s.Y);
             if (e.NewItems != null)
                 foreach (DataPoint peak in e.NewItems)
-                    Annotations.Add(AnnotationUtil.PeakAnnotation(peak, maxY));
+                    Annotations.Add(AnnotationUtil.PeakAnnotation(Model.Mapping(peak), maxY));
             if (e.OldItems != null)
                 foreach (DataPoint peak in e.OldItems)
                 {
-                    var an = Annotations.FirstOrDefault(s => s.Tag as DataPoint? == peak);
+                    var an = Annotations.FirstOrDefault(s =>
+                    {
+                        if (s is PeakAnnotation a) return a.Peak.X - peak.X <= 1e-6; 
+                        return false;
+                    });
                     Annotations.Remove(an);
                 }
             Model.InvalidatePlot(true);
