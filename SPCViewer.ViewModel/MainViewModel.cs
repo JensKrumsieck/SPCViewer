@@ -79,9 +79,20 @@ namespace SPCViewer.ViewModel
         /// <param name="e"></param>
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != nameof(SelectedAction)) return;
-            if (SelectedAction == -1 || SelectedAction > (int)UIAction.Integrate) SelectedAction = 0;
-            foreach (var tab in TabItems) tab.MouseAction = SelectedUIAction;
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedAction):
+                {
+                    //set selected action to active tab
+                    if (SelectedAction == -1 || SelectedAction > (int)UIAction.Integrate) SelectedAction = 0;
+                    SelectedItem.MouseAction = SelectedUIAction;
+                    break;
+                }
+                case nameof(SelectedIndex):
+                    //set selected action from tab
+                    SelectedAction = (int) SelectedItem.MouseAction;
+                    break;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

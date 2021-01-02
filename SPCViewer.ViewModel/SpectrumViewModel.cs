@@ -104,12 +104,17 @@ namespace SPCViewer.ViewModel
         public SpectrumViewModel(string path)
         {
             PropertyChanged += OnPropertyChanged;
+
             var provider = ExtensionHandler.Handle(path);
             Spectrum = new Spectrum { DataProvider = provider };
             Model = new DefaultPlotModel();
+            Controller = PlotControls.DefaultController;
+            MouseAction = UIAction.Zoom;
+            //add annotation events
             Annotations.CollectionChanged += AnnotationsOnCollectionChanged;
             Peaks.CollectionChanged += PeaksOnCollectionChanged;
             Integrals.CollectionChanged += IntegralsOnCollectionChanged;
+            //init oxyplot stuff
             InitSeries();
             InitModel();
         }
@@ -119,7 +124,6 @@ namespace SPCViewer.ViewModel
         /// </summary>
         private void InitModel()
         {
-            Controller = PlotControls.DefaultController;
             Model.Title = Path.GetFileName(Spectrum.Title);
             //setup x axis 
             Model.XAxis.Title = Spectrum.Quantity();
