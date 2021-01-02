@@ -102,6 +102,7 @@ namespace SPCViewer.ViewModel
             Spectrum = new Spectrum { DataProvider = provider };
             Model = new DefaultPlotModel();
             Annotations.CollectionChanged += AnnotationsOnCollectionChanged;
+            Peaks.CollectionChanged += PeaksOnCollectionChanged;
             InitSeries();
             InitModel();
         }
@@ -178,8 +179,7 @@ namespace SPCViewer.ViewModel
             if (!points.Any()) return;
             var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions();
             foreach (var index in peaksIndices)
-                if (Peaks.All(s => s != points[index]))
-                    Peaks.Add(points[index]);
+                if (Peaks.All(s => s != points[index])) Peaks.Add(points[index]);
         }
 
 
@@ -223,6 +223,26 @@ namespace SPCViewer.ViewModel
         }
 
         /// <summary>
+        /// Do a collection changed here to sync annotations to peaks
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PeaksOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            var maxY = Spectrum.XYData.Max(s => s.Y);
+            if (e.NewItems != null)
+                foreach (DataPoint peak in e.NewItems)
+                    Annotations.Add(AnnotationUtil.PeakAnnotation(peak, maxY));
+            if (e.OldItems != null)
+                foreach (DataPoint peak in e.OldItems)
+                {
+                    var an = Annotations.FirstOrDefault<Annotation>(s => (DataPoint)s.Tag == peak);
+                    Annotations.Remove(an);
+                }
+            Model.InvalidatePlot(true);
+        }
+
+        /// <summary>
         /// <inheritdoc />
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -235,6 +255,7 @@ namespace SPCViewer.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
     }
 }

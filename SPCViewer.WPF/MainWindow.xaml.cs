@@ -1,6 +1,8 @@
 ﻿using SPCViewer.Core;
 using SPCViewer.ViewModel;
 using System.Windows;
+using ChemSharp;
+using MaterialDesignThemes.Wpf;
 
 namespace SPCViewer.WPF
 {
@@ -41,5 +43,11 @@ namespace SPCViewer.WPF
         private void Open_Click(object sender, RoutedEventArgs e) => ViewModel.OpenFiles(new[]
             {@"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\uvvis.dsw"});
 
+        private void Peak_OnClick(object sender, RoutedEventArgs e)
+        {
+            var chip = (Chip) e.Source;
+            var dp = (DataPoint) chip.Tag;
+            ViewModel.SelectedItem.Peaks.Remove(dp);
+        }
     }
 }
