@@ -1,5 +1,6 @@
 ﻿using ChemSharp.Extensions;
 using ChemSharp.Spectroscopy;
+using ChemSharp.Spectroscopy.DataProviders;
 using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Series;
@@ -14,7 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using ChemSharp.Spectroscopy.DataProviders;
 using OxyDataPoint = OxyPlot.DataPoint;
 using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
 

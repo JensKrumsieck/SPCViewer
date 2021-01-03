@@ -6,6 +6,7 @@ namespace SPCViewer.Core
 {
     public static class PeakFinding
     {
+        private const int MaxPeaks = 32;
         /// <summary>
         /// Peak Finding Algorithm
         /// translated C-code by Hong Xu  to C# from
@@ -20,35 +21,32 @@ namespace SPCViewer.Core
         /// <returns></returns>
         public static IList<int> FindPeakPositions(this IList<double> values, double threshold = 0, bool includeMin = false)
         {
-            var delta = threshold == 0 ? values.Max(s => Math.Abs(s)) * .025 : threshold;
-            var mn = values[0];
-            var mx = values[0];
-            var mnPos = 0;
-            var mxPos = 0;
+            var delta = threshold == 0
+                ? values.Max(Math.Abs) * .025
+                : threshold;
+            double mn = values[0], mx = values[0];
+            int mnPos = 0, mxPos = 0;
             var maxim = new List<int>();
             var minim = new List<int>();
             var lfm = true;
             for (var i = 0; i < values.Count; i++)
             {
+                if (maxim.Count > MaxPeaks || minim.Count > MaxPeaks) break;
                 if (values[i] > mx) mx = values[mxPos = i];
-
-                if (values[i] < mn)  mn = values[mnPos = i];
-
+                if (values[i] < mn) mn = values[mnPos = i];
                 if (lfm && values[i] < mx - delta)
                 {
                     maxim.Add(mxPos);
                     lfm = false;
                     i = mxPos - 1;
-                    mn = values[mxPos];
-                    mnPos = mxPos;
+                    mn = values[mnPos = mxPos];
                 }
                 else if (!lfm && values[i] > mn + delta)
                 {
-                    if(includeMin) minim.Add(mnPos);
+                    if (includeMin) minim.Add(mnPos);
                     lfm = true;
                     i = mnPos - 1;
-                    mx = values[mnPos];
-                    mxPos = mnPos;
+                    mx = values[mxPos = mnPos];
                 }
             }
             return maxim.Concat(minim).ToList();
