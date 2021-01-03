@@ -33,19 +33,34 @@ namespace SPCViewer.Core
                 if (lfm && values[i] < mx - delta)
                 {
                     maxim.Add(mxPos);
-                    lfm = false;
-                    i = mxPos - 1;
-                    mn = values[mnPos = mxPos];
+                    SetValues(ref lfm, ref i, ref mxPos, ref mnPos);
+                    mn = values[mnPos];
                 }
                 else if (!lfm && values[i] > mn + delta)
                 {
                     if (includeMin) minim.Add(mnPos);
-                    lfm = true;
-                    i = mnPos - 1;
-                    mx = values[mxPos = mnPos];
+                    SetValues(ref lfm, ref i, ref mnPos, ref mxPos);
+                    mx = values[mxPos];
                 }
             }
             return maxim.Concat(minim).ToList();
         }
+
+        /// <summary>
+        /// Sets algorithm Values
+        /// (to avoid recurring code)
+        /// </summary>
+        /// <param name="lfm"></param>
+        /// <param name="i"></param>
+        /// <param name="fromPos"></param>
+        /// <param name="toPos"></param>
+        // ReSharper disable RedundantAssignment
+        private static void SetValues(ref bool lfm, ref int i, ref int fromPos, ref int toPos)
+        {
+            lfm = !lfm;
+            i = fromPos - 1;
+            toPos = fromPos;
+        }
+        // ReSharper enable RedundantAssignment
     }
 }
