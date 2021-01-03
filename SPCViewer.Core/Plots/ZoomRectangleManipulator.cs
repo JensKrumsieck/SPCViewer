@@ -5,17 +5,17 @@ namespace SPCViewer.Core.Plots
 {
     public class ZoomRectangleManipulator : OxyPlot.ZoomRectangleManipulator
     {
-        private Action<(DataPoint, DataPoint)> RectangleAction;
+        private readonly Action<(DataPoint, DataPoint)> _rectangleAction;
 
         public ZoomRectangleManipulator(IPlotView plotView) : base(plotView) { }
 
-        public ZoomRectangleManipulator(IPlotView plotView, Action<(DataPoint, DataPoint)> action) : base(plotView) => RectangleAction = action;
+        public ZoomRectangleManipulator(IPlotView plotView, Action<(DataPoint, DataPoint)> action) : base(plotView) => _rectangleAction = action;
 
 
         public override void Completed(OxyMouseEventArgs e)
         {
             //Zoom is default
-            if (RectangleAction == null)
+            if (_rectangleAction == null)
             {
                 base.Completed(e);
                 return;
@@ -33,7 +33,7 @@ namespace SPCViewer.Core.Plots
             var p0 = InverseTransform(rectangle.Left, rectangle.Top);
             var p1 = InverseTransform(rectangle.Right, rectangle.Bottom);
             var rect = (p0, p1);
-            RectangleAction(rect);
+            _rectangleAction(rect);
 
             PlotView.InvalidatePlot();
             e.Handled = true;

@@ -35,6 +35,12 @@
                     </ListBoxItem>
                     <ListBoxItem Style="{StaticResource ToolbarListItem}">
                         <StackPanel>
+                            <materialDesign:PackIcon Kind="EyedropperVariant" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Tracker" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                        <StackPanel>
                             <materialDesign:PackIcon Kind="FitToPageOutline" HorizontalAlignment="Center"/>
                             <TextBlock Text="Normalize" TextWrapping="Wrap" TextAlignment="Center"/>
                         </StackPanel>
@@ -49,6 +55,12 @@
                         <StackPanel>
                             <materialDesign:PackIcon Kind="MathIntegral" HorizontalAlignment="Center"/>
                             <TextBlock Text="Integrate" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="EyedropperPlus" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Pick Value" TextWrapping="Wrap" TextAlignment="Center"/>
                         </StackPanel>
                     </ListBoxItem>
                 </ListBox>

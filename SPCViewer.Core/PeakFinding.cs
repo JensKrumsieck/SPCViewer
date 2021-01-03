@@ -9,7 +9,7 @@ namespace SPCViewer.Core
         private const int MaxPeaks = 32;
         /// <summary>
         /// Peak Finding Algorithm
-        /// translated C-code by Hong Xu  to C# from
+        /// translated C-code by Hong Xu to C# from
         /// https://github.com/xuphys/peakdetect/blob/master/peakdetect.c
         /// ### (FreeBSD License); Copyright 2011, 2013 Hong Xu. All rights reserved. ###
         /// originally inspired by Eli Billauer's peakdet for MATLAB:

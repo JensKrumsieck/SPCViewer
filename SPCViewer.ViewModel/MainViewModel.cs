@@ -86,7 +86,7 @@ namespace SPCViewer.ViewModel
                 case nameof(SelectedAction):
                     {
                         //set selected action to active tab
-                        if (SelectedAction == -1 || SelectedAction > (int)UIAction.Integrate) SelectedAction = 0;
+                        if (SelectedAction == -1 || SelectedAction > (int)UIAction.PickValue) SelectedAction = 0;
                         SelectedItem.MouseAction = SelectedUIAction;
                         break;
                     }

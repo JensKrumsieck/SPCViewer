@@ -243,6 +243,17 @@ namespace SPCViewer.ViewModel
             Model.InvalidatePlot(true);
         }
 
+        /// <summary>
+        /// Pick value into peak list
+        /// not sure if it stays peak list
+        /// </summary>
+        /// <param name="point"></param>
+        private void PickValue(OxyDataPoint point)
+        {
+            if(Peaks.Count(s => Math.Abs(s.X - point.X) < 1e-9) < 1) 
+                Peaks.Add(new Peak(point) { Factor = Model.NormalizationFactor });
+        }
+
 
         #region EventStuff
         /// <summary>
@@ -255,25 +266,21 @@ namespace SPCViewer.ViewModel
             switch (e.PropertyName)
             {
                 case nameof(MouseAction):
-                    {
                         //bind action to plot controller
-                        Action<(OxyDataPoint, OxyDataPoint)> rectAction = MouseAction switch
+                        var action = MouseAction switch
                         {
-                            UIAction.Integrate => AddIntegral,
-                            UIAction.PeakPicking => AddPeak,
-                            UIAction.Normalize => Normalize,
-                            _ => null
+                            UIAction.Integrate => UIActions.PrepareRectangleAction(AddIntegral),
+                            UIAction.PeakPicking => UIActions.PrepareRectangleAction(AddPeak),
+                            UIAction.Normalize => UIActions.PrepareRectangleAction(Normalize),
+                            UIAction.PickValue => UIActions.PreparePickAction(PickValue),
+                            UIAction.Tracker => UIActions.PreparePickAction(null),
+                            _ => UIActions.PrepareRectangleAction(null)
                         };
-                        var action = new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
-                            controller.AddMouseManipulator(view, new ZoomRectangleManipulator(view, rectAction), args));
                         Controller.BindMouseDown(OxyMouseButton.Left, action);
                         break;
-                    }
                 case nameof(IntegralFactor):
-                    {
                         foreach (var integral in Integrals) integral.Factor = IntegralFactor;
                         break;
-                    }
             }
         }
 
