@@ -1,7 +1,5 @@
 ﻿using ChemSharp.Extensions;
 using ChemSharp.Spectroscopy;
-using ChemSharp.Spectroscopy.DataProviders;
-using ChemSharp.Spectroscopy.Extension;
 using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Series;
@@ -16,7 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using DataPoint = ChemSharp.DataPoint;
 using OxyDataPoint = OxyPlot.DataPoint;
 using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
 
@@ -67,7 +64,7 @@ namespace SPCViewer.ViewModel
         /// List of Integrals
         /// </summary>
         public ObservableCollection<Integral> Integrals { get; set; } = new ObservableCollection<Integral>();
-        
+
         private double _integralFactor = 1;
         /// <summary>
         /// Integral factor used for Normalization
@@ -77,7 +74,7 @@ namespace SPCViewer.ViewModel
             get => _integralFactor;
             set
             {
-                _integralFactor = value; 
+                _integralFactor = value;
                 OnPropertyChanged();
             }
         }
@@ -118,9 +115,9 @@ namespace SPCViewer.ViewModel
             {
                 return _deleteCommand ??= new RelayCommand(param =>
                 {
-                    if (param is Peak peak) 
+                    if (param is Peak peak)
                         Peaks.Remove(peak);
-                    if (param is Integral integral) 
+                    if (param is Integral integral)
                         Integrals.Remove(integral);
                 }, param => true);
             }
@@ -136,10 +133,11 @@ namespace SPCViewer.ViewModel
             {
                 return _updateIntegralCommand ??= new RelayCommand(param =>
                 {
-                    var values = (object[]) param;
-                    var integral = (Integral) values[0];
-                    var value = (string) values[1];
-                    IntegralFactor = (integral.DataPoints.Integrate().Last().Y) / value.ToDouble();
+                    var values = (object[])param;
+                    var integral = (Integral)values[0];
+                    var value = (string)values[1];
+                    IntegralFactor = integral.RawValue / value.ToDouble();
+                    integral.EditIndicator = false;
                 }, param => true);
             }
         }
@@ -151,46 +149,18 @@ namespace SPCViewer.ViewModel
         public SpectrumViewModel(string path)
         {
             PropertyChanged += OnPropertyChanged;
-
-            var provider = ExtensionHandler.Handle(path);
-            Spectrum = new Spectrum { DataProvider = provider };
+            //load file and set up spectrum
+            Spectrum = new Spectrum { DataProvider = ExtensionHandler.Handle(path) };
+            //init OxyPlot stuff
             Model = new DefaultPlotModel();
+            Model.SetUp(Spectrum);
             Controller = PlotControls.DefaultController;
             MouseAction = UIAction.Zoom;
+            InitSeries();
             //add annotation events
             Annotations.CollectionChanged += AnnotationsOnCollectionChanged;
             Peaks.CollectionChanged += PeaksOnCollectionChanged;
             Integrals.CollectionChanged += IntegralsOnCollectionChanged;
-            //init oxyplot stuff
-            InitSeries();
-            InitModel();
-        }
-
-        /// <summary>
-        /// Initializes PlotModel
-        /// </summary>
-        private void InitModel()
-        {
-            Model.Title = Path.GetFileName(Spectrum.Title);
-            //setup x axis 
-            Model.XAxis.Title = Spectrum.Quantity();
-            Model.XAxis.Unit = Spectrum.Unit();
-            Model.XAxis.AbsoluteMinimum = Spectrum.XYData.Min(s => s.X);
-            Model.XAxis.AbsoluteMaximum = Spectrum.XYData.Max(s => s.X);
-            //setup y axis
-            Model.YAxis.Title = Spectrum.YQuantity();
-            var min = Spectrum.XYData.Min(s => s.Y);
-            var max = Spectrum.XYData.Max(s => s.Y);
-            Model.YAxis.AbsoluteMinimum = min - max * 0.5;
-            Model.YAxis.AbsoluteMaximum = max * 1.5;
-            Model.YAxis.Zoom(min - max * .1, max * 1.1);
-
-            if (Spectrum.DataProvider is BrukerNMRProvider) Model.InvertX();
-            if (Spectrum.DataProvider is BrukerEPRProvider || Spectrum.DataProvider is BrukerNMRProvider) Model.DisableY();
-
-            Model.Series.Add(ExperimentalSeries);
-            Model.Series.Add(IntegralSeries);
-            Model.Series.Add(DerivSeries);
         }
 
         /// <summary>
@@ -215,6 +185,10 @@ namespace SPCViewer.ViewModel
                 Mapping = Model.Mapping,
                 IsVisible = false
             };
+            //add series to model
+            Model.Series.Add(ExperimentalSeries);
+            Model.Series.Add(IntegralSeries);
+            Model.Series.Add(DerivSeries);
         }
 
         /// <summary>
@@ -247,7 +221,7 @@ namespace SPCViewer.ViewModel
             if (!points.Any()) return;
             var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions();
             foreach (var index in peaksIndices)
-                if (Peaks.Count(s => s.X - points[index].X < 1e-6 ) < 1) Peaks.Add(new Peak(points[index]));
+                if (Peaks.Count(s => Math.Abs(s.X - points[index].X) < 1e-9) < 1) Peaks.Add(new Peak(points[index]));
         }
 
         /// <summary>
@@ -278,25 +252,25 @@ namespace SPCViewer.ViewModel
             switch (e.PropertyName)
             {
                 case nameof(MouseAction):
-                {
-                    //bind action to plot controller
-                    Action<(OxyDataPoint, OxyDataPoint)> rectAction = MouseAction switch
                     {
-                        UIAction.Integrate => AddIntegral,
-                        UIAction.PeakPicking => AddPeak,
-                        UIAction.Normalize => Normalize,
-                        _ => null
-                    };
-                    var action = new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
-                        controller.AddMouseManipulator(view, new ZoomRectangleManipulator(view, rectAction), args));
-                    Controller.BindMouseDown(OxyMouseButton.Left, action);
-                    break;
-                }
+                        //bind action to plot controller
+                        Action<(OxyDataPoint, OxyDataPoint)> rectAction = MouseAction switch
+                        {
+                            UIAction.Integrate => AddIntegral,
+                            UIAction.PeakPicking => AddPeak,
+                            UIAction.Normalize => Normalize,
+                            _ => null
+                        };
+                        var action = new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
+                            controller.AddMouseManipulator(view, new ZoomRectangleManipulator(view, rectAction), args));
+                        Controller.BindMouseDown(OxyMouseButton.Left, action);
+                        break;
+                    }
                 case nameof(IntegralFactor):
-                {
-                    foreach (var integral in Integrals) integral.Factor = IntegralFactor;
-                    break;
-                }
+                    {
+                        foreach (var integral in Integrals) integral.Factor = IntegralFactor;
+                        break;
+                    }
             }
         }
 
@@ -334,7 +308,7 @@ namespace SPCViewer.ViewModel
                 {
                     var an = Annotations.FirstOrDefault(s =>
                     {
-                        if (s is PeakAnnotation a) return a.Peak.X - peak.X <= 1e-6; 
+                        if (s is PeakAnnotation a) return Math.Abs(a.Peak.X - peak.X) < 1e-9;
                         return false;
                     });
                     Annotations.Remove(an);
@@ -370,11 +344,8 @@ namespace SPCViewer.ViewModel
         /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged" />
         /// </summary>
         /// <param name="propertyName"></param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         #endregion
     }
 }

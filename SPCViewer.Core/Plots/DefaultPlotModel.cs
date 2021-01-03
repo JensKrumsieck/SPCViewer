@@ -1,7 +1,12 @@
-﻿using OxyPlot;
+﻿using ChemSharp.Spectroscopy;
+using ChemSharp.Spectroscopy.DataProviders;
+using ChemSharp.Spectroscopy.Extension;
+using OxyPlot;
 using OxyPlot.Axes;
 using SPCViewer.Core.Extension;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace SPCViewer.Core.Plots
 {
@@ -76,6 +81,29 @@ namespace SPCViewer.Core.Plots
             YAxis.LabelFormatter = d => null;
             YAxis.Title = null;
             YAxis.AxislineStyle = LineStyle.None;
+        }
+
+        /// <summary>
+        /// Sets up the Model with Spectrum Data
+        /// </summary>
+        public void SetUp(Spectrum spectrum)
+        {
+            Title = Path.GetFileName(spectrum.Title);
+            //setup x axis 
+            XAxis.Title = spectrum.Quantity();
+            XAxis.Unit = spectrum.Unit();
+            XAxis.AbsoluteMinimum = spectrum.XYData.Min(s => s.X);
+            XAxis.AbsoluteMaximum = spectrum.XYData.Max(s => s.X);
+            //setup y axis
+            YAxis.Title = spectrum.YQuantity();
+            var min = spectrum.XYData.Min(s => s.Y);
+            var max = spectrum.XYData.Max(s => s.Y);
+            YAxis.AbsoluteMinimum = min - max * 0.5;
+            YAxis.AbsoluteMaximum = max * 1.5;
+            YAxis.Zoom(min - max * .1, max * 1.1);
+
+            if (spectrum.DataProvider is BrukerNMRProvider) InvertX();
+            if (spectrum.DataProvider is BrukerEPRProvider || spectrum.DataProvider is BrukerNMRProvider) DisableY();
         }
     }
 }

@@ -25,6 +25,21 @@ namespace SPCViewer.Core
             }
         }
 
+
+        private bool _editIndicator;
+        /// <summary>
+        /// Indicates to GUI that editing is in progress
+        /// </summary>
+        public bool EditIndicator
+        {
+            get => _editIndicator;
+            set
+            {
+                _editIndicator = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// X Value of beginning
         /// </summary>
@@ -47,6 +62,11 @@ namespace SPCViewer.Core
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Integrals RawValue without Factor Multiplication
+        /// </summary>
+        public double RawValue => DataPoints.Integrate().Last().Y;
 
         private double _factor = 1;
         /// <summary>
@@ -78,7 +98,7 @@ namespace SPCViewer.Core
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != nameof(DataPoints) && e.PropertyName != nameof(Factor)) return;
-            Value = DataPoints.Integrate().Last().Y / Factor;
+            Value = RawValue / Factor;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

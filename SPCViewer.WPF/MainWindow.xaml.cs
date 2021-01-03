@@ -1,5 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using SPCViewer.Core;
+﻿using SPCViewer.Core;
 using SPCViewer.ViewModel;
 using System.Windows;
 

@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
-using OxyPlot;
+﻿using OxyPlot;
 using OxyPlot.Annotations;
+using System.ComponentModel;
 
 namespace SPCViewer.Core.Extension
 {
@@ -10,7 +10,7 @@ namespace SPCViewer.Core.Extension
         /// The picked Peak
         /// </summary>
         public Peak Peak { get; set; }
-        
+
         public PeakAnnotation(Peak peak)
         {
             Peak = peak;
@@ -42,7 +42,7 @@ namespace SPCViewer.Core.Extension
             var tmp = Transform(StartPoint);
             var textScreenPoint = new ScreenPoint(tmp.X, top + rc.MeasureText(Text, ActualFont, ActualFontSize, ActualFontWeight, TextRotation).Height);
             TextPosition = InverseTransform(textScreenPoint);
-            
+
             base.Render(rc);
         }
     }

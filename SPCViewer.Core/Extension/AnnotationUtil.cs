@@ -1,5 +1,4 @@
-﻿using OxyPlot;
-using OxyPlot.Annotations;
+﻿using OxyPlot.Annotations;
 
 namespace SPCViewer.Core.Extension
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Diagnostics;
 using System.Windows.Input;
 
@@ -27,9 +28,7 @@ namespace SPCViewer.Core
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         public RelayCommand(Action<object> execute)
-            : this(execute, null)
-        {
-        }
+            : this(execute, null) { }
 
         /// <summary>
         /// Creates a new command.
@@ -49,9 +48,11 @@ namespace SPCViewer.Core
         [DebuggerStepThrough]
         public bool CanExecute(object parameter) => _canExecute?.Invoke(parameter) ?? true;
 
-        public virtual event EventHandler CanExecuteChanged;
-
+        public virtual event EventHandler CanExecuteChanged = null!;
+        protected virtual void OnCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         public void Execute(object parameter) => _execute(parameter);
         #endregion // ICommand Members
+
+
     }
 }

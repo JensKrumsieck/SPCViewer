@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SPCViewer.Core;
 using SPCViewer.ViewModel;
 
 namespace SPCViewer.Test

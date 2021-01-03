@@ -47,7 +47,7 @@
                 </TextBlock>
                 <ToggleButton Width="16" Height="16" Margin="8 0 0 0" VerticalAlignment="Center" 
                               Grid.Column="1" x:Name="PART_BTN"
-                              Grid.Row="0">
+                              Grid.Row="0" IsChecked="{Binding EditIndicator}">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="{x:Type ToggleButton}">
                             <Grid>
