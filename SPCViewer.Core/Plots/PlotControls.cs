@@ -37,6 +37,6 @@ namespace SPCViewer.Core.Plots
                 return ctrl;
             }
         }
-        
+
     }
 }

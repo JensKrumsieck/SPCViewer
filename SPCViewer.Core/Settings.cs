@@ -33,6 +33,13 @@ namespace SPCViewer.Core
         public double AxisThickness { get; set; }
         #endregion
 
+        #region Colors
+        public string ExperimentalColor { get; set; }
+        public string IntegralColor { get; set; }
+        public string DerivativeColor { get; set; }
+        public string AnnotationColor { get; set; }
+        #endregion
+
         /// <summary>
         /// json ctor
         /// use for json only!
@@ -83,7 +90,11 @@ namespace SPCViewer.Core
                 BorderThickness = 1.5,
                 Padding = 1.5,
                 AxisFormat = "{0} / {1}",
-                AxisThickness = 0
+                AxisThickness = 0,
+                ExperimentalColor = "#222831",
+                DerivativeColor = "#ff5722",
+                IntegralColor = "#2d4059",
+                AnnotationColor = "#0092ca"
             };
     }
 }

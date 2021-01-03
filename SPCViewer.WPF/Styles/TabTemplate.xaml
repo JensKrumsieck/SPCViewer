@@ -4,7 +4,8 @@
                     xmlns:oxy="http://oxyplot.org/skiawpf"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:core="clr-namespace:SPCViewer.Core;assembly=SPCViewer.Core"
-                    xmlns:wpf="clr-namespace:SPCViewer.WPF">
+                    xmlns:wpf="clr-namespace:SPCViewer.WPF"
+                    xmlns:oxyshared="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared" >
     <wpf:MultiBindingConverter x:Key="MultiBindingConverter"/>
     <!--PEAK TEMPLATE-->
     <DataTemplate x:Key="PeakItemsControl" DataType="core:Peak">
@@ -51,7 +52,7 @@
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="{x:Type ToggleButton}">
                             <Grid>
-                                <Ellipse x:Name="Bg" Fill="#FFA6A6A6" Stroke="#FF009587" StrokeThickness="0" />
+                                <Ellipse x:Name="Bg" Fill="#FFA6A6A6" Stroke="{StaticResource ActiveColor}" StrokeThickness="0" />
                                 <materialDesign:PackIcon Kind="Pencil" Width="12" Height="12"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center" />
@@ -61,7 +62,7 @@
                                     <Setter TargetName="Bg" Property="StrokeThickness" Value="1" />
                                 </Trigger>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Fill" TargetName="Bg" Value="#FF009587"></Setter>
+                                    <Setter Property="Fill" TargetName="Bg" Value="{StaticResource ActiveColor}"></Setter>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -76,7 +77,7 @@
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>
-                                <Ellipse x:Name="Bg" Fill="#FFA6A6A6" Stroke="#FF009587" StrokeThickness="0" />
+                                <Ellipse x:Name="Bg" Fill="#FFA6A6A6" Stroke="{StaticResource ActiveColor}" StrokeThickness="0" />
                                 <materialDesign:PackIcon Kind="Check" Width="12" Height="12"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center" />
@@ -113,7 +114,23 @@
                 <ColumnDefinition Width="3*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <oxy:PlotView x:Name="ThePlotView" Model="{Binding Path=Model}" Controller="{Binding Controller}"/>
+            <oxy:PlotView x:Name="ThePlotView" Model="{Binding Path=Model}" 
+                          Controller="{Binding Controller}">
+                <oxy:PlotView.DefaultTrackerTemplate>
+                    <ControlTemplate>
+                        <oxyshared:TrackerControl Position="{Binding Position}" 
+                                                  LineExtents="{Binding PlotModel.PlotArea}"
+                                                  Background="{StaticResource Background}"
+                                                  BorderEdgeMode="Unspecified"
+                                                  BorderThickness="2"
+                                                  BorderBrush="{StaticResource ActiveColor}"
+                                                  Foreground="{StaticResource Foreground}">
+                            <TextBlock Text="{Binding}" Margin="10" />
+
+                        </oxyshared:TrackerControl>
+                    </ControlTemplate>
+                </oxy:PlotView.DefaultTrackerTemplate>
+            </oxy:PlotView>
             <ScrollViewer Grid.Column="1">
                 <StackPanel>
                     <TextBlock TextWrapping="Wrap">

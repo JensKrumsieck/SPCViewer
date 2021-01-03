@@ -1,4 +1,5 @@
-﻿using OxyPlot.Annotations;
+﻿using OxyPlot;
+using OxyPlot.Annotations;
 
 namespace SPCViewer.Core.Extension
 {
@@ -13,6 +14,7 @@ namespace SPCViewer.Core.Extension
             new PeakAnnotation(peak)
             {
                 StrokeThickness = Settings.Instance.AxisThickness,
+                Color = OxyColor.Parse(Settings.Instance.AnnotationColor)
             };
 
         /// <summary>
@@ -23,7 +25,8 @@ namespace SPCViewer.Core.Extension
         public static ArrowAnnotation IntegralAnnotation(Integral integral) =>
             new IntegralAnnotation(integral)
             {
-                StrokeThickness = Settings.Instance.AxisThickness
+                StrokeThickness = Settings.Instance.AxisThickness,
+                Color = OxyColor.Parse(Settings.Instance.AnnotationColor)
             };
 
     }

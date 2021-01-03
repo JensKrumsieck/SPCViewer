@@ -16,7 +16,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using OxyDataPoint = OxyPlot.DataPoint;
-using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
 
 namespace SPCViewer.ViewModel
 {
@@ -172,19 +171,22 @@ namespace SPCViewer.ViewModel
             ExperimentalSeries = new LineSeries
             {
                 ItemsSource = Spectrum.XYData,
-                Mapping = Model.Mapping
+                Mapping = Model.Mapping,
+                Color = OxyColor.Parse(Settings.Instance.ExperimentalColor)
             };
             IntegralSeries = new LineSeries
             {
                 ItemsSource = Spectrum.Integral,
                 Mapping = Model.Mapping,
-                IsVisible = false
+                IsVisible = false,
+                Color = OxyColor.Parse(Settings.Instance.IntegralColor)
             };
             DerivSeries = new LineSeries
             {
                 ItemsSource = Spectrum.Derivative,
                 Mapping = Model.Mapping,
-                IsVisible = false
+                IsVisible = false,
+                Color = OxyColor.Parse(Settings.Instance.DerivativeColor)
             };
             //add series to model
             Model.Series.Add(ExperimentalSeries);
@@ -250,7 +252,7 @@ namespace SPCViewer.ViewModel
         /// <param name="point"></param>
         private void PickValue(OxyDataPoint point)
         {
-            if(Peaks.Count(s => Math.Abs(s.X - point.X) < 1e-9) < 1) 
+            if (Peaks.Count(s => Math.Abs(s.X - point.X) < 1e-9) < 1)
                 Peaks.Add(new Peak(point) { Factor = Model.NormalizationFactor });
         }
 
@@ -266,21 +268,21 @@ namespace SPCViewer.ViewModel
             switch (e.PropertyName)
             {
                 case nameof(MouseAction):
-                        //bind action to plot controller
-                        var action = MouseAction switch
-                        {
-                            UIAction.Integrate => UIActions.PrepareRectangleAction(AddIntegral),
-                            UIAction.PeakPicking => UIActions.PrepareRectangleAction(AddPeak),
-                            UIAction.Normalize => UIActions.PrepareRectangleAction(Normalize),
-                            UIAction.PickValue => UIActions.PreparePickAction(PickValue),
-                            UIAction.Tracker => UIActions.PreparePickAction(null),
-                            _ => UIActions.PrepareRectangleAction(null)
-                        };
-                        Controller.BindMouseDown(OxyMouseButton.Left, action);
-                        break;
+                    //bind action to plot controller
+                    var action = MouseAction switch
+                    {
+                        UIAction.Integrate => UIActions.PrepareRectangleAction(AddIntegral),
+                        UIAction.PeakPicking => UIActions.PrepareRectangleAction(AddPeak),
+                        UIAction.Normalize => UIActions.PrepareRectangleAction(Normalize),
+                        UIAction.PickValue => UIActions.PreparePickAction(PickValue),
+                        UIAction.Tracker => UIActions.PreparePickAction(null),
+                        _ => UIActions.PrepareRectangleAction(null)
+                    };
+                    Controller.BindMouseDown(OxyMouseButton.Left, action);
+                    break;
                 case nameof(IntegralFactor):
-                        foreach (var integral in Integrals) integral.Factor = IntegralFactor;
-                        break;
+                    foreach (var integral in Integrals) integral.Factor = IntegralFactor;
+                    break;
             }
         }
 

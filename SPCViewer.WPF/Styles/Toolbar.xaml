@@ -9,9 +9,6 @@
 
     <sys:Double x:Key="FontSize">9</sys:Double>
     <sys:Double x:Key="Width">70</sys:Double>
-    <SolidColorBrush x:Key="Foreground">#eeeeee</SolidColorBrush>
-    <SolidColorBrush x:Key="Background">#222831</SolidColorBrush>
-    <SolidColorBrush x:Key="HoverColor">#2d4059</SolidColorBrush>
 
     <Style x:Key="ToolbarStyle" TargetType="ToolBar" BasedOn="{StaticResource MaterialDesignToolBar}">
         <Setter Property="Background" Value="#222831"></Setter>
@@ -66,7 +63,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#ff5722"/>
+                <Setter Property="Background" Value="{StaticResource ActiveColor}"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource HoverColor}"/>

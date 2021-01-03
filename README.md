@@ -16,7 +16,7 @@ SPCViewer (fka. BluEPRint) is capable of viewing and analyzing Spectra from Spec
 
 ## Features
 - View and analyze spectra
-- Mark Integrals, Peaks, ...
+- Mark Integrals, Peaks, Custom Points ...
 - Multiple exports
 
 ### Used Libraries

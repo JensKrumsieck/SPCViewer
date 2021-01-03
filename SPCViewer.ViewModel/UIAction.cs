@@ -1,6 +1,6 @@
-﻿using System;
-using OxyPlot;
+﻿using OxyPlot;
 using SPCViewer.Core.Plots;
+using System;
 using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
 
 namespace SPCViewer.ViewModel
@@ -33,8 +33,8 @@ namespace SPCViewer.ViewModel
         /// <param name="action"></param>
         /// <returns></returns>
         public static DelegatePlotCommand<OxyMouseDownEventArgs> PreparePickAction(Action<DataPoint> action) =>
-            new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) => 
-                controller.AddMouseManipulator(view, new PickValueManipulator(view, action), 
+            new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
+                controller.AddMouseManipulator(view, new PickValueManipulator(view, action),
                     args));
     }
 }
