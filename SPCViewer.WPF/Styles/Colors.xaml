@@ -4,4 +4,5 @@
     <SolidColorBrush x:Key="Background">#222831</SolidColorBrush>
     <SolidColorBrush x:Key="HoverColor">#2d4059</SolidColorBrush>
     <SolidColorBrush x:Key="ActiveColor">#ff5722</SolidColorBrush>
+    <SolidColorBrush x:Key="ActiveColorOpacity">#80ff5722</SolidColorBrush>
 </ResourceDictionary>

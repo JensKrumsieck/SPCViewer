@@ -116,6 +116,11 @@
             </Grid.ColumnDefinitions>
             <oxy:PlotView x:Name="ThePlotView" Model="{Binding Path=Model}" 
                           Controller="{Binding Controller}">
+                <oxy:PlotView.ZoomRectangleTemplate>
+                    <ControlTemplate>
+                        <Rectangle Fill="{StaticResource ActiveColorOpacity}" Stroke="{StaticResource Background}" StrokeDashArray="3,3" />
+                    </ControlTemplate>
+                </oxy:PlotView.ZoomRectangleTemplate>
                 <oxy:PlotView.DefaultTrackerTemplate>
                     <ControlTemplate>
                         <oxyshared:TrackerControl Position="{Binding Position}" 
