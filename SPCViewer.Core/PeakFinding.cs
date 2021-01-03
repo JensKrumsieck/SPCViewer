@@ -16,14 +16,12 @@ namespace SPCViewer.Core
         /// http://billauer.co.il/peakdet.html
         /// </summary>
         /// <param name="values">Input values</param>
-        /// <param name="threshold">search threshold, 0 = auto</param>
+        /// <param name="threshold">search threshold, null = auto</param>
         /// <param name="includeMin">also search for minima?</param>
         /// <returns></returns>
-        public static IList<int> FindPeakPositions(this IList<double> values, double threshold = 0, bool includeMin = false)
+        public static IList<int> FindPeakPositions(this IList<double> values, double? threshold = null, bool includeMin = false)
         {
-            var delta = threshold == 0
-                ? values.Max(Math.Abs) * .025
-                : threshold;
+            var delta = threshold ?? values.Max(Math.Abs) * .025;
             double mn = values[0], mx = values[0];
             IList<int> maxim = new List<int>(), minim = new List<int>();
             var lfm = false;

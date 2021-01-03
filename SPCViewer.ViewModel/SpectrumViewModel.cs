@@ -221,7 +221,7 @@ namespace SPCViewer.ViewModel
             var points = Spectrum.XYData.PointsFromRect(rect);
             if (!points.Any()) return;
             var epr = Spectrum.DataProvider is BrukerEPRProvider;
-            var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions(0, epr);
+            var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions(null, epr);
             foreach (var index in peaksIndices)
                 if (Peaks.Count(s => Math.Abs(s.X - points[index].X) < 1e-9) < 1) Peaks.Add(new Peak(points[index]) { Factor = Model.NormalizationFactor });
         }
