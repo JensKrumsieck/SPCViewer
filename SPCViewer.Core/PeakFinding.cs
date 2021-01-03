@@ -25,11 +25,9 @@ namespace SPCViewer.Core
                 ? values.Max(Math.Abs) * .025
                 : threshold;
             double mn = values[0], mx = values[0];
-            int mnPos = 0, mxPos = 0;
-            var maxim = new List<int>();
-            var minim = new List<int>();
-            var lfm = true;
-            for (var i = 0; i < values.Count; i++)
+            IList<int> maxim = new List<int>(), minim = new List<int>();
+            var lfm = false;
+            for (int i = 0, mnPos = 0, mxPos = 0; i < values.Count; i++)
             {
                 if (maxim.Count > MaxPeaks || minim.Count > MaxPeaks) break;
                 if (values[i] > mx) mx = values[mxPos = i];
