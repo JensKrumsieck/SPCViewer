@@ -108,7 +108,7 @@ namespace SPCViewer.ViewModel
             }
         }
 
-        private ICommand deleteCommand = null!;
+        private ICommand _deleteCommand = null!;
         /// <summary>
         /// Delete Command for Integral and Peaks
         /// </summary>
@@ -116,12 +116,30 @@ namespace SPCViewer.ViewModel
         {
             get
             {
-                return deleteCommand ??= new RelayCommand(param =>
+                return _deleteCommand ??= new RelayCommand(param =>
                 {
                     if (param is Peak peak) 
                         Peaks.Remove(peak);
                     if (param is Integral integral) 
                         Integrals.Remove(integral);
+                }, param => true);
+            }
+        }
+
+        private ICommand _updateIntegralCommand = null!;
+        /// <summary>
+        /// Updates IntegralFactor Parameter
+        /// </summary>
+        public ICommand UpdateIntegralCommand
+        {
+            get
+            {
+                return _updateIntegralCommand ??= new RelayCommand(param =>
+                {
+                    var values = (object[]) param;
+                    var integral = (Integral) values[0];
+                    var value = (string) values[1];
+                    IntegralFactor = (integral.DataPoints.Integrate().Last().Y) / value.ToDouble();
                 }, param => true);
             }
         }
