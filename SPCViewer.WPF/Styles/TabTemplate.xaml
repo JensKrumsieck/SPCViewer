@@ -1,0 +1,95 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
+                    xmlns:wpf="http://oxyplot.org/skiawpf"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:core="clr-namespace:SPCViewer.Core;assembly=SPCViewer.Core">
+    <!--PEAK TEMPLATE-->
+    <DataTemplate x:Key="PeakItemsControl" DataType="core:Peak">
+        <materialDesign:Chip IsDeletable="True" Tag="{Binding}" Cursor="Arrow" 
+                             DeleteCommandParameter="{Binding}" 
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteCommand}">
+            <TextBlock VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0:N2}, {1:N2}">
+                        <Binding Path="X"/>
+                        <Binding Path="Value"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </materialDesign:Chip>
+    </DataTemplate>
+    <!--INTEGRAL TEMPLATE-->
+    <DataTemplate x:Key="IntegralItemsControl" DataType="core:Integral">
+        <materialDesign:Chip IsDeletable="True"  Tag="{Binding}"
+                             DeleteCommandParameter="{Binding}" 
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteCommand}">
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}[{0:N2} - {1:N2}]: {2:N2}">
+                        <Binding Path="From"/>
+                        <Binding Path="To"/>
+                        <Binding Path="Value"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </materialDesign:Chip>
+    </DataTemplate>
+    <!--TAB TEMPLATE-->
+    <DataTemplate x:Key="TabTemplate" DataType="viewModel:SpectrumViewModel">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <wpf:PlotView x:Name="ThePlotView" Model="{Binding Path=Model}" Controller="{Binding Controller}"/>
+            <ScrollViewer Grid.Column="1">
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap">
+                            <Run Text="{Binding Path=Title, Mode=OneWay}" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Margin="0,10">
+                            <Run Text="Path" FontWeight="Bold"/>
+                            <LineBreak/>
+                            <Run Text="{Binding Path=Spectrum.Title}"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Margin="0,10">
+                            <Run Text="Creation Date" FontWeight="Bold"/>
+                            <LineBreak/>
+                            <Run Text="{Binding Path=Spectrum.CreationDate, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap">
+                            <Run Text="Integrals:" FontWeight="Bold"/>
+                    </TextBlock>
+                    <ItemsControl ItemsSource="{Binding Integrals}" ItemTemplate="{StaticResource IntegralItemsControl}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label>Integration Factor:</Label>
+                        <TextBox Grid.Column="1" Text="{Binding IntegralFactor, Mode=TwoWay}" 
+                                     materialDesign:HintAssist.HelperText="1 = absolute Integrals"
+                                     materialDesign:HintAssist.Hint="Integration Factor"/>
+                    </Grid>
+                    <TextBlock TextWrapping="Wrap">
+                            <Run Text="Peaks:" FontWeight="Bold"/>
+                    </TextBlock>
+                    <ItemsControl ItemsSource="{Binding Peaks}" ItemTemplate="{StaticResource PeakItemsControl}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

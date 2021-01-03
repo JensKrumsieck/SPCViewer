@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using DataPoint = ChemSharp.DataPoint;
 using OxyDataPoint = OxyPlot.DataPoint;
 using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
@@ -104,6 +105,24 @@ namespace SPCViewer.ViewModel
             {
                 _mouseAction = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private ICommand deleteCommand = null!;
+        /// <summary>
+        /// Delete Command for Integral and Peaks
+        /// </summary>
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                return deleteCommand ??= new RelayCommand(param =>
+                {
+                    if (param is Peak peak) 
+                        Peaks.Remove(peak);
+                    if (param is Integral integral) 
+                        Integrals.Remove(integral);
+                }, param => true);
             }
         }
 
