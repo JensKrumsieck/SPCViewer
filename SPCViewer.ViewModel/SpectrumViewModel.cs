@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using ChemSharp.Spectroscopy.DataProviders;
 using OxyDataPoint = OxyPlot.DataPoint;
 using ZoomRectangleManipulator = SPCViewer.Core.Plots.ZoomRectangleManipulator;
 
@@ -219,9 +220,10 @@ namespace SPCViewer.ViewModel
         {
             var points = Spectrum.XYData.PointsFromRect(rect);
             if (!points.Any()) return;
-            var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions();
+            var epr = Spectrum.DataProvider is BrukerEPRProvider;
+            var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions(0, epr);
             foreach (var index in peaksIndices)
-                if (Peaks.Count(s => Math.Abs(s.X - points[index].X) < 1e-9) < 1) Peaks.Add(new Peak(points[index]));
+                if (Peaks.Count(s => Math.Abs(s.X - points[index].X) < 1e-9) < 1) Peaks.Add(new Peak(points[index]) { Factor = Model.NormalizationFactor });
         }
 
         /// <summary>
@@ -237,6 +239,7 @@ namespace SPCViewer.ViewModel
             Model.NormalizationFactor = max;
             //send factor to peaks
             foreach (var peak in Peaks) peak.Factor = max;
+            Model.YAxisZoom(Spectrum);
             Model.InvalidatePlot(true);
         }
 

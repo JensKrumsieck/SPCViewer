@@ -99,11 +99,24 @@ namespace SPCViewer.Core.Plots
             var min = spectrum.XYData.Min(s => s.Y);
             var max = spectrum.XYData.Max(s => s.Y);
             YAxis.AbsoluteMinimum = min - max * 0.5;
-            YAxis.AbsoluteMaximum = max * 1.5;
-            YAxis.Zoom(min - max * .1, max * 1.1);
+            YAxis.AbsoluteMaximum = max * 2;
+            YAxisZoom(spectrum);
 
             if (spectrum.DataProvider is BrukerNMRProvider) InvertX();
             if (spectrum.DataProvider is BrukerEPRProvider || spectrum.DataProvider is BrukerNMRProvider) DisableY();
+        }
+
+        /// <summary>
+        /// Zooms YAxis based on Spectrum
+        /// </summary>
+        /// <param name="spc"></param>
+        public virtual void YAxisZoom(Spectrum spc)
+        {
+            var min = spc.XYData.Min(s => s.Y);
+            var max = spc.XYData.Max(s => s.Y);
+            min /= NormalizationFactor;
+            max /= NormalizationFactor;
+            YAxis.Zoom(min - max * .1, max * 1.25);
         }
     }
 }

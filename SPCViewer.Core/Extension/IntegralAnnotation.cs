@@ -51,7 +51,7 @@ namespace SPCViewer.Core.Extension
             var textUpper = Transform(new DataPoint((Integral.To + Integral.From) / 2, lowest));
             var textHeight = rc.MeasureText(Text, ActualFont, ActualFontSize, ActualFontWeight, TextRotation).Height;
 
-            TextPosition = InverseTransform(new ScreenPoint(textUpper.X, textUpper.Y + textHeight - height * 0.005));
+            TextPosition = InverseTransform(new ScreenPoint(textUpper.X, textUpper.Y + textHeight ));
 
             base.Render(rc);
         }

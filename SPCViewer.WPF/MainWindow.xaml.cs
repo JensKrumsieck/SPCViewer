@@ -39,6 +39,10 @@ namespace SPCViewer.WPF
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Open_Click(object sender, RoutedEventArgs e) => ViewModel.OpenFiles(new[]
-            {@"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\uvvis.dsw"});
+        {
+            @"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\epr.par",
+            @"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\uvvis.dsw",
+            @"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\nmr\fid"
+        });
     }
 }
