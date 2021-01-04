@@ -15,7 +15,7 @@ namespace SPCViewer.Test
         [TestInitialize]
         public void SetUp()
         {
-            const string path = "files/nmr/fid";
+            const string path = "files/uvvis.dsw";
             _svm = new SpectrumViewModel(path);
             _spc = _svm.Spectrum;
         }

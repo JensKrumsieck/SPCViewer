@@ -111,9 +111,10 @@
     <DataTemplate x:Key="TabTemplate" DataType="viewModel:SpectrumViewModel">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
+            <!--Column1-->
             <oxy:PlotView x:Name="ThePlotView" Model="{Binding Path=Model}" 
                           Controller="{Binding Controller}">
                 <oxy:PlotView.ZoomRectangleTemplate>
@@ -131,56 +132,84 @@
                                                   BorderBrush="{StaticResource ActiveColor}"
                                                   Foreground="{StaticResource Foreground}">
                             <TextBlock Text="{Binding}" Margin="10" />
-
                         </oxyshared:TrackerControl>
                     </ControlTemplate>
                 </oxy:PlotView.DefaultTrackerTemplate>
             </oxy:PlotView>
+            <!--Column2-->
             <ScrollViewer Grid.Column="1">
                 <StackPanel>
-                    <TextBlock TextWrapping="Wrap">
-                            <Run Text="{Binding Path=Title, Mode=OneWay}" FontWeight="Bold"/>
-                    </TextBlock>
-                    <TextBlock TextWrapping="Wrap" Margin="0,10">
-                            <Run Text="Path" FontWeight="Bold"/>
-                            <LineBreak/>
-                            <Run Text="{Binding Path=Spectrum.Title}"/>
-                    </TextBlock>
-                    <TextBlock TextWrapping="Wrap" Margin="0,10">
-                            <Run Text="Creation Date" FontWeight="Bold"/>
-                            <LineBreak/>
-                            <Run Text="{Binding Path=Spectrum.CreationDate, Mode=OneWay}"/>
-                    </TextBlock>
-                    <TextBlock TextWrapping="Wrap">
-                            <Run Text="Integrals:" FontWeight="Bold"/>
-                    </TextBlock>
-                    <ItemsControl ItemsSource="{Binding Integrals}" ItemTemplate="{StaticResource IntegralItemsControl}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Path=Title, Mode=OneWay}"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                    <!--Properties-->
+                    <TextBlock TextWrapping="Wrap" Margin="0,10" 
+                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Properties"/>
+                    <ItemsControl ItemsSource="{Binding Path=SpecialParameters, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="Wrap">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}: {1}">
+                                            <Binding Path="Key"/>
+                                            <Binding Path="Value"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Label>Integration Factor:</Label>
-                        <TextBox Grid.Column="1" Text="{Binding IntegralFactor, Mode=TwoWay}" 
+                    <!--Peaks-->
+                    <StackPanel>
+                        <TextBlock Text="Peaks" Margin="0,10"
+                                   Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                        <ItemsControl ItemsSource="{Binding Peaks}" ItemTemplate="{StaticResource PeakItemsControl}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Peaks.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+                    <!--Integrals-->
+                    <StackPanel>
+                        <TextBlock Text="Integrals" Margin="0,10"
+                                   Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                        <ItemsControl ItemsSource="{Binding Integrals}" ItemTemplate="{StaticResource IntegralItemsControl}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label>Integration Factor:</Label>
+                            <TextBox Grid.Column="1" Text="{Binding IntegralFactor, Mode=TwoWay}" 
                                      materialDesign:HintAssist.HelperText="1 = absolute Integrals"
                                      materialDesign:HintAssist.Hint="Integration Factor"/>
-                    </Grid>
-                    <TextBlock TextWrapping="Wrap">
-                            <Run Text="Peaks:" FontWeight="Bold"/>
-                    </TextBlock>
-                    <ItemsControl ItemsSource="{Binding Peaks}" ItemTemplate="{StaticResource PeakItemsControl}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                        </Grid>
+                        <StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Integrals.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

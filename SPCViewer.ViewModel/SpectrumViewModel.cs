@@ -8,6 +8,7 @@ using SPCViewer.Core;
 using SPCViewer.Core.Extension;
 using SPCViewer.Core.Plots;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -141,6 +142,13 @@ namespace SPCViewer.ViewModel
                 }, param => true);
             }
         }
+        
+        /// <summary>
+        /// Gets the PlotController
+        /// </summary>
+        public PlotController Controller { get; }
+
+        public Dictionary<string, string> SpecialParameters => Spectrum.GetSpecialParameters();
 
         /// <summary>
         /// ctor
@@ -193,11 +201,6 @@ namespace SPCViewer.ViewModel
             Model.Series.Add(IntegralSeries);
             Model.Series.Add(DerivSeries);
         }
-
-        /// <summary>
-        /// Gets the PlotController
-        /// </summary>
-        public PlotController Controller { get; }
 
         /// <summary>
         /// Adds an Integral to List

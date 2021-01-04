@@ -1,5 +1,10 @@
-﻿using System;
+﻿using ChemSharp.DataProviders;
+using ChemSharp.Extensions;
+using ChemSharp.Spectroscopy;
+using ChemSharp.Spectroscopy.DataProviders;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace SPCViewer.Core
 {
@@ -32,5 +37,40 @@ namespace SPCViewer.Core
             {"##$SOLVENT", ("Solvent", typeof(string))},
             {"##$INSTRUM", ("Device", typeof(string))},
         };
+
+        /// <summary>
+        /// Builds the Parameter Dictionary from provider
+        /// </summary>
+        /// <param name="prov"></param>
+        /// <param name="paramsDictionary"></param>
+        /// <returns></returns>
+        private static Dictionary<string, string> ParameterDictionary(this IParameterProvider prov, Dictionary<string, (string, Type)> paramsDictionary)
+        {
+            var dic = new Dictionary<string, string>();
+            foreach (var (key, (description, _)) in paramsDictionary)
+            {
+                if(prov.Storage.ContainsKey(key))
+                    dic.Add(description, prov[key]);
+            }
+            return dic;
+        }
+
+        /// <summary>
+        /// Returns Dictionary with special parameters
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static Dictionary<string, string> GetSpecialParameters(this Spectrum input)
+        {
+            var dic = input.DataProvider switch
+            {
+                BrukerEPRProvider epr => epr.ParameterDictionary(BrukerEPRParameterMap),
+                BrukerNMRProvider nmr => nmr.ParameterDictionary(BrukerNMRParameterMap),
+                _ => new Dictionary<string, string>()
+            };
+            dic.Add("Path", input.Title);
+            dic.Add("Creation Date", input.CreationDate.ToString("dd. MMM yyyy HH:mm:ss"));
+            return dic;
+        }
     }
 }
