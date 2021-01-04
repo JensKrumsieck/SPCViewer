@@ -1,10 +1,8 @@
 ﻿using ChemSharp.DataProviders;
-using ChemSharp.Extensions;
 using ChemSharp.Spectroscopy;
 using ChemSharp.Spectroscopy.DataProviders;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace SPCViewer.Core
 {
@@ -49,7 +47,7 @@ namespace SPCViewer.Core
             var dic = new Dictionary<string, string>();
             foreach (var (key, (description, _)) in paramsDictionary)
             {
-                if(prov.Storage.ContainsKey(key))
+                if (prov.Storage.ContainsKey(key))
                     dic.Add(description, prov[key]);
             }
             return dic;
