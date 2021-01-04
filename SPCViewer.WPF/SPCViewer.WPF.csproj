@@ -14,6 +14,12 @@
     <Product>SPCViewer</Product>
     <PackageIcon>Resources\spc_icon.ico</PackageIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\spc_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\spc_icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
