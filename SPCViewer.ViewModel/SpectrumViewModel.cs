@@ -11,16 +11,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using TinyMVVM;
 using OxyDataPoint = OxyPlot.DataPoint;
 
 namespace SPCViewer.ViewModel
 {
-    public class SpectrumViewModel : INotifyPropertyChanged
+    public class SpectrumViewModel : BindableBase
     {
         private Spectrum _spectrum;
         /// <summary>
@@ -29,11 +28,7 @@ namespace SPCViewer.ViewModel
         public Spectrum Spectrum
         {
             get => _spectrum;
-            set
-            {
-                _spectrum = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _spectrum, value);
         }
 
         /// <summary>
@@ -73,11 +68,7 @@ namespace SPCViewer.ViewModel
         public double IntegralFactor
         {
             get => _integralFactor;
-            set
-            {
-                _integralFactor = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _integralFactor, value, UpdateIntegrals);
         }
 
         /// <summary>
@@ -101,8 +92,8 @@ namespace SPCViewer.ViewModel
             get => _mouseAction;
             set
             {
-                _mouseAction = value;
-                OnPropertyChanged();
+                Set(ref _mouseAction, value); 
+                MouseActionChanged();
             }
         }
 
@@ -156,7 +147,6 @@ namespace SPCViewer.ViewModel
         /// <param name="path"></param>
         public SpectrumViewModel(string path)
         {
-            PropertyChanged += OnPropertyChanged;
             //load file and set up spectrum
             Spectrum = new Spectrum { DataProvider = ExtensionHandler.Handle(path) };
             //init OxyPlot stuff
@@ -259,34 +249,30 @@ namespace SPCViewer.ViewModel
                 Peaks.Add(new Peak(point) { Factor = Model.NormalizationFactor });
         }
 
-
-        #region EventStuff
         /// <summary>
-        /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged" />
+        /// Fires when MouseAction changes
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void MouseActionChanged()
         {
-            switch (e.PropertyName)
+            var action = MouseAction switch
             {
-                case nameof(MouseAction):
-                    //bind action to plot controller
-                    var action = MouseAction switch
-                    {
-                        UIAction.Integrate => UIActions.PrepareRectangleAction(AddIntegral),
-                        UIAction.PeakPicking => UIActions.PrepareRectangleAction(AddPeak),
-                        UIAction.Normalize => UIActions.PrepareRectangleAction(Normalize),
-                        UIAction.PickValue => UIActions.PreparePickAction(PickValue),
-                        UIAction.Tracker => UIActions.PreparePickAction(null),
-                        _ => UIActions.PrepareRectangleAction(null)
-                    };
-                    Controller.BindMouseDown(OxyMouseButton.Left, action);
-                    break;
-                case nameof(IntegralFactor):
-                    foreach (var integral in Integrals) integral.Factor = IntegralFactor;
-                    break;
-            }
+                UIAction.Integrate => UIActions.PrepareRectangleAction(AddIntegral),
+                UIAction.PeakPicking => UIActions.PrepareRectangleAction(AddPeak),
+                UIAction.Normalize => UIActions.PrepareRectangleAction(Normalize),
+                UIAction.PickValue => UIActions.PreparePickAction(PickValue),
+                UIAction.Tracker => UIActions.PreparePickAction(null),
+                _ => UIActions.PrepareRectangleAction(null)
+            };
+            Controller.BindMouseDown(OxyMouseButton.Left, action);
+        }
+
+        /// <summary>
+        /// Fires when IntegralFactor changes
+        /// </summary>
+        private void UpdateIntegrals()
+        {
+            foreach (var integral in Integrals) 
+                integral.Factor = IntegralFactor;
         }
 
         /// <summary>
@@ -349,18 +335,5 @@ namespace SPCViewer.ViewModel
                 }
             Model.InvalidatePlot(true);
         }
-
-        /// <summary>
-        /// <inheritdoc />
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged" />
-        /// </summary>
-        /// <param name="propertyName"></param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        #endregion
     }
 }

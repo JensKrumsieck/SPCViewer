@@ -2,7 +2,6 @@
 {
     public static class OxyPlotConversion
     {
-
         /// <summary>
         /// Converts CS -> OP
         /// </summary>

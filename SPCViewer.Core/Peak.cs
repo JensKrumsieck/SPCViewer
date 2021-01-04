@@ -1,13 +1,11 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using TinyMVVM;
 using DataPoint = ChemSharp.DataPoint;
 using OxyDataPoint = OxyPlot.DataPoint;
 
 namespace SPCViewer.Core
 {
-    public class Peak : INotifyPropertyChanged
+    public class Peak : BindableBase
     {
-
         /// <summary>
         /// Peaks X Value
         /// </summary>
@@ -25,25 +23,17 @@ namespace SPCViewer.Core
         public double Value
         {
             get => _value;
-            set
-            {
-                _value = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _value, value);
         }
 
         private double _factor = 1;
         /// <summary>
-        /// The current normalisation factor
+        /// The current normalization factor
         /// </summary>
         public double Factor
         {
             get => _factor;
-            set
-            {
-                _factor = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _factor, value, () => Value = Y / Factor);
         }
 
         public Peak(double x, double y)
@@ -51,25 +41,11 @@ namespace SPCViewer.Core
             X = x;
             Y = y;
             Value = Y / Factor;
-            PropertyChanged += OnPropertyChanged;
-        }
-
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != nameof(Factor)) return;
-            Value = Y / Factor;
         }
 
         #region ctors with datapoints
         public Peak(DataPoint cdp) : this(cdp.X, cdp.Y) { }
         public Peak(OxyDataPoint odp) : this(odp.X, odp.Y) { }
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

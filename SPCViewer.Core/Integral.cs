@@ -2,13 +2,12 @@
 using ChemSharp.Extensions;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using TinyMVVM;
 
 namespace SPCViewer.Core
 {
-    public class Integral : INotifyPropertyChanged
+    public class Integral : BindableBase
     {
         private DataPoint[] _dataPoints;
 
@@ -18,11 +17,7 @@ namespace SPCViewer.Core
         public DataPoint[] DataPoints
         {
             get => _dataPoints;
-            set
-            {
-                _dataPoints = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _dataPoints, value, SetValue);
         }
 
 
@@ -33,11 +28,7 @@ namespace SPCViewer.Core
         public bool EditIndicator
         {
             get => _editIndicator;
-            set
-            {
-                _editIndicator = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _editIndicator, value);
         }
 
         /// <summary>
@@ -56,11 +47,7 @@ namespace SPCViewer.Core
         public double Value
         {
             get => _value;
-            set
-            {
-                _value = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _value, value);
         }
 
         /// <summary>
@@ -74,38 +61,21 @@ namespace SPCViewer.Core
         /// </summary>
         public double Factor
         {
-            get => _factor; set
-
-            {
-                _factor = value;
-                OnPropertyChanged();
-            }
+            get => _factor;
+            set => Set(ref _factor, value, SetValue);
         }
 
         public Integral(IEnumerable<DataPoint> selection)
         {
             var dataPoints = selection as DataPoint[] ?? selection.ToArray();
             if (!dataPoints.Any()) throw new ArgumentNullException(nameof(selection));
-            PropertyChanged += OnPropertyChanged;
             DataPoints = dataPoints.ToArray();
         }
 
         /// <summary>
-        /// Recalculates Integral
+        /// Recalculates Integral value
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != nameof(DataPoints) && e.PropertyName != nameof(Factor)) return;
-            Value = RawValue / Factor;
-        }
+        private void SetValue() => Value = RawValue / Factor;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

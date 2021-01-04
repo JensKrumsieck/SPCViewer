@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using TinyMVVM;
 
 namespace SPCViewer.ViewModel
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : BindableBase
     {
         /// <summary>
         /// TabItems
@@ -19,11 +18,7 @@ namespace SPCViewer.ViewModel
         public int SelectedIndex
         {
             get => _selectedIndex;
-            set
-            {
-                _selectedIndex = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _selectedIndex, value, () => SelectedAction = (int)SelectedItem.MouseAction);
         }
 
         private int _selectedAction;
@@ -33,11 +28,7 @@ namespace SPCViewer.ViewModel
         public int SelectedAction
         {
             get => _selectedAction;
-            set
-            {
-                _selectedAction = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _selectedAction, value, ActionChanged);
         }
 
         /// <summary>
@@ -50,11 +41,7 @@ namespace SPCViewer.ViewModel
         /// </summary>
         public UIAction SelectedUIAction => (UIAction)SelectedAction;
 
-        public MainViewModel()
-        {
-            //register event
-            PropertyChanged += OnPropertyChanged;
-        }
+        public MainViewModel() { }
 
         /// <summary>
         /// Used to open files / create tabviewmodel
@@ -71,39 +58,12 @@ namespace SPCViewer.ViewModel
             }
         }
 
-        #region Event Stuff
-
-        /// <summary>
-        /// PropertyChanged
-        /// Sets UI Action to children
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ActionChanged()
         {
-            switch (e.PropertyName)
-            {
-                case nameof(SelectedAction):
-                    {
-                        //set selected action to active tab
-                        if (SelectedAction == -1 || SelectedAction > (int)UIAction.PickValue) SelectedAction = 0;
-                        SelectedItem.MouseAction = SelectedUIAction;
-                        break;
-                    }
-                case nameof(SelectedIndex):
-                    //set selected action from tab
-                    SelectedAction = (int)SelectedItem.MouseAction;
-                    break;
-            }
+            if (SelectedAction == -1 || SelectedAction > (int)UIAction.PickValue)
+                SelectedAction = 0;
+
+            SelectedItem.MouseAction = SelectedUIAction;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
 }

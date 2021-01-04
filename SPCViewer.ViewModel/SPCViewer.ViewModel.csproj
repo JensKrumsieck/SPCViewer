@@ -9,6 +9,7 @@
     <PackageReference Include="ChemSharp.Spectroscopy" Version="1.0.0-alpha20201230" />
     <PackageReference Include="ChemSharp" Version="1.0.0-alpha20210101" />
     <PackageReference Include="OxyPlot.Core" Version="2.1.0-Preview1" />
+    <PackageReference Include="TinyMVVM" Version="1.0.0-alpha20210104" />
   </ItemGroup>
 
   <ItemGroup>
