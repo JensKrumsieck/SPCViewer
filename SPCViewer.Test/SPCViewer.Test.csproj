@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ChemSharp.Spectroscopy" Version="1.0.0-alpha20201230" />
-    <PackageReference Include="ChemSharp" Version="1.0.0-alpha20210101" />
+    <PackageReference Include="ChemSharp.Spectroscopy" Version="1.0.0-alpha20210104" />
+    <PackageReference Include="ChemSharp" Version="1.0.0-alpha20210104" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
