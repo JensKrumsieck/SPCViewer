@@ -98,23 +98,17 @@ namespace SPCViewer.ViewModel
             }
         }
 
-        private ICommand _deleteCommand = null!;
+        private ICommand _deleteIntegral;
         /// <summary>
-        /// Delete Command for Integral and Peaks
+        /// Delete Command for Integrals
         /// </summary>
-        public ICommand DeleteCommand
-        {
-            get
-            {
-                return _deleteCommand ??= new RelayCommand(param =>
-                {
-                    if (param is Peak peak)
-                        Peaks.Remove(peak);
-                    if (param is Integral integral)
-                        Integrals.Remove(integral);
-                }, param => true);
-            }
-        }
+        public ICommand DeleteIntegral => _deleteIntegral ??= new RelayCommand<Integral>(param => Integrals.Remove(param));
+
+        private ICommand _deletePeak;
+        /// <summary>
+        /// Delete Command for Integrals
+        /// </summary>
+        public ICommand DeletePeak => _deletePeak ??= new RelayCommand<Peak>(param => Peaks.Remove(param));
 
         private ICommand _updateIntegralCommand = null!;
         /// <summary>
@@ -124,14 +118,13 @@ namespace SPCViewer.ViewModel
         {
             get
             {
-                return _updateIntegralCommand ??= new RelayCommand(param =>
+                return _updateIntegralCommand ??= new RelayCommand<object[]>(param =>
                 {
-                    var values = (object[])param;
-                    var integral = (Integral)values[0];
-                    var value = (string)values[1];
+                    var integral = (Integral)param[0];
+                    var value = (string)param[1];
                     IntegralFactor = integral.RawValue / value.ToDouble();
                     integral.EditIndicator = false;
-                }, param => true);
+                });
             }
         }
 

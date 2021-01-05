@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using SPCViewer.Core;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using ChemSharp.Spectroscopy.DataProviders;
-using MathNet.Numerics.Optimization;
-using SPCViewer.Core;
 using TinyMVVM;
 
 namespace SPCViewer.ViewModel
@@ -21,7 +21,8 @@ namespace SPCViewer.ViewModel
         public int SelectedIndex
         {
             get => _selectedIndex;
-            set => Set(ref _selectedIndex, value, () => SelectedAction = (int)SelectedItem.MouseAction);
+            set => Set(ref _selectedIndex, value,
+                () => SelectedAction = SelectedItem != null ? (int) SelectedItem.MouseAction : 0);
         }
 
         private int _selectedAction;
@@ -37,7 +38,7 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// Gets the SelectedItem
         /// </summary>
-        public SpectrumViewModel SelectedItem => TabItems[SelectedIndex];
+        public SpectrumViewModel SelectedItem => SelectedIndex == -1 ? null : TabItems[SelectedIndex];
 
         /// <summary>
         /// Gets the SelectedUIAction
@@ -75,12 +76,31 @@ namespace SPCViewer.ViewModel
             }
         }
 
+        private ICommand _delete;
+        /// <summary>
+        /// DeleteCommand
+        /// </summary>
+        public ICommand Delete => _delete ??= new RelayCommand<SpectrumViewModel>(DeleteTab);
+
+        /// <summary>
+        /// Fires on Action Changed
+        /// </summary>
         private void ActionChanged()
         {
             if (SelectedAction == -1 || SelectedAction > (int)UIAction.PickValue)
                 SelectedAction = 0;
-
+            if (SelectedIndex == -1) return;
             SelectedItem.MouseAction = SelectedUIAction;
+        }
+
+        private void DeleteTab(SpectrumViewModel tab)
+        {
+            if (SelectedItem == tab)
+            {
+                if (SelectedIndex == 0 && TabItems.Count > 1) SelectedIndex++;
+                else SelectedIndex--;
+            }
+            TabItems.Remove(tab);
         }
     }
 }

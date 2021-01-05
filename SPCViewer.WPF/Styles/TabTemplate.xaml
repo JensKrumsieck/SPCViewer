@@ -11,7 +11,7 @@
     <DataTemplate x:Key="PeakItemsControl" DataType="core:Peak">
         <materialDesign:Chip IsDeletable="True" Tag="{Binding}" Cursor="Arrow" 
                              DeleteCommandParameter="{Binding}" 
-                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteCommand}">
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeletePeak}">
             <TextBlock VerticalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0:N2}, {1:N2}">
@@ -27,7 +27,7 @@
         <materialDesign:Chip IsDeletable="True"  Tag="{Binding}"
                              x:Name="PART_CHIP"
                              DeleteCommandParameter="{Binding}" 
-                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteCommand}">
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteIntegral}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />

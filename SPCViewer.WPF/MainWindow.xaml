@@ -94,7 +94,8 @@
                                                    x:Name="PART_TEXT"/>
                                             <Button Grid.Column="2" Width="16" Height="16" 
                                                     Margin="2 0 0 0" VerticalAlignment="Center"
-                                                    CommandParameter="{Binding}">
+                                                    CommandParameter="{Binding}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.Delete}">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="{x:Type Button}">
                                                         <Grid >
