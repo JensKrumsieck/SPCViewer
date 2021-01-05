@@ -34,10 +34,7 @@ namespace SPCViewer.Core
         /// <returns></returns>
         public static AbstractXYDataProvider Handle(string path)
         {
-            var ext = Path.GetExtension(path);
-            //fallback for nmr files
-            ext = string.IsNullOrEmpty(ext) ? Path.GetFileName(path) : ext.Remove(0, 1);
-            ext = ext.ToLower();
+            var ext = GetExtension(path);
             //check if ext is supported
             if (!DataProviderDictionary.ContainsKey(ext)) throw new FileLoadException($"File type {ext} is not supported");
             var type = DataProviderDictionary[ext];
@@ -49,6 +46,19 @@ namespace SPCViewer.Core
                         throw new InvalidOperationException("null given, Extension Handling failed"), param), param)
                 .Compile();
             return creator(path);
+        }
+
+        /// <summary>
+        /// Get Extension as string
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string GetExtension(string path)
+        {
+            var ext = Path.GetExtension(path);
+            //fallback for nmr files
+            ext = string.IsNullOrEmpty(ext) ? Path.GetFileName(path) : ext.Remove(0, 1);
+            return ext.ToLower();
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using ChemSharp.DataProviders;
 using TinyMVVM;
 using OxyDataPoint = OxyPlot.DataPoint;
 
@@ -142,13 +143,20 @@ namespace SPCViewer.ViewModel
         public Dictionary<string, string> SpecialParameters => Spectrum.GetSpecialParameters();
 
         /// <summary>
-        /// ctor
+        /// ctor with path given
         /// </summary>
         /// <param name="path"></param>
-        public SpectrumViewModel(string path)
+        public SpectrumViewModel(string path) : this(ExtensionHandler.Handle(path))
+        { }
+
+        /// <summary>
+        /// ctor with provider given
+        /// </summary>
+        /// <param name="provider"></param>
+        public SpectrumViewModel(IXYDataProvider provider)
         {
             //load file and set up spectrum
-            Spectrum = new Spectrum { DataProvider = ExtensionHandler.Handle(path) };
+            Spectrum = new Spectrum { DataProvider = provider };
             //init OxyPlot stuff
             Model = new DefaultPlotModel();
             Model.SetUp(Spectrum);

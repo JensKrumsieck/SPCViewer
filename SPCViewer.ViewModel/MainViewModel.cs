@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ChemSharp.Spectroscopy.DataProviders;
+using MathNet.Numerics.Optimization;
+using SPCViewer.Core;
 using TinyMVVM;
 
 namespace SPCViewer.ViewModel
@@ -52,9 +55,23 @@ namespace SPCViewer.ViewModel
             if (files == null) return;
             foreach (var file in files)
             {
-                var page = new SpectrumViewModel(file);
-                TabItems.Add(page);
-                SelectedIndex = TabItems.IndexOf(page);
+                SpectrumViewModel page;
+                if (ExtensionHandler.GetExtension(file) == "csv")
+                {
+                    var multiCSV = new MultiCSVProvider(file);
+                    for(var i = 0; i < multiCSV.MultiXYData.Count; i++)
+                    {
+                        page = new SpectrumViewModel(new GenericCSVProvider(file, ',',  i));
+                        TabItems.Add(page);
+                        SelectedIndex = TabItems.IndexOf(page);
+                    }
+                }
+                else
+                {
+                    page = new SpectrumViewModel(file); 
+                    TabItems.Add(page);
+                    SelectedIndex = TabItems.IndexOf(page);
+                }
             }
         }
 
