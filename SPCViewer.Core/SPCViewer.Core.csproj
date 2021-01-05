@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ChemSharp.Spectroscopy" Version="1.0.0-alpha20210104" />
-    <PackageReference Include="ChemSharp" Version="1.0.0-alpha20210104" />
+    <PackageReference Include="ChemSharp.Spectroscopy" Version="1.0.0-alpha20210105" />
+    <PackageReference Include="ChemSharp" Version="1.0.0-alpha20210105" />
     <PackageReference Include="OxyPlot.Core" Version="2.1.0-Preview1" />
     <PackageReference Include="System.Text.Json" Version="5.0.0" />
     <PackageReference Include="TinyMVVM" Version="1.0.0-alpha20210104" />

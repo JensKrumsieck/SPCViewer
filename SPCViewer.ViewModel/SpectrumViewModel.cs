@@ -92,7 +92,7 @@ namespace SPCViewer.ViewModel
             get => _mouseAction;
             set
             {
-                Set(ref _mouseAction, value); 
+                Set(ref _mouseAction, value);
                 MouseActionChanged();
             }
         }
@@ -133,7 +133,7 @@ namespace SPCViewer.ViewModel
                 }, param => true);
             }
         }
-        
+
         /// <summary>
         /// Gets the PlotController
         /// </summary>
@@ -271,7 +271,7 @@ namespace SPCViewer.ViewModel
         /// </summary>
         private void UpdateIntegrals()
         {
-            foreach (var integral in Integrals) 
+            foreach (var integral in Integrals)
                 integral.Factor = IntegralFactor;
         }
 
