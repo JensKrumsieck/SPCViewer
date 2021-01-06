@@ -1,4 +1,5 @@
-﻿using ChemSharp.Extensions;
+﻿using ChemSharp.DataProviders;
+using ChemSharp.Extensions;
 using ChemSharp.Spectroscopy;
 using ChemSharp.Spectroscopy.DataProviders;
 using OxyPlot;
@@ -14,13 +15,13 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using ChemSharp.DataProviders;
 using TinyMVVM;
+using TinyMVVM.Command;
 using OxyDataPoint = OxyPlot.DataPoint;
 
 namespace SPCViewer.ViewModel
 {
-    public class SpectrumViewModel : BindableBase
+    public class SpectrumViewModel : BaseViewModel
     {
         private Spectrum _spectrum;
         /// <summary>
@@ -35,7 +36,7 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// Pass Through the Spectrum's title
         /// </summary>
-        public string Title => Path.GetFileName(Spectrum?.Title);
+        public override string Title => Path.GetFileName(Spectrum?.Title);
 
         /// <summary>
         /// The used PlotModel
@@ -157,9 +158,13 @@ namespace SPCViewer.ViewModel
             MouseAction = UIAction.Zoom;
             InitSeries();
             //add annotation events
-            Annotations.CollectionChanged += AnnotationsOnCollectionChanged;
-            Peaks.CollectionChanged += PeaksOnCollectionChanged;
-            Integrals.CollectionChanged += IntegralsOnCollectionChanged;
+            Subscribe(Annotations, Model.Annotations, () => Model.InvalidatePlot(true));
+            Subscribe(Peaks, Annotations, 
+                AnnotationUtil.PeakAnnotation, 
+                peak => Annotations.FirstOrDefault(s => s.Tag as Peak == peak));
+            Subscribe(Integrals, Annotations,
+                AnnotationUtil.IntegralAnnotation,
+                integral => Annotations.FirstOrDefault(s=> s.Tag as Integral == integral));
         }
 
         /// <summary>
@@ -274,67 +279,6 @@ namespace SPCViewer.ViewModel
         {
             foreach (var integral in Integrals)
                 integral.Factor = IntegralFactor;
-        }
-
-        /// <summary>
-        /// Handles changing in Annotations Collection
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AnnotationsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            //Handles Sync to Model Annotations as you can't bind to it...
-            if (e.NewItems != null)
-                foreach (Annotation annotation in e.NewItems)
-                    Model.Annotations.Add(annotation);
-            if (e.OldItems != null)
-                foreach (Annotation annotation in e.OldItems)
-                    Model.Annotations.Remove(annotation);
-            //Redraw
-            Model.InvalidatePlot(true);
-        }
-
-        /// <summary>
-        /// Do a collection changed here to sync annotations to peaks
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PeaksOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var maxY = Spectrum.XYData.Max(s => s.Y);
-            if (e.NewItems != null)
-                foreach (Peak peak in e.NewItems)
-                    Annotations.Add(AnnotationUtil.PeakAnnotation(peak));
-            if (e.OldItems != null)
-                foreach (Peak peak in e.OldItems)
-                {
-                    var an = Annotations.FirstOrDefault(s =>
-                    {
-                        if (s is PeakAnnotation a) return Math.Abs(a.Peak.X - peak.X) < 1e-9;
-                        return false;
-                    });
-                    Annotations.Remove(an);
-                }
-            Model.InvalidatePlot(true);
-        }
-
-        /// <summary>
-        /// Do a collection changed here to sync annotations to integrals
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void IntegralsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-                foreach (Integral integral in e.NewItems)
-                    Annotations.Add(AnnotationUtil.IntegralAnnotation(integral));
-            if (e.OldItems != null)
-                foreach (Integral integral in e.OldItems)
-                {
-                    var an = Annotations.FirstOrDefault(s => s.Tag as Integral == integral);
-                    Annotations.Remove(an);
-                }
-            Model.InvalidatePlot(true);
         }
     }
 }

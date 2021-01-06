@@ -4,7 +4,7 @@ using OxyPlot.Series;
 using System.ComponentModel;
 using System.Linq;
 
-namespace SPCViewer.Core.Extension
+namespace SPCViewer.Core.Plots
 {
     public class IntegralAnnotation : ArrowAnnotation
     {

@@ -2,7 +2,7 @@
 using OxyPlot.Annotations;
 using System.ComponentModel;
 
-namespace SPCViewer.Core.Extension
+namespace SPCViewer.Core.Plots
 {
     public class PeakAnnotation : ArrowAnnotation
     {

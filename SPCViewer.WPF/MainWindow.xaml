@@ -68,7 +68,7 @@
             </ToolBar>
         </ToolBarTray>
         <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 
-                    ItemsSource="{Binding Path=TabItems}" Drop="OnFileDrop" 
+                    ItemsSource="{Binding Path=Items}" Drop="OnFileDrop" 
                     SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
@@ -95,7 +95,7 @@
                                             <Button Grid.Column="2" Width="16" Height="16" 
                                                     Margin="2 0 0 0" VerticalAlignment="Center"
                                                     CommandParameter="{Binding}"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.Delete}">
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.DeleteItemCommand}">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="{x:Type Button}">
                                                         <Grid >
