@@ -63,6 +63,7 @@ namespace SPCViewer.ViewModel
         public ObservableCollection<Integral> Integrals { get; set; } = new ObservableCollection<Integral>();
 
         private double _integralFactor = 1;
+
         /// <summary>
         /// Integral factor used for Normalization
         /// </summary>
@@ -110,37 +111,34 @@ namespace SPCViewer.ViewModel
         /// </summary>
         public ICommand DeletePeak => _deletePeak ??= new RelayCommand<Peak>(param => Peaks.Remove(param));
 
-        private ICommand _updateIntegralCommand = null!;
+        private ICommand _updateIntegralCommand;
         /// <summary>
         /// Updates IntegralFactor Parameter
         /// </summary>
-        public ICommand UpdateIntegralCommand
-        {
-            get
+        public ICommand UpdateIntegralCommand =>
+            _updateIntegralCommand ??= new RelayCommand<object[]>(param =>
             {
-                return _updateIntegralCommand ??= new RelayCommand<object[]>(param =>
-                {
-                    var integral = (Integral)param[0];
-                    var value = (string)param[1];
-                    IntegralFactor = integral.RawValue / value.ToDouble();
-                    integral.EditIndicator = false;
-                });
-            }
-        }
+                var integral = (Integral)param[0];
+                var value = (string)param[1];
+                IntegralFactor = integral.RawValue / value.ToDouble();
+                integral.EditIndicator = false;
+            });
 
         /// <summary>
         /// Gets the PlotController
         /// </summary>
         public PlotController Controller { get; }
 
+        /// <summary>
+        /// Pass-through to Special Parameters
+        /// </summary>
         public Dictionary<string, string> SpecialParameters => Spectrum.GetSpecialParameters();
 
         /// <summary>
         /// ctor with path given
         /// </summary>
         /// <param name="path"></param>
-        public SpectrumViewModel(string path) : this(ExtensionHandler.Handle(path))
-        { }
+        public SpectrumViewModel(string path) : this(ExtensionHandler.Handle(path)) { }
 
         /// <summary>
         /// ctor with provider given
