@@ -6,7 +6,7 @@ namespace SPCViewer.ViewModel
 {
     public class MainViewModel : ListingViewModel<SpectrumViewModel>
     {
-        
+
         private int _selectedAction;
         /// <summary>
         /// Gets or Sets the selected action Index
@@ -21,7 +21,7 @@ namespace SPCViewer.ViewModel
         /// Gets the SelectedUIAction
         /// </summary>
         public UIAction SelectedUIAction => (UIAction)SelectedAction;
-        
+
         /// <summary>
         /// Used to open files / create tabviewmodel
         /// </summary>
@@ -35,16 +35,16 @@ namespace SPCViewer.ViewModel
                 if (ExtensionHandler.GetExtension(file) == "csv")
                 {
                     var multiCSV = new MultiCSVProvider(file);
-                    for(var i = 0; i < multiCSV.MultiXYData.Count; i++)
+                    for (var i = 0; i < multiCSV.MultiXYData.Count; i++)
                     {
-                        page = new SpectrumViewModel(new GenericCSVProvider(file, ',',  i));
+                        page = new SpectrumViewModel(new GenericCSVProvider(file, ',', i));
                         Items.Add(page);
                         SelectedIndex = Items.IndexOf(page);
                     }
                 }
                 else
                 {
-                    page = new SpectrumViewModel(file); 
+                    page = new SpectrumViewModel(file);
                     Items.Add(page);
                     SelectedIndex = Items.IndexOf(page);
                 }

@@ -11,7 +11,6 @@ using SPCViewer.Core.Plots;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -159,12 +158,12 @@ namespace SPCViewer.ViewModel
             InitSeries();
             //add annotation events
             Subscribe(Annotations, Model.Annotations, () => Model.InvalidatePlot(true));
-            Subscribe(Peaks, Annotations, 
-                AnnotationUtil.PeakAnnotation, 
+            Subscribe(Peaks, Annotations,
+                AnnotationUtil.PeakAnnotation,
                 peak => Annotations.FirstOrDefault(s => s.Tag as Peak == peak));
             Subscribe(Integrals, Annotations,
                 AnnotationUtil.IntegralAnnotation,
-                integral => Annotations.FirstOrDefault(s=> s.Tag as Integral == integral));
+                integral => Annotations.FirstOrDefault(s => s.Tag as Integral == integral));
         }
 
         /// <summary>
