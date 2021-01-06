@@ -1,6 +1,11 @@
 ﻿using SPCViewer.Core;
 using SPCViewer.ViewModel;
+using System;
+using System.IO;
+using System.Linq;
 using System.Windows;
+using static ChemSharp.Files.FileHandler;
+using static SPCViewer.Core.ExtensionHandler;
 
 namespace SPCViewer.WPF
 {
@@ -13,12 +18,26 @@ namespace SPCViewer.WPF
 
         public MainWindow()
         {
-            Settings.Instance.Load("settings.json");
+            Settings.Instance.Load($"{AppDomain.CurrentDomain.BaseDirectory}/settings.json");
             //save here to update potential missing settings into file
             Settings.Instance.Save();
             ViewModel = new MainViewModel();
             DataContext = ViewModel;
             InitializeComponent();
+            HandleArgs();
+        }
+
+        /// <summary>
+        /// Handles stored command line args
+        /// </summary>
+        private void HandleArgs()
+        {
+            var app = Application.Current;
+            if (app.Properties["args"] == null) return;
+            var files = ((string[])app.Properties["args"])
+                ?.Where(File.Exists)
+                ?.Where(s => RecipeDictionary.ContainsKey(GetExtension(s)));
+            ViewModel.OpenFiles(files.ToArray());
         }
 
         /// <summary>

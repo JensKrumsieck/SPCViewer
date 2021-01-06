@@ -74,7 +74,7 @@ namespace SPCViewer.Core
         public void Save()
         {
             var content = JsonSerializer.Serialize(Instance);
-            File.WriteAllText("settings.json", content);
+            File.WriteAllText($"{AppDomain.CurrentDomain.BaseDirectory}/settings.json", content);
         }
 
         /// <summary>
