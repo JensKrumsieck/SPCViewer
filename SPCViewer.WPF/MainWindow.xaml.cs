@@ -1,11 +1,11 @@
 ﻿using SPCViewer.Core;
 using SPCViewer.ViewModel;
+using SPCViewer.WPF.Extension;
 using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using static ChemSharp.Files.FileHandler;
-using static SPCViewer.Core.ExtensionHandler;
+using System.Windows.Interop;
 
 namespace SPCViewer.WPF
 {
@@ -14,6 +14,8 @@ namespace SPCViewer.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static IntPtr WindowHandle { get; private set; }
+
         public MainViewModel ViewModel;
 
         public MainWindow()
@@ -25,6 +27,14 @@ namespace SPCViewer.WPF
             DataContext = ViewModel;
             InitializeComponent();
             HandleArgs();
+
+            Loaded += (sender, args) =>
+            {
+                WindowHandle =
+                    new WindowInteropHelper(Application.Current.MainWindow ?? throw new InvalidOperationException())
+                        .Handle;
+                HwndSource.FromHwnd(WindowHandle)?.AddHook(new HwndSourceHook(HandleMessages));
+            };
         }
 
         /// <summary>
@@ -35,8 +45,7 @@ namespace SPCViewer.WPF
             var app = Application.Current;
             if (app.Properties["args"] == null) return;
             var files = ((string[])app.Properties["args"])
-                ?.Where(File.Exists)
-                ?.Where(s => RecipeDictionary.ContainsKey(GetExtension(s)));
+                ?.Where(File.Exists);
             ViewModel.OpenFiles(files.ToArray());
         }
 
@@ -63,5 +72,35 @@ namespace SPCViewer.WPF
             @"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\uvvis.dsw",
             @"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\nmr\fid"
         });
+
+        /// <summary>
+        /// Handles Message from other source
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <param name="message"></param>
+        /// <param name="wParameter"></param>
+        /// <param name="lParameter"></param>
+        /// <param name="handled"></param>
+        /// <returns></returns>
+        private static IntPtr HandleMessages(IntPtr handle, int message, IntPtr wParameter, IntPtr lParameter, ref bool handled)
+        {
+            var data = NativeMethods.GetMessage(message, lParameter);
+            if (data == null) return IntPtr.Zero;
+
+            if (Application.Current.MainWindow == null)
+                return IntPtr.Zero;
+            if (Application.Current.MainWindow.WindowState == WindowState.Minimized)
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+
+            NativeMethods.SetForegroundWindow(WindowHandle);
+
+            var args = data.Split(",");
+            Application.Current.Properties["args"] = args;
+            var mw = Application.Current.MainWindow;
+            (mw as MainWindow)?.HandleArgs();
+
+            handled = true;
+            return IntPtr.Zero;
+        }
     }
 }

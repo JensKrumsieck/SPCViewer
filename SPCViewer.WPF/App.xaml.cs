@@ -1,5 +1,9 @@
-﻿using System;
+﻿using SPCViewer.WPF.Extension;
+using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -17,8 +21,21 @@ namespace SPCViewer.WPF
         /// <param name="e"></param>
         protected override void OnStartup(StartupEventArgs e)
         {
+            var me = Process.GetCurrentProcess();
+            var procs = Process.GetProcessesByName(
+                Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location)).Where(s => s.Id != me.Id).ToArray();
+
+            if (procs.Any() && e.Args.Any())
+            {
+                var receiver = procs.First();
+                var hwnd = receiver.MainWindowHandle;
+                NativeMethods.SendMessage(hwnd, string.Join(",", e.Args));
+                me.Kill();
+            }
+
             if (e.Args.Any())
                 Properties.Add("args", e.Args);
+
             base.OnStartup(e);
         }
 
