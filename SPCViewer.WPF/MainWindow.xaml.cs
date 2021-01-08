@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 
 namespace SPCViewer.WPF
@@ -73,6 +74,7 @@ namespace SPCViewer.WPF
             @"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\nmr\fid"
         });
 
+
         /// <summary>
         /// Handles Message from other source
         /// </summary>
@@ -82,7 +84,8 @@ namespace SPCViewer.WPF
         /// <param name="lParameter"></param>
         /// <param name="handled"></param>
         /// <returns></returns>
-        private static IntPtr HandleMessages(IntPtr handle, int message, IntPtr wParameter, IntPtr lParameter, ref bool handled)
+        private static IntPtr HandleMessages(IntPtr handle, int message, IntPtr wParameter, IntPtr lParameter,
+            ref bool handled)
         {
             var data = NativeMethods.GetMessage(message, lParameter);
             if (data == null) return IntPtr.Zero;
@@ -101,6 +104,17 @@ namespace SPCViewer.WPF
 
             handled = true;
             return IntPtr.Zero;
+        }
+
+        /// <summary>
+        /// Invalidates Plot when Integral/Derivative changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AdditionalSeries_VisibleChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.SelectedItem.Model.YAxisZoom();
+            ViewModel.SelectedItem.Model.InvalidatePlot(true);
         }
     }
 }

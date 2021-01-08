@@ -10,6 +10,7 @@
     <Window.Resources>
         <ResourceDictionary Source="Styles/TabTemplate.xaml" />
     </Window.Resources>
+    
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top" Style="{DynamicResource MaterialDesignToolBarTray}" Background="#222831">
             <ToolBar Style="{DynamicResource ToolbarStyle}">
@@ -26,7 +27,7 @@
                     </StackPanel>
                 </Button>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
-                <ListBox SelectedIndex="{Binding SelectedAction, Mode=TwoWay, IsAsync=True}" Background="Transparent" SelectionMode="Single">
+                <ListBox SelectedIndex="{Binding SelectedItem.MouseAction, Mode=TwoWay, IsAsync=True, Converter={StaticResource IntUiActionConverter}}" Background="Transparent" SelectionMode="Single">
                     <ListBoxItem Style="{StaticResource ToolbarListItem}">
                         <StackPanel>
                             <materialDesign:PackIcon Kind="MagnifyScan" HorizontalAlignment="Center"/>
@@ -65,14 +66,14 @@
                     </ListBoxItem>
                 </ListBox>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
-                <ListBox SelectionMode="Extended">
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                <ListBox SelectionMode="Extended" SelectionChanged="AdditionalSeries_VisibleChanged">
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" IsSelected="{Binding SelectedItem.DerivSeries.IsVisible, Mode=TwoWay}">
                         <StackPanel>
                             <materialDesign:PackIcon Kind="Delta" HorizontalAlignment="Center"/>
                             <TextBlock Text="Show Derivative" TextWrapping="Wrap" TextAlignment="Center"/>
                         </StackPanel>
                     </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" IsSelected="{Binding SelectedItem.IntegralSeries.IsVisible, Mode=TwoWay}">
                         <StackPanel>
                             <materialDesign:PackIcon Kind="MathIntegralBox" HorizontalAlignment="Center"/>
                             <TextBlock Text="Show Integral" TextWrapping="Wrap" TextAlignment="Center"/>

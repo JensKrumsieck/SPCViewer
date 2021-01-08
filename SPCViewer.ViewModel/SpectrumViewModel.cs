@@ -193,6 +193,7 @@ namespace SPCViewer.ViewModel
             Model.Series.Add(ExperimentalSeries);
             Model.Series.Add(IntegralSeries);
             Model.Series.Add(DerivSeries);
+            Model.YAxisZoom();
         }
 
         /// <summary>
@@ -237,7 +238,7 @@ namespace SPCViewer.ViewModel
             Model.NormalizationFactor = max;
             //send factor to peaks
             foreach (var peak in Peaks) peak.Factor = max;
-            Model.YAxisZoom(Spectrum);
+            Model.YAxisZoom();
             Model.InvalidatePlot(true);
         }
 

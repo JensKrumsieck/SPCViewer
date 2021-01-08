@@ -7,6 +7,7 @@
              DispatcherUnhandledException="App_OnDispatcherUnhandledException">
     <Application.Resources>
         <ResourceDictionary>
+            <local:UIActionToIntConverter x:Key="IntUiActionConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Colors.xaml"/>
                 <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="Gray" SecondaryColor="#ff5722" />

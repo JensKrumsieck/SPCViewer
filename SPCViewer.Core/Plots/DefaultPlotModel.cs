@@ -3,6 +3,7 @@ using ChemSharp.Spectroscopy.DataProviders;
 using ChemSharp.Spectroscopy.Extension;
 using OxyPlot;
 using OxyPlot.Axes;
+using OxyPlot.Series;
 using SPCViewer.Core.Extension;
 using System;
 using System.IO;
@@ -96,11 +97,6 @@ namespace SPCViewer.Core.Plots
             XAxis.AbsoluteMaximum = spectrum.XYData.Max(s => s.X);
             //setup y axis
             YAxis.Title = spectrum.YQuantity();
-            var min = spectrum.XYData.Min(s => s.Y);
-            var max = spectrum.XYData.Max(s => s.Y);
-            YAxis.AbsoluteMinimum = min - max * 0.5;
-            YAxis.AbsoluteMaximum = max * 2;
-            YAxisZoom(spectrum);
 
             if (spectrum.DataProvider is BrukerNMRProvider) InvertX();
             if (spectrum.DataProvider is BrukerEPRProvider || spectrum.DataProvider is BrukerNMRProvider) DisableY();
@@ -109,14 +105,27 @@ namespace SPCViewer.Core.Plots
         /// <summary>
         /// Zooms YAxis based on Spectrum
         /// </summary>
-        /// <param name="spc"></param>
-        public virtual void YAxisZoom(Spectrum spc)
+        public virtual void YAxisZoom()
         {
-            var min = spc.XYData.Min(s => s.Y);
-            var max = spc.XYData.Max(s => s.Y);
+            var min = Minimum();
+            var max = Maximum();
             min /= NormalizationFactor;
             max /= NormalizationFactor;
+            YAxis.AbsoluteMinimum = min - max * 0.5;
+            YAxis.AbsoluteMaximum = max * 2;
             YAxis.Zoom(min - max * .1, max * 1.25);
         }
+
+        /// <summary>
+        /// Return Series Maximum
+        /// </summary>
+        /// <returns></returns>
+        public double Maximum() => (from LineSeries series in Series.Where(s => s.IsVisible) select series.ItemsSource.Cast<ChemSharp.DataPoint>().Max(s => s.Y)).Prepend(double.MinValue).Max();
+
+        /// <summary>
+        /// returns Series Minimum
+        /// </summary>
+        /// <returns></returns>
+        public double Minimum() => (from LineSeries series in Series.Where(s => s.IsVisible) select series.ItemsSource.Cast<ChemSharp.DataPoint>().Min(s => s.Y)).Prepend(double.MaxValue).Min();
     }
 }
