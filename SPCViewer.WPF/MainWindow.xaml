@@ -65,6 +65,21 @@
                     </ListBoxItem>
                 </ListBox>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
+                <ListBox SelectionMode="Extended">
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="Delta" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Show Derivative" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="MathIntegralBox" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Show Integral" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+                <Separator Style="{StaticResource SeparatorStyle}"/>
             </ToolBar>
         </ToolBarTray>
         <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 

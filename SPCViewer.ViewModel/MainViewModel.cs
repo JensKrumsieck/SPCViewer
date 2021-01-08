@@ -22,6 +22,8 @@ namespace SPCViewer.ViewModel
         /// </summary>
         public UIAction SelectedUIAction => (UIAction)SelectedAction;
 
+        public MainViewModel() => SelectedIndexChanged += (s, e) => SelectedAction = (int)SelectedItem.MouseAction;
+
         /// <summary>
         /// Used to open files / create tabviewmodel
         /// </summary>

@@ -14,7 +14,7 @@ namespace SPCViewer.Core.Extension
         public static ArrowAnnotation PeakAnnotation(Peak peak) =>
             new PeakAnnotation(peak)
             {
-                StrokeThickness = Settings.Instance.AxisThickness,
+                StrokeThickness = Settings.Instance.AnnotationThickness,
                 Color = OxyColor.Parse(Settings.Instance.AnnotationColor)
             };
 
@@ -26,7 +26,7 @@ namespace SPCViewer.Core.Extension
         public static ArrowAnnotation IntegralAnnotation(Integral integral) =>
             new IntegralAnnotation(integral)
             {
-                StrokeThickness = Settings.Instance.AxisThickness,
+                StrokeThickness = Settings.Instance.AnnotationThickness,
                 Color = OxyColor.Parse(Settings.Instance.AnnotationColor)
             };
 

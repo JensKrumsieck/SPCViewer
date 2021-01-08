@@ -25,6 +25,7 @@ namespace SPCViewer.Core
 
         #region PlotArea
         public double BorderThickness { get; set; }
+        public double AnnotationThickness { get; set; }
         public double Padding { get; set; }
         #endregion
 
@@ -94,7 +95,8 @@ namespace SPCViewer.Core
                 ExperimentalColor = "#222831",
                 DerivativeColor = "#ff5722",
                 IntegralColor = "#2d4059",
-                AnnotationColor = "#0092ca"
+                AnnotationColor = "#0092ca",
+                AnnotationThickness = 1.5
             };
     }
 }
