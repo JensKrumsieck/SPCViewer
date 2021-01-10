@@ -1,6 +1,8 @@
-﻿using SPCViewer.Core;
+﻿using Microsoft.Win32;
+using SPCViewer.Core;
 using SPCViewer.ViewModel;
 using SPCViewer.WPF.Extension;
+using SPCViewer.WPF.Resources;
 using System;
 using System.IO;
 using System.Linq;
@@ -67,13 +69,25 @@ namespace SPCViewer.WPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Open_Click(object sender, RoutedEventArgs e) => ViewModel.OpenFiles(new[]
+        private void Open_Click(object sender, RoutedEventArgs e)
         {
-            @"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\epr.par",
-            @"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\uvvis.dsw",
-            @"D:\Dokumente\Projects\ChemSharp\ChemSharp.Tests\files\nmr\fid"
-        });
+            var ofd = new OpenFileDialog
+            {
+                Filter = Constants.OpenFileFilter,
+                Multiselect = true
+            };
+            if (ofd.ShowDialog(this) != true) return;
+            ViewModel.OpenFiles(ofd.FileNames.Where(File.Exists).ToArray());
+        }
 
+        /// <summary>
+        /// Handles Saving Files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+        }
 
         /// <summary>
         /// Handles Message from other source

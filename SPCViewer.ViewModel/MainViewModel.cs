@@ -1,5 +1,9 @@
 ﻿using ChemSharp.Spectroscopy.DataProviders;
 using SPCViewer.Core;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
+using System.Text.Json;
 using TinyMVVM;
 
 namespace SPCViewer.ViewModel
@@ -15,20 +19,19 @@ namespace SPCViewer.ViewModel
             if (files == null) return;
             foreach (var file in files)
             {
-                SpectrumViewModel page;
                 if (ExtensionHandler.GetExtension(file) == "csv")
                 {
                     var multiCSV = new MultiCSVProvider(file);
                     for (var i = 0; i < multiCSV.MultiXYData.Count; i++)
                     {
-                        page = new SpectrumViewModel(new GenericCSVProvider(file, ',', i));
+                        var page = new SpectrumViewModel(new GenericCSVProvider(file, ',', i));
                         Items.Add(page);
                         SelectedIndex = Items.IndexOf(page);
                     }
                 }
                 else
                 {
-                    page = new SpectrumViewModel(file);
+                    var page = new SpectrumViewModel(file);
                     Items.Add(page);
                     SelectedIndex = Items.IndexOf(page);
                 }

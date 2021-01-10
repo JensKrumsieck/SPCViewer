@@ -10,7 +10,6 @@ namespace SPCViewer.Core
     public class Integral : BindableBase
     {
         private DataPoint[] _dataPoints;
-
         /// <summary>
         /// Integral starting DataPoint
         /// </summary>

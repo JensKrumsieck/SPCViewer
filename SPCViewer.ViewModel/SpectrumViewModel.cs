@@ -1,6 +1,5 @@
 ﻿using ChemSharp.DataProviders;
 using ChemSharp.Extensions;
-using ChemSharp.Spectroscopy;
 using ChemSharp.Spectroscopy.DataProviders;
 using OxyPlot;
 using OxyPlot.Annotations;
@@ -11,32 +10,18 @@ using SPCViewer.Core.Plots;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using TinyMVVM;
 using TinyMVVM.Command;
 using OxyDataPoint = OxyPlot.DataPoint;
 
 namespace SPCViewer.ViewModel
 {
-    public class SpectrumViewModel : BaseViewModel
+    /// <summary>
+    /// Inherits the SpectrumBaseViewModel and handles non JSON Serializable Stuff
+    /// </summary>
+    public class SpectrumViewModel : SpectrumBaseViewModel
     {
-        private Spectrum _spectrum;
-        /// <summary>
-        /// Contains the shown spectrum
-        /// </summary>
-        public Spectrum Spectrum
-        {
-            get => _spectrum;
-            set => Set(ref _spectrum, value);
-        }
-
-        /// <summary>
-        /// Pass Through the Spectrum's title
-        /// </summary>
-        public override string Title => Path.GetFileName(Spectrum?.Title);
-
         /// <summary>
         /// The used PlotModel
         /// </summary>
@@ -56,28 +41,6 @@ namespace SPCViewer.ViewModel
         /// The Series containing derived data
         /// </summary>
         public LineSeries DerivSeries { get; set; }
-
-        /// <summary>
-        /// List of Integrals
-        /// </summary>
-        public ObservableCollection<Integral> Integrals { get; set; } = new ObservableCollection<Integral>();
-
-        private double _integralFactor = 1;
-
-        /// <summary>
-        /// Integral factor used for Normalization
-        /// </summary>
-        public double IntegralFactor
-        {
-            get => _integralFactor;
-            set => Set(ref _integralFactor, value, UpdateIntegrals);
-        }
-
-        /// <summary>
-        /// List of Peaks
-        /// </summary>
-        public ObservableCollection<Peak> Peaks { get; set; } =
-            new ObservableCollection<Peak>();
 
         /// <summary>
         /// List of Annotations
@@ -144,10 +107,8 @@ namespace SPCViewer.ViewModel
         /// ctor with provider given
         /// </summary>
         /// <param name="provider"></param>
-        public SpectrumViewModel(IXYDataProvider provider)
+        public SpectrumViewModel(IXYDataProvider provider) : base(provider)
         {
-            //load file and set up spectrum
-            Spectrum = new Spectrum { DataProvider = provider };
             //init OxyPlot stuff
             Model = new DefaultPlotModel();
             Model.SetUp(Spectrum);
@@ -268,15 +229,6 @@ namespace SPCViewer.ViewModel
                 _ => UIActions.PrepareRectangleAction(null)
             };
             Controller.BindMouseDown(OxyMouseButton.Left, action);
-        }
-
-        /// <summary>
-        /// Fires when IntegralFactor changes
-        /// </summary>
-        private void UpdateIntegrals()
-        {
-            foreach (var integral in Integrals)
-                integral.Factor = IntegralFactor;
         }
     }
 }

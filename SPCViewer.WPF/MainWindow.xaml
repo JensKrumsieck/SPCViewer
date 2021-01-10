@@ -20,7 +20,7 @@
                         <TextBlock Text="Open" TextWrapping="Wrap" TextAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource ToolbarButton}">
+                <Button Style="{StaticResource ToolbarButton}" Click="Save_Click">
                     <StackPanel>
                         <materialDesign:PackIcon Kind="ContentSave" HorizontalAlignment="Center"/>
                         <TextBlock Text="Save" TextWrapping="Wrap" TextAlignment="Center"/>
