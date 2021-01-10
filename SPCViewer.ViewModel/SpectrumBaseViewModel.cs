@@ -2,12 +2,11 @@
 using ChemSharp.Spectroscopy;
 using SPCViewer.Core;
 using System.Collections.ObjectModel;
-using System.Text.Json.Serialization;
 using TinyMVVM;
 
 namespace SPCViewer.ViewModel
 {
-    public class SpectrumBaseViewModel : BaseViewModel
+    public abstract class SpectrumBaseViewModel : BaseViewModel
     {
         private Spectrum _spectrum;
         /// <summary>
@@ -22,7 +21,6 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// Pass Through the Spectrum's title
         /// </summary>
-        [JsonIgnore]
         public override string Title => System.IO.Path.GetFileName(Spectrum?.Title);
 
         /// <summary>
@@ -52,14 +50,14 @@ namespace SPCViewer.ViewModel
         public ObservableCollection<Peak> Peaks { get; set; } =
             new ObservableCollection<Peak>();
 
-        public SpectrumBaseViewModel(IXYDataProvider provider)
+        protected SpectrumBaseViewModel(IXYDataProvider provider)
         {
             //load file and set up spectrum
             Spectrum = new Spectrum { DataProvider = provider };
             Path = provider.Path;
         }
 
-        public SpectrumBaseViewModel(string path) : this(ExtensionHandler.Handle(path)) { }
+        protected SpectrumBaseViewModel(string path) : this(ExtensionHandler.Handle(path)) { }
 
         /// <summary>
         /// Fires when IntegralFactor changes
