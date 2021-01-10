@@ -1,11 +1,10 @@
-﻿using OxyPlot;
+﻿using ChemSharp.Spectroscopy.Extension;
+using OxyPlot;
 using SPCViewer.Core;
 using SPCViewer.ViewModel.Extension;
 using System;
 using System.Globalization;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using ChemSharp.Spectroscopy.Extension;
 using PngExporter = OxyPlot.SkiaSharp.PngExporter;
 using SvgExporter = SPCViewer.Core.Plots.SvgExporter;
 

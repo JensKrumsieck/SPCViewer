@@ -1,7 +1,7 @@
-﻿using System.IO;
-using OxyPlot;
+﻿using OxyPlot;
 using OxyPlot.SkiaSharp;
 using SkiaSharp;
+using System.IO;
 
 namespace SPCViewer.Core.Plots
 {
