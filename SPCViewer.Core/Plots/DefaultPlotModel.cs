@@ -98,8 +98,8 @@ namespace SPCViewer.Core.Plots
             //setup y axis
             YAxis.Title = spectrum.YQuantity();
 
-            if (spectrum.DataProvider is BrukerNMRProvider) InvertX();
-            if (spectrum.DataProvider is BrukerEPRProvider || spectrum.DataProvider is BrukerNMRProvider) DisableY();
+            if (spectrum.IsNMRSpectrum()) InvertX();
+            if (spectrum.IsEPRSpectrum() || spectrum.IsNMRSpectrum()) DisableY();
         }
 
         /// <summary>
