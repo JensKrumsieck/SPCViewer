@@ -3,20 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using TinyMVVM.Utility;
 
 namespace SPCViewer.Core
 {
-    public sealed class Settings
+    public sealed class Settings : Singleton<Settings>
     {
-        [JsonIgnore]
-        private static readonly Lazy<Settings> Lazy = new Lazy<Settings>(() => new Settings());
-
-        /// <summary>
-        /// Returns Global instance
-        /// </summary>
-        /// <returns></returns>
-        public static Settings Instance => Lazy.Value;
-
         #region Font
         public string Font { get; set; }
         public int FontWeight { get; set; }
@@ -25,13 +17,23 @@ namespace SPCViewer.Core
 
         #region PlotArea
         public double BorderThickness { get; set; }
-        public double AnnotationThickness { get; set; }
         public double Padding { get; set; }
         #endregion
 
         #region Axis
         public string AxisFormat { get; set; }
         public double AxisThickness { get; set; }
+        #endregion
+
+        #region Series
+        public double SeriesThickness { get; set; }
+        public double AnnotationThickness { get; set; }
+        #endregion
+
+        #region Export
+        public float ExportWidth { get; set; }
+        public float ExportHeight { get; set; }
+        public float ExportDPI { get; set; }
         #endregion
 
         #region Colors
@@ -44,7 +46,7 @@ namespace SPCViewer.Core
         /// <summary>
         /// json ctor
         /// use for json only!
-        /// For accessing settings use <see cref="Instance"/>
+        /// For accessing settings use <see cref="Singleton.Instance"/>
         /// </summary>
         [JsonConstructor]
         public Settings() { }
@@ -96,7 +98,11 @@ namespace SPCViewer.Core
                 DerivativeColor = "#ff5722",
                 IntegralColor = "#2d4059",
                 AnnotationColor = "#0092ca",
-                AnnotationThickness = 1.5
+                AnnotationThickness = 1.5,
+                SeriesThickness = 1.5,
+                ExportWidth = 2000,
+                ExportHeight = 1000,
+                ExportDPI = 300
             };
     }
 }

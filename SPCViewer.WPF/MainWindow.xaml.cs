@@ -87,6 +87,12 @@ namespace SPCViewer.WPF
         /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            var sfd = new SaveFileDialog()
+            {
+                Filter = Constants.SaveFileFilter,
+            };
+            if (sfd.ShowDialog(this) != true) return;
+            ViewModel.SaveFile(sfd.FileName);
         }
 
         /// <summary>

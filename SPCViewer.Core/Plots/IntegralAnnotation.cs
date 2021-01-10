@@ -43,7 +43,7 @@ namespace SPCViewer.Core.Plots
             var series = PlotModel.Series[0] as LineSeries;
             var data = series?.ItemsSource;
             var lowest = data?.Cast<ChemSharp.DataPoint>().Min(s => s.Y) ?? 0d;
-            lowest /= ((DefaultPlotModel) PlotModel).NormalizationFactor;
+            lowest /= ((DefaultPlotModel)PlotModel).NormalizationFactor;
 
             StartPoint = new DataPoint(Integral.From, lowest - height * 0.005);
             EndPoint = new DataPoint(Integral.To, lowest - height * 0.005);

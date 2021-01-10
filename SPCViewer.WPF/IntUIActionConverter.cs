@@ -13,6 +13,6 @@ namespace SPCViewer.WPF
 
         ///<inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
-            (UIAction)(value != null && (int)value != -1 ? (int) value : 0);
+            (UIAction)(value != null && (int)value != -1 ? (int)value : 0);
     }
 }

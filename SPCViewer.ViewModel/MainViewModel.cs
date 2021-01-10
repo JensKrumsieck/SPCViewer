@@ -1,9 +1,5 @@
 ﻿using ChemSharp.Spectroscopy.DataProviders;
 using SPCViewer.Core;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Text.Json;
 using TinyMVVM;
 
 namespace SPCViewer.ViewModel
@@ -37,6 +33,8 @@ namespace SPCViewer.ViewModel
                 }
             }
         }
+
+        public void SaveFile(string filename) => SaveHandler.Handle(SelectedItem, filename);
 
         /// <summary>
         /// DeleteCommand for tabs

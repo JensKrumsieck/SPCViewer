@@ -9,5 +9,11 @@
             "UV/Vis Files (*.dsw)|*.dsw|" +
             "CSV Files (*.csv)|*.csv|" +
             "All Files|*.*";
+
+        public const string SaveFileFilter =
+            "Vector Image (*.svg)|*.svg|" +
+            "PNG Image (*.png)|*.png|" +
+            "ASCII (*.dat)|*.dat|" +
+            "CSV File (*csv)|*.csv";
     }
 }

@@ -134,6 +134,7 @@ namespace SPCViewer.ViewModel
             {
                 ItemsSource = Spectrum.XYData,
                 Mapping = Model.Mapping,
+                StrokeThickness = Settings.Instance.SeriesThickness,
                 Color = OxyColor.Parse(Settings.Instance.ExperimentalColor)
             };
             IntegralSeries = new LineSeries
@@ -141,6 +142,7 @@ namespace SPCViewer.ViewModel
                 ItemsSource = Spectrum.Integral,
                 Mapping = Model.Mapping,
                 IsVisible = false,
+                StrokeThickness = Settings.Instance.SeriesThickness,
                 Color = OxyColor.Parse(Settings.Instance.IntegralColor)
             };
             DerivSeries = new LineSeries
@@ -148,6 +150,7 @@ namespace SPCViewer.ViewModel
                 ItemsSource = Spectrum.Derivative,
                 Mapping = Model.Mapping,
                 IsVisible = false,
+                StrokeThickness = Settings.Instance.SeriesThickness,
                 Color = OxyColor.Parse(Settings.Instance.DerivativeColor)
             };
             //add series to model
