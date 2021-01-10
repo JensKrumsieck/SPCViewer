@@ -1,5 +1,4 @@
 ﻿using ChemSharp.Spectroscopy;
-using ChemSharp.Spectroscopy.DataProviders;
 using ChemSharp.Spectroscopy.Extension;
 using OxyPlot;
 using OxyPlot.Axes;
