@@ -19,7 +19,8 @@ namespace SPCViewer.ViewModel
                 SupportedExportExtensions.SVG => new SvgExporter
                 {
                     Height = Settings.Instance.ExportHeight,
-                    Width = Settings.Instance.ExportWidth
+                    Width = Settings.Instance.ExportWidth,
+                    Dpi = Settings.Instance.ExportDPI
                 },
                 SupportedExportExtensions.PNG => new PngExporter
                 {
