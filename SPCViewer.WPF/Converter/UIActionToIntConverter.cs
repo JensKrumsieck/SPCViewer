@@ -2,10 +2,11 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Markup;
 
-namespace SPCViewer.WPF
+namespace SPCViewer.WPF.Converter
 {
-    public class UIActionToIntConverter : IValueConverter
+    public class UIActionToIntConverter : MarkupExtension, IValueConverter
     {
         ///<inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
@@ -14,5 +15,7 @@ namespace SPCViewer.WPF
         ///<inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
             (UIAction)(value != null && (int)value != -1 ? (int)value : 0);
+
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
     }
 }

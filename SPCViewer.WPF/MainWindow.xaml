@@ -4,13 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:converter="clr-namespace:SPCViewer.WPF.Converter"
         mc:Ignorable="d"
         AllowDrop="True" Height="550" Width="1000" Title="{Binding Path=SelectedItem.Title, FallbackValue=SPCViewer, StringFormat={}{0} - SPCViewer}">
     <Window.Resources>
         <ResourceDictionary Source="Styles/TabTemplate.xaml" />
     </Window.Resources>
-    
+
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top" Style="{DynamicResource MaterialDesignToolBarTray}" Background="#222831">
             <ToolBar Style="{DynamicResource ToolbarStyle}">
@@ -23,11 +23,12 @@
                 <Button Style="{StaticResource ToolbarButton}" Click="Save_Click">
                     <StackPanel>
                         <materialDesign:PackIcon Kind="ContentSave" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Save" TextWrapping="Wrap" TextAlignment="Center"/>
+                        <TextBlock Text="Save" TextWrapping="Wrap" TextAlignment="Center" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}"/>
                     </StackPanel>
                 </Button>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
-                <ListBox SelectedIndex="{Binding SelectedItem.MouseAction, Mode=TwoWay, IsAsync=True, Converter={StaticResource IntUiActionConverter}}" Background="Transparent" SelectionMode="Single">
+                <ListBox SelectedIndex="{Binding SelectedItem.MouseAction, Mode=TwoWay, IsAsync=True, Converter={converter:UIActionToIntConverter}}" 
+                         Background="Transparent" SelectionMode="Single" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
                     <ListBoxItem Style="{StaticResource ToolbarListItem}">
                         <StackPanel>
                             <materialDesign:PackIcon Kind="MagnifyScan" HorizontalAlignment="Center"/>
@@ -66,7 +67,7 @@
                     </ListBoxItem>
                 </ListBox>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
-                <ListBox SelectionMode="Extended" SelectionChanged="AdditionalSeries_VisibleChanged">
+                <ListBox SelectionMode="Extended" SelectionChanged="AdditionalSeries_VisibleChanged" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
                     <ListBoxItem Style="{StaticResource ToolbarListItem}" IsSelected="{Binding SelectedItem.DerivSeries.IsVisible, Mode=TwoWay}">
                         <StackPanel>
                             <materialDesign:PackIcon Kind="Delta" HorizontalAlignment="Center"/>

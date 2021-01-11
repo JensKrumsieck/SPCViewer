@@ -5,8 +5,8 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:core="clr-namespace:SPCViewer.Core;assembly=SPCViewer.Core"
                     xmlns:wpf="clr-namespace:SPCViewer.WPF"
-                    xmlns:oxyshared="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared" >
-    <wpf:MultiBindingConverter x:Key="MultiBindingConverter"/>
+                    xmlns:oxyshared="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared"
+                    xmlns:converter="clr-namespace:SPCViewer.WPF.Converter">
     <!--PEAK TEMPLATE-->
     <DataTemplate x:Key="PeakItemsControl" DataType="core:Peak">
         <materialDesign:Chip IsDeletable="True" Tag="{Binding}" Cursor="Arrow" 
@@ -90,7 +90,7 @@
                         </ControlTemplate>
                     </Button.Template>
                     <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource MultiBindingConverter}">
+                        <MultiBinding Converter="{converter:MultiBindingConverter}">
                             <Binding/>
                             <Binding ElementName="PART_INPUT" Path="Text"/>
                         </MultiBinding>

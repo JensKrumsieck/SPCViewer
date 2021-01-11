@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Markup;
 
-namespace SPCViewer.WPF
+namespace SPCViewer.WPF.Converter
 {
-    public class MultiBindingConverter : IMultiValueConverter
+    public class MultiBindingConverter : MarkupExtension, IMultiValueConverter
     {
         /// <summary>
         /// Converts value into array of objects
@@ -26,5 +27,7 @@ namespace SPCViewer.WPF
         /// <param name="culture"></param>
         /// <returns></returns>
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotSupportedException();
+
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
     }
 }
