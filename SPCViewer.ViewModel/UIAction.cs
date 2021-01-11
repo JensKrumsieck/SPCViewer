@@ -32,7 +32,7 @@ namespace SPCViewer.ViewModel
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static DelegatePlotCommand<OxyMouseDownEventArgs> PreparePickAction(Action<DataPoint> action) =>
+        public static DelegatePlotCommand<OxyMouseDownEventArgs> PreparePickAction(Action<ScreenPoint> action) =>
             new DelegatePlotCommand<OxyMouseDownEventArgs>((view, controller, args) =>
                 controller.AddMouseManipulator(view, new PickValueManipulator(view, action),
                     args));

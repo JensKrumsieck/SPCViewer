@@ -186,7 +186,8 @@ namespace SPCViewer.ViewModel
             var epr = Spectrum.DataProvider is BrukerEPRProvider;
             var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions(null, epr);
             foreach (var index in peaksIndices)
-                if (Peaks.Count(s => Math.Abs(s.X - points[index].X) < 1e-9) < 1) Peaks.Add(new Peak(points[index]) { Factor = Model.NormalizationFactor });
+                if (!Peaks.Any(s => Math.Abs(s.X - points[index].X) < 1e-9)) 
+                    Peaks.Add(new Peak(points[index]) { Factor = Model.NormalizationFactor });
         }
 
         /// <summary>
@@ -211,10 +212,12 @@ namespace SPCViewer.ViewModel
         /// not sure if it stays peak list
         /// </summary>
         /// <param name="point"></param>
-        private void PickValue(OxyDataPoint point)
+        private void PickValue(ScreenPoint point)
         {
-            if (Peaks.Count(s => Math.Abs(s.X - point.X) < 1e-9) < 1)
-                Peaks.Add(new Peak(point) { Factor = Model.NormalizationFactor });
+            var odp = ExperimentalSeries.GetNearestPoint(point, false);
+            var realDataPoint = Spectrum.XYData.FromOxyDataPoint(odp.DataPoint);
+            if (!Peaks.Any(s => Math.Abs(s.X - point.X) < 1e-9))
+                Peaks.Add(new Peak(realDataPoint) { Factor = Model.NormalizationFactor });
         }
 
         /// <summary>

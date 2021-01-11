@@ -8,16 +8,23 @@ namespace SPCViewer.Core.Plots
         /// <summary>
         /// The action to execute on completed
         /// </summary>
-        private readonly Action<DataPoint> _action;
+        private readonly Action<ScreenPoint> _action;
 
-        public PickValueManipulator(IPlotView plotView) : base(plotView) { }
+        public PickValueManipulator(IPlotView plotView) : base(plotView)
+        {
+            PointsOnly = true;
+        }
 
-        public PickValueManipulator(IPlotView plotView, Action<DataPoint> action) : base(plotView) => _action = action;
+        public PickValueManipulator(IPlotView plotView, Action<ScreenPoint> action) : base(plotView)
+        {
+            PointsOnly = true;
+            _action = action;
+        }
 
         public override void Completed(OxyMouseEventArgs e)
         {
             //just use Tracker by default
-            _action?.Invoke(InverseTransform(e.Position.X, e.Position.Y));
+            _action?.Invoke(e.Position);
             base.Completed(e);
         }
     }
