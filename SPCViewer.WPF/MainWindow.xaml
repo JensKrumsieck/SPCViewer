@@ -25,11 +25,13 @@
         </Grid.RowDefinitions>
         <ToolBarTray Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource MaterialDesignToolBarTray}" Background="{StaticResource Background}">
             <ToolBar Style="{DynamicResource ToolbarStyle}">
-                <Button Style="{DynamicResource ToolbarButton}" Click="Open_Click" extension:ControlExtensions.Icon="Folder" Content="Open" extension:ControlExtensions.Orientation="Vertical"
-                        HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="80"/>
-                <Button Style="{DynamicResource ToolbarButton}" Click="Save_Click" extension:ControlExtensions.Icon="ContentSave" Content="Save" extension:ControlExtensions.Orientation="Vertical"
-                        IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}" HorizontalContentAlignment="Center" HorizontalAlignment="Center"
-                        Width="80"/>
+                <Button Style="{DynamicResource SmallToolbarButton}" Click="Open_Click" extension:ControlExtensions.Icon="Folder" Content="Open" extension:ControlExtensions.Orientation="Vertical"/>
+                <Button Style="{DynamicResource SmallToolbarButton}" Click="Save_Click" extension:ControlExtensions.Icon="ContentSave" Content="Save" extension:ControlExtensions.Orientation="Vertical"
+                        IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}"/>
+            </ToolBar>
+            <ToolBar Band="2" Style="{DynamicResource ToolbarStyle}">
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="100" Text="{Binding SelectedItem.MinX, Mode=TwoWay, IsAsync=True}" Foreground="Wheat" materialDesign:HintAssist.Hint="X Axis Minimum" d:Text="2100"/>
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="100" Text="{Binding SelectedItem.MaxX, Mode=TwoWay, IsAsync=True}" Foreground="Wheat" materialDesign:HintAssist.Hint="X Axis Maximum" d:Text="5000"/>
             </ToolBar>
         </ToolBarTray>
         <GridSplitter Grid.Row="1" Grid.Column="1" Width="3" Background="{StaticResource Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>

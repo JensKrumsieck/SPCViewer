@@ -4,7 +4,6 @@ using SPCViewer.ViewModel;
 using SPCViewer.WPF.Extension;
 using SPCViewer.WPF.Resources;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -19,7 +18,8 @@ namespace SPCViewer.WPF
     public partial class MainWindow : Window
     {
         public static readonly DependencyProperty ToolBoxWidthProperty =
-            DependencyProperty.Register("ToolBoxWidth", typeof(GridLength), typeof(MainWindow), new PropertyMetadata(GridLength.Auto, PropertyChangedCallback));
+            DependencyProperty.Register("ToolBoxWidth", typeof(GridLength), typeof(MainWindow),
+                new PropertyMetadata(GridLength.Auto, PropertyChangedCallback));
 
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -29,7 +29,7 @@ namespace SPCViewer.WPF
 
         public GridLength ToolBoxWidth
         {
-            get => (GridLength)GetValue(ToolBoxWidthProperty);
+            get => (GridLength) GetValue(ToolBoxWidthProperty);
             set => SetValue(ToolBoxWidthProperty, value);
         }
 
@@ -62,7 +62,7 @@ namespace SPCViewer.WPF
         {
             var app = Application.Current;
             if (app.Properties["args"] == null) return;
-            var files = ((string[])app.Properties["args"])
+            var files = ((string[]) app.Properties["args"])
                 ?.Where(File.Exists);
             ViewModel.OpenFiles(files.ToArray());
         }
@@ -75,7 +75,7 @@ namespace SPCViewer.WPF
         private void OnFileDrop(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            var files = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
             ViewModel.OpenFiles(files);
         }
 
@@ -146,10 +146,7 @@ namespace SPCViewer.WPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AdditionalSeries_VisibleChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void AdditionalSeries_VisibleChanged(object sender, SelectionChangedEventArgs e) =>
             ViewModel.SelectedItem.Model.YAxisZoom();
-            ViewModel.SelectedItem.Model.InvalidatePlot(true);
-        }
     }
 }

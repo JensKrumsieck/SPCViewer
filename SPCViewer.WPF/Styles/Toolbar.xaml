@@ -21,6 +21,45 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="SmallToolbarButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
+        <Setter Property="Background" Value="{StaticResource Background}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Width" Value="50"/>
+        <Setter Property="Padding" Value="{StaticResource Padding}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"  CornerRadius="2">
+                        <wpf:Ripple ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False"
+                                    Feedback="{TemplateBinding Foreground}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Padding="{TemplateBinding Padding}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <StackPanel Orientation="{TemplateBinding extension:ControlExtensions.Orientation}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                                <wpf:PackIcon x:Name="PART_ICON" Kind="{TemplateBinding extension:ControlExtensions.Icon}" Foreground="{TemplateBinding Foreground}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}" Width="16" Height="16"/>
+                                <Label Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
+                            </StackPanel>
+                        </wpf:Ripple>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource HoverColor}" TargetName="Border" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_ICON" Property="Foreground" Value="{StaticResource HoverColor}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="ToolbarButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
         <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
         <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
