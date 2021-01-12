@@ -34,8 +34,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="auto" x:Name="PART_HEIGHT"></RowDefinition>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="auto" x:Name="PART_HEIGHT"/>
                 </Grid.RowDefinitions>
                 <TextBlock>
                     <TextBlock.Text>
@@ -192,8 +192,8 @@
                         </ItemsControl>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"></ColumnDefinition>
-                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
                             <Label>Integration Factor:</Label>
                             <TextBox Grid.Column="1" Text="{Binding IntegralFactor, Mode=TwoWay}" 
