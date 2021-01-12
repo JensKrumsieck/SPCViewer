@@ -69,6 +69,9 @@ namespace SPCViewer.Core
             var properties = typeof(Settings).GetProperties();
             foreach (var p in properties.Where(s => s.PropertyType != typeof(Settings))) p.SetValue(this, p.GetValue(settings));
 
+            //save here to update potential missing settings into file
+            Instance.Save();
+
         }
 
         /// <summary>

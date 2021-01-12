@@ -24,8 +24,6 @@ namespace SPCViewer.WPF
         public MainWindow()
         {
             Settings.Instance.Load($"{AppDomain.CurrentDomain.BaseDirectory}/settings.json");
-            //save here to update potential missing settings into file
-            Settings.Instance.Save();
             ViewModel = new MainViewModel();
             DataContext = ViewModel;
             InitializeComponent();
