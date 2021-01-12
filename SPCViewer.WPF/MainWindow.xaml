@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converter="clr-namespace:SPCViewer.WPF.Converter"
+        xmlns:extension="clr-namespace:SPCViewer.WPF.Extension"
         mc:Ignorable="d"
         AllowDrop="True" Height="550" Width="1000" Title="{Binding Path=SelectedItem.Title, FallbackValue=SPCViewer, StringFormat={}{0} - SPCViewer}">
     <Window.Resources>
@@ -12,74 +13,41 @@
     </Window.Resources>
 
     <DockPanel>
-        <ToolBarTray DockPanel.Dock="Top" Style="{DynamicResource MaterialDesignToolBarTray}" Background="#222831">
+        <ToolBarTray DockPanel.Dock="Top" Style="{DynamicResource MaterialDesignToolBarTray}" Background="{StaticResource Background}">
             <ToolBar Style="{DynamicResource ToolbarStyle}">
-                <Button Style="{StaticResource ToolbarButton}" Click="Open_Click">
-                    <StackPanel>
-                        <materialDesign:PackIcon Kind="Folder" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Open" TextWrapping="Wrap" TextAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-                <Button Style="{StaticResource ToolbarButton}" Click="Save_Click">
-                    <StackPanel>
-                        <materialDesign:PackIcon Kind="ContentSave" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Save" TextWrapping="Wrap" TextAlignment="Center" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}"/>
-                    </StackPanel>
-                </Button>
-                <Separator Style="{StaticResource SeparatorStyle}"/>
+                <Button Style="{DynamicResource ToolbarButton}" Click="Open_Click" extension:ControlExtensions.Icon="Folder" Content="Open" extension:ControlExtensions.Orientation="Vertical"
+                        HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="80"/>
+                <Button Style="{DynamicResource ToolbarButton}" Click="Save_Click" extension:ControlExtensions.Icon="ContentSave" Content="Save" extension:ControlExtensions.Orientation="Vertical"
+                        IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}" HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+                        Width="80"/>
+            </ToolBar>
+        </ToolBarTray>
+        <ToolBarTray DockPanel.Dock="Left" Style="{DynamicResource MaterialDesignToolBarTray}" Background="{StaticResource Background}" Orientation="Vertical">
+            <ToolBar Style="{DynamicResource ToolbarStyle}" Background="{StaticResource Background}" VerticalAlignment="Bottom">
                 <ListBox SelectedIndex="{Binding SelectedItem.MouseAction, Mode=TwoWay, IsAsync=True, Converter={converter:UIActionToIntConverter}}" 
                          Background="Transparent" SelectionMode="Single" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
-                        <StackPanel>
-                            <materialDesign:PackIcon Kind="MagnifyScan" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Zoom" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
-                        <StackPanel>
-                            <materialDesign:PackIcon Kind="EyedropperVariant" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Tracker" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
-                        <StackPanel>
-                            <materialDesign:PackIcon Kind="FitToPageOutline" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Normalize" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
-                        <StackPanel HorizontalAlignment="Center">
-                            <materialDesign:PackIcon Kind="BoxCutter" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Peak Picking" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
-                        <StackPanel>
-                            <materialDesign:PackIcon Kind="MathIntegral" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Integrate" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}">
-                        <StackPanel>
-                            <materialDesign:PackIcon Kind="EyedropperPlus" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Pick Value" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate><StackPanel/></ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="MagnifyScan" Content="Zoom"/>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="EyeDropperVariant" Content="Tracker"/>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="FitToPageOutline" Content="Normalize"/>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="BoxCutter" Content="Peak Picking"/>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="MathIntegral" Content="Integrate"/>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="EyedropperPlus" Content="PickValue"/>
                 </ListBox>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
-                <ListBox SelectionMode="Extended" SelectionChanged="AdditionalSeries_VisibleChanged" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}" IsSelected="{Binding SelectedItem.DerivSeries.IsVisible, Mode=TwoWay}">
-                        <StackPanel>
-                            <materialDesign:PackIcon Kind="Delta" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Show Derivative" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource ToolbarListItem}" IsSelected="{Binding SelectedItem.IntegralSeries.IsVisible, Mode=TwoWay}">
-                        <StackPanel>
-                            <materialDesign:PackIcon Kind="MathIntegralBox" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Show Integral" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </ListBoxItem>
+                <ListBox SelectionMode="Extended" SelectionChanged="AdditionalSeries_VisibleChanged"  Background="Transparent" 
+                         IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="Delta" Content="Show Derivative"
+                                 IsSelected="{Binding SelectedItem.DerivSeries.IsVisible, Mode=TwoWay}"/>
+                    <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="MathIntegralBox" Content="Show Integral"
+                                 IsSelected="{Binding SelectedItem.IntegralSeries.IsVisible, Mode=TwoWay}"/>
                 </ListBox>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
             </ToolBar>
