@@ -87,7 +87,7 @@ namespace SPCViewer.Core
         /// </summary>
         /// <returns></returns>
         private static Settings Default() =>
-            new Settings()
+            new Settings
             {
                 FontWeight = 200,
                 Font = "Arial",
