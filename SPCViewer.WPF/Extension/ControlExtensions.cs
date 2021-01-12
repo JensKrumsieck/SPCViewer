@@ -19,5 +19,12 @@ namespace SPCViewer.WPF.Extension
         public static void SetOrientation(UIElement element, Orientation value) => element.SetValue(OrientationProperty, value);
 
         public static Orientation GetOrientation(UIElement element) => (Orientation)element.GetValue(OrientationProperty);
+
+        public static readonly DependencyProperty CollapsedProperty =
+            DependencyProperty.RegisterAttached("Collapsed", typeof(bool), typeof(ControlExtensions), new PropertyMetadata(false));
+
+        public static void SetCollapsed(UIElement element, bool value) => element.SetValue(CollapsedProperty, value);
+
+        public static bool GetCollapsed(UIElement element) => (bool)element.GetValue(CollapsedProperty);
     }
 }

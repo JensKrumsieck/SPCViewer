@@ -43,6 +43,10 @@ namespace SPCViewer.Core
         public string AnnotationColor { get; set; }
         #endregion
 
+        #region UI
+        public double ToolBoxWidth { get; set; }
+        #endregion
+
         /// <summary>
         /// json ctor
         /// use for json only!
@@ -104,7 +108,8 @@ namespace SPCViewer.Core
                 SeriesThickness = 1.5,
                 ExportWidth = 2000,
                 ExportHeight = 1000,
-                ExportDPI = 300
+                ExportDPI = 300, 
+                ToolBoxWidth = 37
             };
     }
 }

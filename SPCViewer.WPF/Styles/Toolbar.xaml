@@ -14,6 +14,11 @@
 
     <Style x:Key="ToolbarStyle" TargetType="{x:Type ToolBar}" BasedOn="{StaticResource MaterialDesignToolBar}">
         <Setter Property="Background" Value="Transparent"/>
+        <Style.Triggers>
+            <Trigger Property="extension:ControlExtensions.Collapsed" Value="True">
+                <Setter Property="Width" Value="37"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="ToolbarButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
@@ -23,7 +28,6 @@
         <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
         <Setter Property="Background" Value="{StaticResource Background}"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="Width" Value="{StaticResource Width}"/>
         <Setter Property="Padding" Value="{StaticResource Padding}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -36,7 +40,7 @@
                                     Padding="{TemplateBinding Padding}"
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                             <StackPanel Orientation="{TemplateBinding extension:ControlExtensions.Orientation}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
-                                <wpf:PackIcon Kind="{TemplateBinding extension:ControlExtensions.Icon}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
+                                <wpf:PackIcon x:Name="PART_ICON" Kind="{TemplateBinding extension:ControlExtensions.Icon}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
                                 <Label Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
                             </StackPanel>
                         </wpf:Ripple>
@@ -44,6 +48,9 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource HoverColor}" TargetName="Border" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_ICON" Property="Foreground" Value="{StaticResource HoverColor}"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -58,12 +65,11 @@
         <Setter Property="Background" Value="{StaticResource Background}"/>
         <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
         <Setter Property="Padding" Value="{StaticResource Padding}"/>
-        <Setter Property="Width" Value="{StaticResource Width}"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border x:Name="Border"  CornerRadius="2">
+                    <Border x:Name="Border" CornerRadius="2">
                         <wpf:Ripple ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False"
                                     Feedback="{TemplateBinding Foreground}"
                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
@@ -71,7 +77,7 @@
                                     Padding="{TemplateBinding Padding}" ToolTip="{TemplateBinding Content}"
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Background="Transparent">
                             <StackPanel Orientation="Horizontal">
-                                <wpf:PackIcon Kind="{TemplateBinding extension:ControlExtensions.Icon}" Foreground="{TemplateBinding Foreground}"/>
+                                <wpf:PackIcon x:Name="PART_ICON" Kind="{TemplateBinding extension:ControlExtensions.Icon}" Foreground="{TemplateBinding Foreground}"/>
                                 <Label Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
                             </StackPanel>
                         </wpf:Ripple>
@@ -82,6 +88,9 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{StaticResource ActiveColor}"  TargetName="Border"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_ICON" Property="Foreground" Value="{StaticResource HoverColor}"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

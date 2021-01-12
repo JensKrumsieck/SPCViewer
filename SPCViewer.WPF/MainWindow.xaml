@@ -6,14 +6,24 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converter="clr-namespace:SPCViewer.WPF.Converter"
         xmlns:extension="clr-namespace:SPCViewer.WPF.Extension"
+        x:Name="mainWindow"
         mc:Ignorable="d"
         AllowDrop="True" Height="550" Width="1000" Title="{Binding Path=SelectedItem.Title, FallbackValue=SPCViewer, StringFormat={}{0} - SPCViewer}">
     <Window.Resources>
         <ResourceDictionary Source="Styles/TabTemplate.xaml" />
     </Window.Resources>
 
-    <DockPanel>
-        <ToolBarTray DockPanel.Dock="Top" Style="{DynamicResource MaterialDesignToolBarTray}" Background="{StaticResource Background}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding Path=ToolBoxWidth, ElementName=mainWindow, Mode=TwoWay}" MaxWidth="120" MinWidth="37"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ToolBarTray Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource MaterialDesignToolBarTray}" Background="{StaticResource Background}">
             <ToolBar Style="{DynamicResource ToolbarStyle}">
                 <Button Style="{DynamicResource ToolbarButton}" Click="Open_Click" extension:ControlExtensions.Icon="Folder" Content="Open" extension:ControlExtensions.Orientation="Vertical"
                         HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="80"/>
@@ -22,8 +32,10 @@
                         Width="80"/>
             </ToolBar>
         </ToolBarTray>
-        <ToolBarTray DockPanel.Dock="Left" Style="{DynamicResource MaterialDesignToolBarTray}" Background="{StaticResource Background}" Orientation="Vertical">
-            <ToolBar Style="{DynamicResource ToolbarStyle}" Background="{StaticResource Background}" VerticalAlignment="Bottom">
+        <GridSplitter Grid.Row="1" Grid.Column="1" Width="3" Background="{StaticResource Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <ToolBarTray Grid.Column="0" Grid.Row="1" DockPanel.Dock="Left" Style="{DynamicResource MaterialDesignToolBarTray}" Background="{StaticResource Background}" Orientation="Vertical">
+            <ToolBar Style="{DynamicResource ToolbarStyle}" Background="{StaticResource Background}" VerticalAlignment="Bottom" 
+                     extension:ControlExtensions.Collapsed="{Binding Path=ToolBoxWidth, ElementName=mainWindow, Converter={converter:GridLengthToBooleanConverter}, ConverterParameter=110}">
                 <ListBox SelectedIndex="{Binding SelectedItem.MouseAction, Mode=TwoWay, IsAsync=True, Converter={converter:UIActionToIntConverter}}" 
                          Background="Transparent" SelectionMode="Single" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
                     <ListBox.ItemsPanel>
@@ -53,6 +65,7 @@
             </ToolBar>
         </ToolBarTray>
         <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 
+                    Grid.Column="2" Grid.Row="1"
                     ItemsSource="{Binding Path=Items}" Drop="OnFileDrop" 
                     SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
             <TabControl.ItemContainerStyle>
@@ -117,5 +130,5 @@
                 </Style>
             </TabControl.ItemContainerStyle>
         </TabControl>
-    </DockPanel>
+    </Grid>
 </Window>
