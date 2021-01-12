@@ -68,7 +68,7 @@
                                     Feedback="{TemplateBinding Foreground}"
                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Padding="{TemplateBinding Padding}"
+                                    Padding="{TemplateBinding Padding}" ToolTip="{TemplateBinding Content}"
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Background="Transparent">
                             <StackPanel Orientation="Horizontal">
                                 <wpf:PackIcon Kind="{TemplateBinding extension:ControlExtensions.Icon}" Foreground="{TemplateBinding Foreground}"/>
