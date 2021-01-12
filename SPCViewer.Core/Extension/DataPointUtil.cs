@@ -1,5 +1,5 @@
-﻿using System;
-using ChemSharp;
+﻿using ChemSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OxyDataPoint = OxyPlot.DataPoint;

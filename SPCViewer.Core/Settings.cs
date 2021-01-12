@@ -71,7 +71,6 @@ namespace SPCViewer.Core
 
             //save here to update potential missing settings into file
             Instance.Save();
-
         }
 
         /// <summary>
