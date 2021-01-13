@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>SPCViewer</PackageId>
+    <Authors>Jens Krumsieck</Authors>
+    <Version>3.0.0-alpha20201230</Version>
+    <LangVersion>latest</LangVersion>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <PackageProjectUrl>https://github.com/JensKrumsieck/BluEPRint2</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JensKrumsieck/BluEPRint2</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <ApplicationIcon>Resources\spc_icon.ico</ApplicationIcon>
+    <Product>SPCViewer</Product>
+    <PackageIcon>Resources\spc_icon.ico</PackageIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\spc_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\spc_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
+    <PackageReference Include="OxyPlot.Core" Version="2.1.0-Preview1" />
+    <PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.0-Preview1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SPCViewer.ViewModel\SPCViewer.ViewModel.csproj" />
+  </ItemGroup>
+
+</Project>
