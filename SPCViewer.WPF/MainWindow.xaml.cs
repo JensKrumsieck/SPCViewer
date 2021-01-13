@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace SPCViewer.WPF
@@ -148,5 +149,19 @@ namespace SPCViewer.WPF
         /// <param name="e"></param>
         private void AdditionalSeries_VisibleChanged(object sender, SelectionChangedEventArgs e) =>
             ViewModel.SelectedItem.Model.YAxisZoom();
+
+        /// <summary>
+        /// Explicit Binding on Enter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BindingOnEnterUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter) return;
+            var textBox = (TextBox) sender;
+            var expr = textBox.GetBindingExpression(TextBox.TextProperty);
+            expr?.UpdateSource();
+            e.Handled = true;
+        }
     }
 }

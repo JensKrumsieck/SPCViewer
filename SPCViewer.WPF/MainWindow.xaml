@@ -29,9 +29,20 @@
                 <Button Style="{DynamicResource SmallToolbarButton}" Click="Save_Click" extension:ControlExtensions.Icon="ContentSave" Content="Save" extension:ControlExtensions.Orientation="Vertical"
                         IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}"/>
             </ToolBar>
-            <ToolBar Band="2" Style="{DynamicResource ToolbarStyle}">
-                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="100" Text="{Binding SelectedItem.MinX, Mode=TwoWay, IsAsync=True}" Foreground="Wheat" materialDesign:HintAssist.Hint="X Axis Minimum" d:Text="2100"/>
-                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="100" Text="{Binding SelectedItem.MaxX, Mode=TwoWay, IsAsync=True}" Foreground="Wheat" materialDesign:HintAssist.Hint="X Axis Maximum" d:Text="5000"/>
+            <ToolBar Band="2" Style="{DynamicResource ToolbarStyle}" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
+                <Label Foreground="{StaticResource Foreground}" VerticalAlignment="Center" Content="Axis Properties" FontSize="{DynamicResource FontSize}"/>
+                <TextBox Style="{StaticResource ToolbarTextBox}"
+                         Text="{Binding SelectedItem.Model.XAxis.BindableActualMinimum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
+                         materialDesign:HintAssist.Hint="X Axis Minimum" d:Text="2100" KeyUp="BindingOnEnterUp"/>
+                <TextBox Style="{StaticResource ToolbarTextBox}"
+                         Text="{Binding SelectedItem.Model.XAxis.BindableActualMaximum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}" 
+                         materialDesign:HintAssist.Hint="X Axis Maximum" d:Text="5000" KeyUp="BindingOnEnterUp"/>
+                <TextBox Style="{StaticResource ToolbarTextBox}"
+                         Text="{Binding SelectedItem.Model.YAxis.BindableActualMinimum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
+                         materialDesign:HintAssist.Hint="Y Axis Minimum" d:Text="2100" KeyUp="BindingOnEnterUp"/>
+                <TextBox Style="{StaticResource ToolbarTextBox}"
+                         Text="{Binding SelectedItem.Model.YAxis.BindableActualMaximum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}" 
+                         materialDesign:HintAssist.Hint="Y Axis Maximum" d:Text="5000" KeyUp="BindingOnEnterUp"/>
             </ToolBar>
         </ToolBarTray>
         <GridSplitter Grid.Row="1" Grid.Column="1" Width="3" Background="{StaticResource Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>

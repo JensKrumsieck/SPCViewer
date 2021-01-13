@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using OxyPlot.Axes;
 using TinyMVVM.Command;
 using OxyDataPoint = OxyPlot.DataPoint;
 
@@ -27,28 +26,6 @@ namespace SPCViewer.ViewModel
         /// The used PlotModel
         /// </summary>
         public DefaultPlotModel Model { get; }
-
-
-        private double _minX;
-        /// <summary>
-        /// PlotModel min X value
-        /// </summary>
-        public double MinX
-        {
-            get => _minX;
-            set => Set(ref _minX, value, UpdateZoom);
-        }
-
-        private double _maxX;
-        /// <summary>
-        /// PlotModel max X value
-        /// </summary>
-        public double MaxX
-        {
-            get => _maxX;
-            set => Set(ref _maxX, value, UpdateZoom);
-        }
-
         /// <summary>
         /// The Series containing experimental data
         /// </summary>
@@ -146,13 +123,7 @@ namespace SPCViewer.ViewModel
             Subscribe(Integrals, Annotations,
                 AnnotationUtil.IntegralAnnotation,
                 integral => Annotations.FirstOrDefault(s => s.Tag as Integral == integral));
-            Model.XAxis.AxisChanged += (s, e) =>
-            {
-                MinX = Model.XAxis.ActualMinimum;
-                MaxX = Model.XAxis.ActualMaximum;
-            };
         }
-
         /// <summary>
         /// Initializes Series Data Binding
         /// </summary>
@@ -186,8 +157,6 @@ namespace SPCViewer.ViewModel
             Model.Series.Add(IntegralSeries);
             Model.Series.Add(DerivSeries);
             Model.YAxisZoom();
-            MinX = Model.XAxis.ActualMinimum;
-            MaxX = Model.XAxis.ActualMaximum;
         }
 
         /// <summary>
@@ -265,14 +234,6 @@ namespace SPCViewer.ViewModel
                 _ => UIActions.PrepareRectangleAction(null)
             };
             Controller.BindMouseDown(OxyMouseButton.Left, action);
-        }
-
-        /// <summary>
-        /// Updated PlotModel Zoom
-        /// </summary>
-        private void UpdateZoom()
-        {
-            Model.XAxis.Zoom(MinX, MaxX);
         }
     }
 }

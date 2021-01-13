@@ -97,6 +97,12 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ToolbarTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+        <Setter Property="Width" Value="75"/>
+        <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
+    </Style>
+
     <Style x:Key="ToolbarListItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignToolToggleListBoxItem}">
         <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
         <Setter Property="FontSize" Value="{StaticResource FontSize}"/>

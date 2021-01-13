@@ -12,8 +12,8 @@ namespace SPCViewer.Core.Plots
 {
     public class DefaultPlotModel : PlotModel
     {
-        public LinearAxis XAxis { get; }
-        public LinearAxis YAxis { get; }
+        public LinearAxisEx XAxis { get; }
+        public LinearAxisEx YAxis { get; }
 
         /// <summary>
         /// Mapping Factor
@@ -37,7 +37,7 @@ namespace SPCViewer.Core.Plots
             TitleFontWeight = Settings.Instance.FontWeight;
             Background = OxyColors.Transparent;
 
-            XAxis = new LinearAxis()
+            XAxis = new LinearAxisEx
             {
                 Position = AxisPosition.Bottom,
                 Key = "X",
@@ -45,7 +45,7 @@ namespace SPCViewer.Core.Plots
                 AxislineThickness = Settings.Instance.AxisThickness
             };
             Axes.Add(XAxis);
-            YAxis = new LinearAxis()
+            YAxis = new LinearAxisEx
             {
                 Position = AxisPosition.Left,
                 Key = "Y",
