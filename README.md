@@ -1,9 +1,9 @@
-<img src="https://raw.githubusercontent.com/JensKrumsieck/BluEPRint2/chemsharp/.github/spc.png" alt="logo" width="128"/>
+<img src="https://raw.githubusercontent.com/JensKrumsieck/SPCViewer/chemsharp/.github/spc.png" alt="logo" width="128"/>
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/8da3cda66ed7e6c4e0af/maintainability)](https://codeclimate.com/github/JensKrumsieck/BluEPRint2/maintainability)
-![GitHub repo size](https://img.shields.io/github/repo-size/JensKrumsieck/BluEPRint2)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/JensKrumsieck/BluEPRint2)
-![GitHub Pre-Releases](https://img.shields.io/github/downloads-pre/JensKrumsieck/BluEPRint2/latest/total)
+[![Maintainability](https://api.codeclimate.com/v1/badges/36b9fd90a6fcdc263702/maintainability)](https://codeclimate.com/github/JensKrumsieck/SPCViewer/maintainability)
+![GitHub repo size](https://img.shields.io/github/repo-size/JensKrumsieck/SPCViewer)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/JensKrumsieck/SPCViewer)
+![GitHub Pre-Releases](https://img.shields.io/github/downloads-pre/JensKrumsieck/SPCViewer/latest/total)
 # SPCViewer
 
 SPCViewer (fka. BluEPRint) is capable of viewing and analyzing Spectra from Spectrometers listed below.
