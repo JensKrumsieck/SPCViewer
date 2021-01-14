@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converter="clr-namespace:SPCViewer.WPF.Converter"
-        xmlns:extension="clr-namespace:SPCViewer.WPF.Extension"
+        xmlns:extension="clr-namespace:SPCViewer.WPF.Extension" 
+        xmlns:viewmodel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
+        d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         x:Name="mainWindow"
         mc:Ignorable="d"
         AllowDrop="True" Height="550" Width="1000" Title="{Binding Path=SelectedItem.Title, FallbackValue=SPCViewer, StringFormat={}{0} - SPCViewer}">
