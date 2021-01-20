@@ -8,6 +8,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Colors.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/ThemeCommons;component/Themes/ThemeCommons.xaml"/>
                 <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="Gray" SecondaryColor="#ff5722" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="Styles/Toolbar.xaml"/>

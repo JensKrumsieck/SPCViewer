@@ -10,13 +10,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using ThemeCommons.Controls;
 
 namespace SPCViewer.WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : DefaultWindow
     {
         public static readonly DependencyProperty ToolBoxWidthProperty =
             DependencyProperty.Register("ToolBoxWidth", typeof(GridLength), typeof(MainWindow),

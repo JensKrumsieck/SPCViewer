@@ -9,16 +9,11 @@
     </ResourceDictionary.MergedDictionaries>
 
     <sys:Double x:Key="FontSize">9</sys:Double>
-    <sys:Double x:Key="Width">110</sys:Double>
+    <sys:Double x:Key="Width">35</sys:Double>
     <Thickness x:Key="Padding">6</Thickness>
 
     <Style x:Key="ToolbarStyle" TargetType="{x:Type ToolBar}" BasedOn="{StaticResource MaterialDesignToolBar}">
         <Setter Property="Background" Value="Transparent"/>
-        <Style.Triggers>
-            <Trigger Property="extension:ControlExtensions.Collapsed" Value="True">
-                <Setter Property="Width" Value="37"/>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <Style x:Key="SmallToolbarButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
@@ -52,7 +47,7 @@
                             <Setter Property="Background" Value="{StaticResource HoverColor}" TargetName="Border" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_ICON" Property="Foreground" Value="{StaticResource HoverColor}"></Setter>
+                            <Setter TargetName="PART_ICON" Property="Foreground" Value="{StaticResource HoverColor}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -68,19 +63,20 @@
         <Setter Property="Background" Value="{StaticResource Background}"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Padding" Value="{StaticResource Padding}"/>
+        <Setter Property="Width" Value="{StaticResource Width}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="Border"  CornerRadius="2">
+                    <Border x:Name="Border" CornerRadius="2" Width="{TemplateBinding Width}">
                         <wpf:Ripple ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False"
                                     Feedback="{TemplateBinding Foreground}"
                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Padding="{TemplateBinding Padding}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                            <StackPanel Orientation="{TemplateBinding extension:ControlExtensions.Orientation}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
-                                <wpf:PackIcon x:Name="PART_ICON" Kind="{TemplateBinding extension:ControlExtensions.Icon}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
-                                <Label Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
+                                    Padding="{TemplateBinding Padding}" ToolTip="{TemplateBinding Content}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Background="Transparent">
+                            <StackPanel Orientation="Horizontal">
+                                <wpf:PackIcon x:Name="PART_ICON" Kind="{TemplateBinding extension:ControlExtensions.Icon}" Foreground="{TemplateBinding Foreground}"/>
+                                <Label Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
                             </StackPanel>
                         </wpf:Ripple>
                     </Border>
@@ -112,6 +108,7 @@
         <Setter Property="Padding" Value="{StaticResource Padding}"/>
         <Setter Property="Width" Value="{StaticResource Width}"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="0 0 5 0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -129,9 +126,6 @@
                         </wpf:Ripple>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToolBar}}, Path=Width}" Value="37">
-                            <Setter Property="Width" Value="32"/>
-                        </DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{StaticResource HoverColor}" TargetName="Border"/>
                         </Trigger>
