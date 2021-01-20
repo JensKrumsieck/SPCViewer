@@ -24,3 +24,4 @@ SPCViewer (fka. BluEPRint) is capable of viewing and analyzing Spectra from Spec
 * [Oxyplot](https://github.com/oxyplot/oxyplot) by Oxyplot (MIT License)
 * [MaterialDesign in XAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit) (MIT License)
 * [TinyMVVM](https://github.com/JensKrumsieck/TinyMVVM) by Jens Krumsieck (MIT License)
+* [ThemeCommons](https://github.com/JensKrumsieck/ThemeCommons) by Jens Krumsieck (MIT License)
