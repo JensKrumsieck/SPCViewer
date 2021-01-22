@@ -4,7 +4,7 @@ using TinyMVVM;
 
 namespace SPCViewer.ViewModel
 {
-    public class MainViewModel : ListingViewModel<SpectrumViewModel>
+    public class MainViewModel : ListingViewModel<DocumentViewModel>
     {
         /// <summary>
         /// Used to open files / create tabviewmodel
@@ -12,6 +12,9 @@ namespace SPCViewer.ViewModel
         /// <param name="files"></param>
         public void OpenFiles(string[] files)
         {
+            var doc = new DocumentViewModel();
+            Items.Add(doc);
+            SelectedIndex = Items.IndexOf(doc);
             if (files == null) return;
             foreach (var file in files)
             {
@@ -21,27 +24,27 @@ namespace SPCViewer.ViewModel
                     for (var i = 0; i < multiCSV.MultiXYData.Count; i++)
                     {
                         var page = new SpectrumViewModel(new GenericCSVProvider(file, ',', i));
-                        Items.Add(page);
-                        SelectedIndex = Items.IndexOf(page);
+                        SelectedItem.Items.Add(page);
+                        SelectedItem.SelectedIndex = SelectedItem.Items.IndexOf(page);
                     }
                 }
                 else
                 {
                     var page = new SpectrumViewModel(file);
-                    Items.Add(page);
-                    SelectedIndex = Items.IndexOf(page);
+                    SelectedItem.Items.Add(page);
+                    SelectedItem.SelectedIndex = SelectedItem.Items.IndexOf(page);
                 }
             }
         }
 
-        public void SaveFile(string filename) => SaveHandler.Handle(SelectedItem, filename);
+        public void SaveFile(string filename) => SaveHandler.Handle(SelectedItem.SelectedItem, filename);
 
         /// <summary>
         /// DeleteCommand for tabs
         /// </summary>
         /// <param name="tab"></param>
         [DeleteCommand]
-        public void DeleteTab(SpectrumViewModel tab)
+        public void DeleteTab(DocumentViewModel tab)
         {
             if (SelectedItem == tab)
             {

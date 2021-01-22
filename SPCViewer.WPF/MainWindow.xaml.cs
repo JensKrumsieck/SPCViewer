@@ -149,7 +149,7 @@ namespace SPCViewer.WPF
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void AdditionalSeries_VisibleChanged(object sender, SelectionChangedEventArgs e) =>
-            ViewModel.SelectedItem.Model.YAxisZoom();
+            ViewModel.SelectedItem.SelectedItem.Model.YAxisZoom();
 
         /// <summary>
         /// Explicit Binding on Enter
