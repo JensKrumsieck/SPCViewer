@@ -22,10 +22,8 @@ namespace SPCViewer.ViewModel
     /// </summary>
     public class SpectrumViewModel : SpectrumBaseViewModel
     {
-        /// <summary>
-        /// The used PlotModel
-        /// </summary>
-        public DefaultPlotModel Model { get; }
+        public DocumentViewModel Parent { get; }
+
         /// <summary>
         /// The Series containing experimental data
         /// </summary>
@@ -45,22 +43,7 @@ namespace SPCViewer.ViewModel
         /// List of Annotations
         /// </summary>
         public ObservableCollection<Annotation> Annotations { get; set; } = new ObservableCollection<Annotation>();
-
-        /// <summary>
-        /// Currently Active UI Action
-        /// </summary>
-        private UIAction _mouseAction;
-
-        public UIAction MouseAction
-        {
-            get => _mouseAction;
-            set
-            {
-                Set(ref _mouseAction, value);
-                MouseActionChanged();
-            }
-        }
-
+        
         private ICommand _deleteIntegral;
         /// <summary>
         /// Delete Command for Integrals
@@ -88,11 +71,6 @@ namespace SPCViewer.ViewModel
             });
 
         /// <summary>
-        /// Gets the PlotController
-        /// </summary>
-        public PlotController Controller { get; }
-
-        /// <summary>
         /// Pass-through to Special Parameters
         /// </summary>
         public Dictionary<string, string> SpecialParameters => Spectrum.GetSpecialParameters();
@@ -100,23 +78,21 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// ctor with path given
         /// </summary>
+        /// <param name="parent"></param>
         /// <param name="path"></param>
-        public SpectrumViewModel(string path) : this(ExtensionHandler.Handle(path)) { }
+        public SpectrumViewModel(DocumentViewModel parent, string path) : this(parent,ExtensionHandler.Handle(path)) { }
 
         /// <summary>
         /// ctor with provider given
         /// </summary>
+        /// <param name="parent"></param>
         /// <param name="provider"></param>
-        public SpectrumViewModel(IXYDataProvider provider) : base(provider)
+        public SpectrumViewModel(DocumentViewModel parent, IXYDataProvider provider) : base(provider)
         {
+            Parent = parent;
             //init OxyPlot stuff
-            Model = new DefaultPlotModel();
-            Model.SetUp(Spectrum);
-            Controller = PlotControls.DefaultController;
-            MouseAction = UIAction.Zoom;
+            Parent.Model.SetUp(Spectrum);
             InitSeries();
-            //add annotation events
-            Subscribe(Annotations, Model.Annotations, () => Model.InvalidatePlot(true));
             Subscribe(Peaks, Annotations,
                 AnnotationUtil.PeakAnnotation,
                 peak => Annotations.FirstOrDefault(s => s.Tag as Peak == peak));
@@ -132,14 +108,14 @@ namespace SPCViewer.ViewModel
             ExperimentalSeries = new LineSeries
             {
                 ItemsSource = Spectrum.XYData,
-                Mapping = Model.Mapping,
+                Mapping = Parent.Model.Mapping,
                 StrokeThickness = Settings.Instance.SeriesThickness,
                 Color = OxyColor.Parse(Settings.Instance.ExperimentalColor)
             };
             IntegralSeries = new LineSeries
             {
                 ItemsSource = Spectrum.Integral,
-                Mapping = Model.Mapping,
+                Mapping = Parent.Model.Mapping,
                 IsVisible = false,
                 StrokeThickness = Settings.Instance.SeriesThickness,
                 Color = OxyColor.Parse(Settings.Instance.IntegralColor)
@@ -147,93 +123,16 @@ namespace SPCViewer.ViewModel
             DerivSeries = new LineSeries
             {
                 ItemsSource = Spectrum.Derivative,
-                Mapping = Model.Mapping,
+                Mapping = Parent.Model.Mapping,
                 IsVisible = false,
                 StrokeThickness = Settings.Instance.SeriesThickness,
                 Color = OxyColor.Parse(Settings.Instance.DerivativeColor)
             };
             //add series to model
-            Model.Series.Add(ExperimentalSeries);
-            Model.Series.Add(IntegralSeries);
-            Model.Series.Add(DerivSeries);
-            Model.YAxisZoom();
-        }
-
-        /// <summary>
-        /// Adds an Integral to List
-        /// </summary>
-        /// <param name="rect"></param>
-        private void AddIntegral((OxyDataPoint, OxyDataPoint) rect)
-        {
-            var points = Spectrum.XYData.PointsFromRect(rect);
-            if (!points.Any()) return;
-            if (Integrals.Count == 0) IntegralFactor = points.Integrate().Last().Y;
-            Integrals.Add(new Integral(points)
-            {
-                Factor = IntegralFactor
-            });
-        }
-
-        /// <summary>
-        /// Adds Peaks to List
-        /// </summary>
-        /// <param name="rect"></param>
-        private void AddPeak((OxyDataPoint, OxyDataPoint) rect)
-        {
-            var points = Spectrum.XYData.PointsFromRect(rect);
-            if (!points.Any()) return;
-            var epr = Spectrum.DataProvider is BrukerEPRProvider;
-            var peaksIndices = points.Select(s => s.Y).ToList().FindPeakPositions(null, epr);
-            foreach (var index in peaksIndices)
-                if (!Peaks.Any(s => Math.Abs(s.X - points[index].X) < 1e-9))
-                    Peaks.Add(new Peak(points[index]) { Factor = Model.NormalizationFactor });
-        }
-
-        /// <summary>
-        /// Adds Peaks to List
-        /// </summary>
-        /// <param name="rect"></param>
-        private void Normalize((OxyDataPoint, OxyDataPoint) rect)
-        {
-            var points = Spectrum.XYData.PointsFromRect(rect);
-            if (!points.Any()) return;
-            var max = points.Max(s => s.Y);
-            //send normalization factor to model
-            Model.NormalizationFactor = max;
-            //send factor to peaks
-            foreach (var peak in Peaks) peak.Factor = max;
-            Model.YAxisZoom();
-            Model.InvalidatePlot(true);
-        }
-
-        /// <summary>
-        /// Pick value into peak list
-        /// not sure if it stays peak list
-        /// </summary>
-        /// <param name="point"></param>
-        private void PickValue(ScreenPoint point)
-        {
-            var odp = ExperimentalSeries.GetNearestPoint(point, false);
-            var realDataPoint = Spectrum.XYData.FromOxyDataPoint(odp.DataPoint);
-            if (!Peaks.Any(s => Math.Abs(s.X - point.X) < 1e-9))
-                Peaks.Add(new Peak(realDataPoint) { Factor = Model.NormalizationFactor });
-        }
-
-        /// <summary>
-        /// Fires when MouseAction changes
-        /// </summary>
-        private void MouseActionChanged()
-        {
-            var action = MouseAction switch
-            {
-                UIAction.Integrate => UIActions.PrepareRectangleAction(AddIntegral),
-                UIAction.PeakPicking => UIActions.PrepareRectangleAction(AddPeak),
-                UIAction.Normalize => UIActions.PrepareRectangleAction(Normalize),
-                UIAction.PickValue => UIActions.PreparePickAction(PickValue),
-                UIAction.Tracker => UIActions.PreparePickAction(null),
-                _ => UIActions.PrepareRectangleAction(null)
-            };
-            Controller.BindMouseDown(OxyMouseButton.Left, action);
+            Parent.Model.Series.Add(ExperimentalSeries);
+            Parent.Model.Series.Add(IntegralSeries);
+            Parent.Model.Series.Add(DerivSeries);
+            Parent.Model.YAxisZoom();
         }
     }
 }

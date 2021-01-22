@@ -14,7 +14,6 @@ namespace SPCViewer.ViewModel
         {
             var doc = new DocumentViewModel();
             Items.Add(doc);
-            SelectedIndex = Items.IndexOf(doc);
             if (files == null) return;
             foreach (var file in files)
             {
@@ -23,17 +22,18 @@ namespace SPCViewer.ViewModel
                     var multiCSV = new MultiCSVProvider(file);
                     for (var i = 0; i < multiCSV.MultiXYData.Count; i++)
                     {
-                        var page = new SpectrumViewModel(new GenericCSVProvider(file, ',', i));
-                        SelectedItem.Items.Add(page);
-                        SelectedItem.SelectedIndex = SelectedItem.Items.IndexOf(page);
+                        var page = new SpectrumViewModel(doc, new GenericCSVProvider(file, ',', i));
+                        doc.Items.Add(page);
+                       doc.SelectedIndex = doc.Items.IndexOf(page);
                     }
                 }
                 else
                 {
-                    var page = new SpectrumViewModel(file);
-                    SelectedItem.Items.Add(page);
-                    SelectedItem.SelectedIndex = SelectedItem.Items.IndexOf(page);
+                    var page = new SpectrumViewModel(doc, file);
+                    doc.Items.Add(page);
+                   doc.SelectedIndex = doc.Items.IndexOf(page);
                 }
+                SelectedIndex = Items.IndexOf(doc);
             }
         }
 

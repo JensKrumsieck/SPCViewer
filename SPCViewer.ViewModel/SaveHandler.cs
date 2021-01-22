@@ -58,7 +58,7 @@ namespace SPCViewer.ViewModel
                 },
                 _ => null
             };
-            exporter?.Export(model.Model, stream);
+            exporter?.Export(model.Parent.Model, stream);
         }
 
         /// <summary>

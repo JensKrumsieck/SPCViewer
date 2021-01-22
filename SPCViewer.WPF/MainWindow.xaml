@@ -112,7 +112,7 @@
                      ItemsSource="{Binding Path=SelectedItem.Items}" 
                      ItemContainerStyle="{DynamicResource ListBoxItemSidebarStyle}"
                      BorderThickness="0"
-                     SelectedIndex="{Binding SelectedIndex}">
+                     SelectedIndex="{Binding SelectedItem.SelectedIndex}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -133,7 +133,7 @@
         </DockPanel>
         <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 
                     Grid.Column="1" Grid.RowSpan="2" Grid.Row="0"
-                    ItemsSource="{Binding Path=SelectedItem.Items}" Drop="OnFileDrop" 
+                    ItemsSource="{Binding Path=Items}" Drop="OnFileDrop" 
                     SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">

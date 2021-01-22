@@ -11,7 +11,7 @@
     <DataTemplate x:Key="PeakItemsControl" DataType="core:Peak">
         <materialDesign:Chip IsDeletable="True" Tag="{Binding}" Cursor="Arrow" 
                              DeleteCommandParameter="{Binding}" 
-                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeletePeak}">
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.SelectedItem.DeletePeak}">
             <TextBlock VerticalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0:N2}, {1:N2}">
@@ -27,7 +27,7 @@
         <materialDesign:Chip IsDeletable="True"  Tag="{Binding}"
                              x:Name="PART_CHIP"
                              DeleteCommandParameter="{Binding}" 
-                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteIntegral}">
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.SelectedItem.DeleteIntegral}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -73,7 +73,7 @@
                 <Button  Width="16" Height="16" Margin="8 0 0 0" VerticalAlignment="Center" 
                          Grid.Column="1" x:Name="PART_OK_BTN"
                          Grid.Row="1" Visibility="Collapsed"
-                         Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.UpdateIntegralCommand}">
+                         Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.SelectedItem.UpdateIntegralCommand}">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>
@@ -108,7 +108,7 @@
         </DataTemplate.Triggers>
     </DataTemplate>
     <!--TAB TEMPLATE-->
-    <DataTemplate x:Key="TabTemplate" DataType="viewModel:SpectrumViewModel">
+    <DataTemplate x:Key="TabTemplate" DataType="viewModel:DocumentViewModel">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
@@ -139,12 +139,12 @@
             <!--Column2-->
             <ScrollViewer Grid.Column="1">
                 <StackPanel>
-                    <TextBlock TextWrapping="Wrap" Text="{Binding Path=Title, Mode=OneWay}"
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Path=SelectedItem.Title, Mode=OneWay}"
                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
                     <!--Properties-->
                     <TextBlock TextWrapping="Wrap" Margin="0,10" 
                                Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Properties"/>
-                    <ItemsControl ItemsSource="{Binding Path=SpecialParameters, Mode=OneWay}">
+                    <ItemsControl ItemsSource="{Binding Path=SelectedItem.SpecialParameters, Mode=OneWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock TextWrapping="Wrap">
@@ -162,7 +162,7 @@
                     <StackPanel>
                         <TextBlock Text="Peaks" Margin="0,10"
                                    Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
-                        <ItemsControl ItemsSource="{Binding Peaks}" ItemTemplate="{StaticResource PeakItemsControl}">
+                        <ItemsControl ItemsSource="{Binding SelectedItem.Peaks}" ItemTemplate="{StaticResource PeakItemsControl}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel/>
@@ -172,7 +172,7 @@
                         <StackPanel.Style>
                             <Style TargetType="{x:Type StackPanel}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Peaks.Count}" Value="0">
+                                    <DataTrigger Binding="{Binding SelectedItem.Peaks.Count}" Value="0">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -183,7 +183,7 @@
                     <StackPanel>
                         <TextBlock Text="Integrals" Margin="0,10"
                                    Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
-                        <ItemsControl ItemsSource="{Binding Integrals}" ItemTemplate="{StaticResource IntegralItemsControl}">
+                        <ItemsControl ItemsSource="{Binding SelectedItem.Integrals}" ItemTemplate="{StaticResource IntegralItemsControl}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel/>
@@ -196,14 +196,14 @@
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
                             <Label>Integration Factor:</Label>
-                            <TextBox Grid.Column="1" Text="{Binding IntegralFactor, Mode=TwoWay}" 
+                            <TextBox Grid.Column="1" Text="{Binding SelectedItem.IntegralFactor, Mode=TwoWay}" 
                                      materialDesign:HintAssist.HelperText="1 = absolute Integrals"
                                      materialDesign:HintAssist.Hint="Integration Factor"/>
                         </Grid>
                         <StackPanel.Style>
                             <Style TargetType="{x:Type StackPanel}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Integrals.Count}" Value="0">
+                                    <DataTrigger Binding="{Binding SelectedItem.Integrals.Count}" Value="0">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
