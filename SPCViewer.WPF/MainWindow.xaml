@@ -9,10 +9,11 @@
         xmlns:viewmodel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
         xmlns:controls="clr-namespace:ThemeCommons.Controls;assembly=ThemeCommons"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
-        x:Name="mainWindow"
+        x:Name="Window"
         IconSize="24"
         mc:Ignorable="d"
-        TitlebarHeight="55"
+        TitlebarHeight="55" 
+        Background="{DynamicResource Dark}"
         Icon="Resources/spc_icon.ico"
         Style="{DynamicResource WindowStyle}"
         AllowDrop="True" Height="550" Width="1000" MinWidth="1000">
@@ -66,72 +67,75 @@
             </ToolBarTray>
         </Grid>
     </controls:DefaultWindow.TitlebarContent>
-    <Window.Resources>
-        <ResourceDictionary Source="Styles/TabTemplate.xaml" />
-    </Window.Resources>
+    <controls:DefaultWindow.Resources>
+        <ResourceDictionary Source="Styles/TabTemplate.xaml" >
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/Styles/Colors.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </controls:DefaultWindow.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="75"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Label Margin="10 10 10 0" Content="Documents" FontSize="14" Foreground="{DynamicResource Light}"
+                   FontWeight="SemiBold"/>
+            <ListBox Margin="10" 
+                     ItemsSource="{Binding Path=Items}" 
+                     ItemContainerStyle="{DynamicResource ListBoxItemSidebarStyle}"
+                     BorderThickness="0"
+                     SelectedIndex="{Binding SelectedIndex}"/>
+        </StackPanel>
+        <DockPanel Grid.Row="1" Grid.Column="0">
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="35"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="10 10 10 0" FontSize="14" Foreground="{DynamicResource Light}"
+                           FontWeight="SemiBold" Text="Spectra"/>
+                <Button Grid.Column="1"
+                        FontSize="12" Width="24" Height="24"
+                        Click="Open_Click"
+                        Background="{DynamicResource HoverColor}"
+                        Content="&#xE710;" Style="{DynamicResource RoundedActionButtonStyle}"/>
+            </Grid>
+            <ListBox Margin="10" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ItemsSource="{Binding Path=Items}" 
+                     ItemContainerStyle="{DynamicResource ListBoxItemSidebarStyle}"
+                     BorderThickness="0"
+                     SelectedIndex="{Binding SelectedIndex}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="35"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Title}"/>
+                            <Button Grid.Column="1"
+                                    Margin="2 0 0 0"
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.DeleteItemCommand}"
+                                    Content="&#xE106;" Style="{DynamicResource RoundedActionButtonStyle}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
         <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 
+                    Grid.Column="1" Grid.RowSpan="2" Grid.Row="0"
                     ItemsSource="{Binding Path=Items}" Drop="OnFileDrop" 
                     SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
-                    <Setter Property="Header" Value="{Binding Title}"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TabItem}">
-                                <Border BorderThickness="0" BorderBrush="Transparent">
-                                    <Border x:Name="PART_BORDER" Padding="40 10" IsHitTestVisible="True" Background="Transparent"
-                                            BorderThickness="0" BorderBrush="{StaticResource ActiveColor}"
-                                            materialDesign:RippleAssist.Feedback="{DynamicResource MaterialDesignFlatButtonRipple}">
-                                        <Grid MinHeight="20">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="16"/>
-                                                <ColumnDefinition Width="1*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Image VerticalAlignment="Center" Source="/SPCViewer.WPF;component/Resources/spc_icon.ico"/>
-                                            <Label Grid.Column="1" Content="{TemplateBinding Header}" 
-                                                   Foreground="{StaticResource Background}"
-                                                   FontSize="14" HorizontalAlignment="Center"
-                                                   FontWeight="DemiBold"
-                                                   x:Name="PART_TEXT"/>
-                                            <Button Grid.Column="2" Width="16" Height="16" 
-                                                    Margin="2 0 0 0" VerticalAlignment="Center"
-                                                    CommandParameter="{Binding}"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.DeleteItemCommand}">
-                                                <Button.Template>
-                                                    <ControlTemplate TargetType="{x:Type Button}">
-                                                        <Grid >
-                                                            <Ellipse x:Name="Bg" Fill="Transparent" Stroke="{StaticResource ActiveColor}" 
-                                                                     StrokeThickness="0" />
-                                                            <materialDesign:PackIcon Kind="Close" Width="12" Height="12"
-                                                                HorizontalAlignment="Center"
-                                                                VerticalAlignment="Center" />
-                                                        </Grid>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="Bg" Property="StrokeThickness" Value="1" />
-                                                                <Setter TargetName="Bg" Property="Fill" Value="#FFA6A6A6"/>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Button.Template>
-                                            </Button>
-                                            </Grid>
-                                    </Border>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="PART_BORDER" Property="BorderThickness" Value="0 0 0 1.5"/>
-                                        <Setter TargetName="PART_TEXT" Property="Foreground" Value="{StaticResource ActiveColor}"/> 
-                                    </Trigger>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="PART_BORDER" Property="Background" Value="{StaticResource HoverColorOpacity}"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Visibility" Value="Collapsed"/>
                 </Style>
             </TabControl.ItemContainerStyle>
         </TabControl>
