@@ -47,6 +47,20 @@ namespace SPCViewer.ViewModel
             });
         }
 
+        private OxyColor _color = OxyColor.Parse(Settings.Instance.ExperimentalColor);
+        /// <summary>
+        /// Color of Experimental value
+        /// </summary>
+        public OxyColor Color
+        {
+            get => _color;
+            set => Set(ref _color, value, () =>
+            {
+                ExperimentalSeries.Color = Color;
+                Parent.Model.InvalidatePlot(true);
+            });
+        }
+
         /// <summary>
         /// List of Annotations
         /// </summary>

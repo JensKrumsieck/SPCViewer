@@ -19,18 +19,6 @@ namespace SPCViewer.Core.Plots
                 OnPropertyChanged();
             }
         }
-        /// <summary>
-        /// Makes Color bindable for UI
-        /// </summary>
-        public OxyColor BindableColor
-        {
-            get => Color;
-            set
-            {
-                Color = value;
-                OnPropertyChanged();
-            }
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -87,7 +87,6 @@ namespace SPCViewer.Core.Plots
         /// </summary>
         public void SetUp(Spectrum spectrum)
         {
-            Title = Path.GetFileName(spectrum.Title);
             //setup x axis 
             XAxis.Title = spectrum.Quantity();
             XAxis.Unit = spectrum.Unit();
