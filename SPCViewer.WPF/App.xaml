@@ -15,8 +15,8 @@
                 <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="Gray" SecondaryColor="#ff5722" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="Styles/Toolbar.xaml"/>
-                <ResourceDictionary Source="Styles/TabTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/ListBoxTemplates.xaml"/>
+                <ResourceDictionary Source="Templates/TabTemplate.xaml"/>
+                <ResourceDictionary Source="Templates/ListBoxTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

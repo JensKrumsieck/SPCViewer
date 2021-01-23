@@ -8,7 +8,6 @@ using System;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
-using OxyPlot.Series;
 using TinyMVVM;
 using TinyMVVM.Command;
 using OxyDataPoint = OxyPlot.DataPoint;
