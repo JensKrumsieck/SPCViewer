@@ -7,6 +7,7 @@
         xmlns:extension="clr-namespace:SPCViewer.WPF.Extension" 
         xmlns:viewmodel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
         xmlns:controls="clr-namespace:ThemeCommons.Controls;assembly=ThemeCommons"
+        xmlns:commons="clr-namespace:ThemeCommons.Converter;assembly=ThemeCommons"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         x:Name="Window"
         IconSize="24"
@@ -32,7 +33,7 @@
                     <ToolBar Style="{DynamicResource ToolbarStyle}">
                         <Button Style="{DynamicResource ToolbarButton}" Click="Open_Click" extension:ControlExtensions.Icon="Folder" ToolTip="Open"/>
                         <Button Style="{DynamicResource ToolbarButton}" Click="Save_Click" extension:ControlExtensions.Icon="ContentSave" ToolTip="Save"
-                            IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}"/>
+                            IsEnabled="{Binding Path=SelectedItem, Converter={commons:NotNullConverter}}"/>
                     </ToolBar>
                 </ToolBarTray>
                 <TextBlock Text="{Binding Path=SelectedItem.Title}" VerticalAlignment="Center"/>
@@ -41,7 +42,7 @@
                          HorizontalAlignment="Right" Margin="0 0 150 0">
                 <ToolBar Style="{DynamicResource ToolbarStyle}" Background="{StaticResource Background}" VerticalAlignment="Bottom">
                     <ListBox SelectedIndex="{Binding SelectedItem.MouseAction, Mode=TwoWay, IsAsync=True, Converter={converter:UIActionToIntConverter}}" 
-                         Background="Transparent" SelectionMode="Single" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}"
+                         Background="Transparent" SelectionMode="Single" IsEnabled="{Binding Path=SelectedItem, Converter={commons:NotNullConverter}}"
                          ItemsPanel="{DynamicResource HorizontalStack}">
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="MagnifyScan" ToolTip="Zoom"/>
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="EyeDropperVariant" ToolTip="Tracker"/>
@@ -51,13 +52,13 @@
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="EyedropperPlus" ToolTip="PickValue"/>
                     </ListBox>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
-                    <ListBox SelectionMode="Extended" SelectionChanged="Series_VisibleChanged"  Background="Transparent" 
-                         IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}"
+                    <ListBox SelectionMode="Extended" Background="Transparent" 
+                         IsEnabled="{Binding Path=SelectedItem, Converter={commons:NotNullConverter}}"
                          ItemsPanel="{DynamicResource HorizontalStack}">
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="Delta" ToolTip="Show Derivative"
-                                 IsSelected="{Binding SelectedItem.SelectedItem.DerivSeries.IsVisible, Mode=TwoWay, IsAsync=True}"/>
+                                 IsSelected="{Binding SelectedItem.SelectedItem.DerivSeries.BindableIsVisible, Mode=TwoWay, IsAsync=True}"/>
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="MathIntegralBox" ToolTip="Show Integral"
-                                 IsSelected="{Binding SelectedItem.SelectedItem.IntegralSeries.IsVisible, Mode=TwoWay, IsAsync=True}"/>
+                                 IsSelected="{Binding SelectedItem.SelectedItem.IntegralSeries.BindableIsVisible, Mode=TwoWay, IsAsync=True}"/>
                     </ListBox>
                 </ToolBar>
             </ToolBarTray>
@@ -121,10 +122,10 @@
                     Grid.Column="1" Grid.RowSpan="2" Grid.Row="0"
                     ItemsSource="{Binding Path=Items}" Drop="OnFileDrop" 
                     SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" ItemContainerStyle="{StaticResource CollapsedTabHeaders}"/>
-        <TabControl Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" ItemContainerStyle="{StaticResource TabHeaderStyle}" DataContext="{Binding SelectedItem}">
-            <TabItem Header="Properties" extension:ControlExtensions.Icon="ListStatus" ContentTemplate="{DynamicResource PropertiesTemplate}"
-                          Content="{Binding SelectedItem}"/>
-            <TabItem Header="Settings" extension:ControlExtensions.Icon="Cog"></TabItem>
+        <TabControl Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" ItemContainerStyle="{StaticResource TabHeaderStyle}" ContentTemplateSelector="{StaticResource TemplateByTypeSelector}"
+                    Background="{DynamicResource Dark}" Foreground="{DynamicResource Light}">
+            <TabItem extension:ControlExtensions.Icon="ListStatus" Header="Properties" DataContext="{Binding SelectedItem.SelectedItem}" Content="{Binding}" />
+            <TabItem extension:ControlExtensions.Icon="Cog" Header="Settings" DataContext="{Binding SelectedItem}" Content="{Binding}" />
         </TabControl>
     </Grid>
 </controls:DefaultWindow>

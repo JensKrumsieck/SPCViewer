@@ -2,9 +2,9 @@
 using ChemSharp.Extensions;
 using OxyPlot;
 using OxyPlot.Annotations;
-using OxyPlot.Series;
 using SPCViewer.Core;
 using SPCViewer.Core.Extension;
+using SPCViewer.Core.Plots;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,17 +21,17 @@ namespace SPCViewer.ViewModel
         /// <summary>
         /// The Series containing experimental data
         /// </summary>
-        public LineSeries ExperimentalSeries { get; set; }
+        public LineSeriesEx ExperimentalSeries { get; set; }
 
         /// <summary>
         /// The Series containing integrated data
         /// </summary>
-        public LineSeries IntegralSeries { get; set; }
+        public LineSeriesEx IntegralSeries { get; set; }
 
         /// <summary>
         /// The Series containing derived data
         /// </summary>
-        public LineSeries DerivSeries { get; set; }
+        public LineSeriesEx DerivSeries { get; set; }
 
         /// <summary>
         /// List of Annotations
@@ -98,14 +98,14 @@ namespace SPCViewer.ViewModel
         /// </summary>
         private void InitSeries()
         {
-            ExperimentalSeries = new LineSeries
+            ExperimentalSeries = new LineSeriesEx
             {
                 ItemsSource = Spectrum.XYData,
                 Mapping = Parent.Model.Mapping,
                 StrokeThickness = Settings.Instance.SeriesThickness,
                 Color = OxyColor.Parse(Settings.Instance.ExperimentalColor)
             };
-            IntegralSeries = new LineSeries
+            IntegralSeries = new LineSeriesEx
             {
                 ItemsSource = Spectrum.Integral,
                 Mapping = Parent.Model.Mapping,
@@ -113,7 +113,7 @@ namespace SPCViewer.ViewModel
                 StrokeThickness = Settings.Instance.SeriesThickness,
                 Color = OxyColor.Parse(Settings.Instance.IntegralColor)
             };
-            DerivSeries = new LineSeries
+            DerivSeries = new LineSeriesEx
             {
                 ItemsSource = Spectrum.Derivative,
                 Mapping = Parent.Model.Mapping,

@@ -40,7 +40,7 @@ namespace SPCViewer.Core.Plots
             var dataHeight = InverseTransform(new ScreenPoint(0, -PlotModel.PlotArea.Height));
             var height = dataHeight.Y;
 
-            var series = PlotModel.Series[0] as LineSeries;
+            var series = PlotModel.Series[0] as LineSeriesEx;
             var data = series?.ItemsSource;
             var lowest = data?.Cast<ChemSharp.DataPoint>().Min(s => s.Y) ?? 0d;
             lowest /= ((DefaultPlotModel)PlotModel).NormalizationFactor;

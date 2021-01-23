@@ -123,12 +123,12 @@ namespace SPCViewer.Core.Plots
         /// Return Series Maximum
         /// </summary>
         /// <returns></returns>
-        public double Maximum() => (from LineSeries series in Series.Where(s => s.IsVisible) select series.ItemsSource.Cast<ChemSharp.DataPoint>().Max(s => s.Y)).Prepend(double.MinValue).Max();
+        public double Maximum() => (from LineSeriesEx series in Series.Where(s => s.IsVisible) select series.ItemsSource.Cast<ChemSharp.DataPoint>().Max(s => s.Y)).Prepend(double.MinValue).Max();
 
         /// <summary>
         /// returns Series Minimum
         /// </summary>
         /// <returns></returns>
-        public double Minimum() => (from LineSeries series in Series.Where(s => s.IsVisible) select series.ItemsSource.Cast<ChemSharp.DataPoint>().Min(s => s.Y)).Prepend(double.MaxValue).Min();
+        public double Minimum() => (from LineSeriesEx series in Series.Where(s => s.IsVisible) select series.ItemsSource.Cast<ChemSharp.DataPoint>().Min(s => s.Y)).Prepend(double.MaxValue).Min();
     }
 }

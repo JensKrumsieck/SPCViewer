@@ -3,7 +3,9 @@
                     xmlns:viewModel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
                     xmlns:oxy="http://oxyplot.org/skiawpf"
                     xmlns:oxyshared="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared"
-                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:selector="clr-namespace:ThemeCommons.Selector;assembly=ThemeCommons"
+                    x:Class="SPCViewer.WPF.Templates.TabTemplate">
     <!--PLOTVIEW TAB TEMPLATE-->
     <DataTemplate x:Key="TabTemplate" DataType="viewModel:DocumentViewModel">
         <Grid>
@@ -29,6 +31,42 @@
                 </oxy:PlotView.DefaultTrackerTemplate>
             </oxy:PlotView>
            </Grid>
+    </DataTemplate>
+
+    <!--SETTINGS TAB TEMPLATE-->
+    <DataTemplate x:Key="SettingsTemplate" DataType="viewModel:DocumentViewModel">
+        <DataTemplate.Resources>
+            <materialDesign:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+        </DataTemplate.Resources>
+        <ScrollViewer Visibility="{Binding Converter={StaticResource NullableToVisibilityConverter}}">
+            <StackPanel Margin="15">
+                <Label Content="X Axis" Style="{StaticResource SidebarLabel}"/>
+                <UniformGrid>
+                    <TextBox Style="{StaticResource SidebarTextBox}" 
+                             Text="{Binding Model.XAxis.BindableActualMinimum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
+                             materialDesign:HintAssist.HelperText="X Axis Minimum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
+                    <TextBox Style="{StaticResource SidebarTextBox}" 
+                             Text="{Binding Model.XAxis.BindableActualMaximum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}" 
+                             materialDesign:HintAssist.HelperText="X Axis Maximum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
+                </UniformGrid>
+                <Label Content="Y Axis" Style="{StaticResource SidebarLabel}"/>
+                <UniformGrid>
+                    <TextBox Style="{StaticResource SidebarTextBox}" 
+                         Text="{Binding Model.YAxis.BindableActualMinimum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
+                         materialDesign:HintAssist.HelperText="Y Axis Minimum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
+                    <TextBox Style="{StaticResource SidebarTextBox}" 
+                         Text="{Binding Model.YAxis.BindableActualMaximum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}" 
+                         materialDesign:HintAssist.HelperText="Y Axis Maximum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
+                </UniformGrid>
+                <Separator/>
+                <Label Content="Stroke" Style="{StaticResource SidebarLabel}"/>
+                <UniformGrid>
+                    <TextBox Style="{StaticResource SidebarTextBox}" 
+                             Text="{Binding SelectedItem.ExperimentalSeries.BindableStrokeThickness, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
+                             KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
+                </UniformGrid>
+            </StackPanel>
+        </ScrollViewer>
     </DataTemplate>
 
     <!--PROPERTIES TAB TEMPLATE-->
@@ -84,4 +122,11 @@
             </StackPanel>
         </ScrollViewer>
     </DataTemplate>
+
+    <selector:TemplateByTypeSelector x:Key="TemplateByTypeSelector" TemplateForNullItem="{StaticResource PropertiesTemplate}">
+        <selector:TemplateByTypeSelector.Templates>
+            <selector:TemplateForType Type="viewModel:DocumentViewModel" DataTemplate="{StaticResource SettingsTemplate}"/>
+            <selector:TemplateForType Type="viewModel:SpectrumViewModel" DataTemplate="{StaticResource PropertiesTemplate}"/>
+        </selector:TemplateByTypeSelector.Templates> 
+    </selector:TemplateByTypeSelector>
 </ResourceDictionary>

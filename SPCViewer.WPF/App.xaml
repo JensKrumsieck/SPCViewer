@@ -16,6 +16,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="Styles/TabItem.xaml"/>
                 <ResourceDictionary Source="Styles/Toolbar.xaml"/>
+                <ResourceDictionary Source="Styles/TextBox.xaml"/>
+                <ResourceDictionary Source="Styles/Label.xaml"/>
                 <ResourceDictionary Source="Templates/TabTemplate.xaml"/>
                 <ResourceDictionary Source="Templates/ListBoxTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>

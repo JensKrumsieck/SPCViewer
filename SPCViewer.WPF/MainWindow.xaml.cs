@@ -150,21 +150,6 @@ namespace SPCViewer.WPF
         /// <param name="e"></param>
         private void Series_VisibleChanged(object sender, EventArgs e) => ViewModel.SelectedItem.Refresh();
 
-
-        /// <summary>
-        /// Explicit Binding on Enter
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BindingOnEnterUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key != Key.Enter) return;
-            var textBox = (TextBox)sender;
-            var expr = textBox.GetBindingExpression(TextBox.TextProperty);
-            expr?.UpdateSource();
-            e.Handled = true;
-        }
-
         /// <summary>
         /// Creates document
         /// </summary>
