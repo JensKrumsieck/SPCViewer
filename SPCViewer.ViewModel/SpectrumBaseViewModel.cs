@@ -6,7 +6,7 @@ using TinyMVVM;
 
 namespace SPCViewer.ViewModel
 {
-    public abstract class SpectrumBaseViewModel : BaseViewModel
+    public abstract class SpectrumBaseViewModel : ListItemViewModel<DocumentViewModel, SpectrumViewModel>
     {
         private Spectrum _spectrum;
         /// <summary>
@@ -50,14 +50,14 @@ namespace SPCViewer.ViewModel
         public ObservableCollection<Peak> Peaks { get; set; } =
             new ObservableCollection<Peak>();
 
-        protected SpectrumBaseViewModel(IXYDataProvider provider)
+        protected SpectrumBaseViewModel(DocumentViewModel parent, IXYDataProvider provider) : base(parent)
         {
             //load file and set up spectrum
             Spectrum = new Spectrum { DataProvider = provider };
             Path = provider.Path;
         }
 
-        protected SpectrumBaseViewModel(string path) : this(ExtensionHandler.Handle(path)) { }
+        protected SpectrumBaseViewModel(DocumentViewModel parent, string path) : this(parent,ExtensionHandler.Handle(path)) { }
 
         /// <summary>
         /// Fires when IntegralFactor changes

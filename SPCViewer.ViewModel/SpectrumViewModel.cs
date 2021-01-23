@@ -18,8 +18,6 @@ namespace SPCViewer.ViewModel
     /// </summary>
     public class SpectrumViewModel : SpectrumBaseViewModel
     {
-        public DocumentViewModel Parent { get; }
-
         /// <summary>
         /// The Series containing experimental data
         /// </summary>
@@ -83,10 +81,8 @@ namespace SPCViewer.ViewModel
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="provider"></param>
-        public SpectrumViewModel(DocumentViewModel parent, IXYDataProvider provider) : base(provider)
+        public SpectrumViewModel(DocumentViewModel parent, IXYDataProvider provider) : base(parent, provider)
         {
-            Parent = parent;
-            Parent.SelectedIndexChanged += (s, e) => OnPropertyChanged(nameof(IsSelected));
             //init OxyPlot stuff
             Parent.Model.SetUp(Spectrum);
             InitSeries();
@@ -131,10 +127,5 @@ namespace SPCViewer.ViewModel
             Parent.Model.Series.Add(DerivSeries);
             Parent.Model.YAxisRefresh();
         }
-
-        /// <summary>
-        /// Indicates if this spectrum is selected
-        /// </summary>
-        public bool IsSelected => Parent.SelectedItem == this;
     }
 }

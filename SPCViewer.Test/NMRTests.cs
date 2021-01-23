@@ -15,7 +15,8 @@ namespace SPCViewer.Test
         public void SetUp()
         {
             const string path = "files/nmr/fid";
-            _svm = new SpectrumViewModel(path);
+            var doc = new DocumentViewModel();
+            _svm = new SpectrumViewModel(doc, path);
             _spc = _svm.Spectrum;
         }
 
