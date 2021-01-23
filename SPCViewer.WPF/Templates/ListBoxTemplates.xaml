@@ -3,10 +3,27 @@
                     xmlns:viewModel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
                     xmlns:core="clr-namespace:SPCViewer.Core;assembly=SPCViewer.Core"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-                    xmlns:converter="clr-namespace:SPCViewer.WPF.Converter">
+                    xmlns:converter="clr-namespace:SPCViewer.WPF.Converter"
+                    xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Runtime">
     <ItemsPanelTemplate x:Key="HorizontalStack">
         <StackPanel Orientation="Horizontal"/>
     </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="Wrap">
+        <WrapPanel/>
+    </ItemsPanelTemplate>
+
+
+    <!--DICTIONARY LIST-->
+    <DataTemplate x:Key="DictionaryList" DataType="{x:Type generic:KeyValuePair}">
+        <TextBlock TextWrapping="Wrap">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0}: {1}">
+                    <Binding Path="Key"/>
+                    <Binding Path="Value"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </DataTemplate>
 
     <!--DOCUMENT LIST-->
     <DataTemplate x:Key="DocumentList" DataType="{x:Type viewModel:DocumentViewModel}">
@@ -70,7 +87,7 @@
     <DataTemplate x:Key="PeakItemsControl" DataType="core:Peak">
         <materialDesign:Chip IsDeletable="True" Tag="{Binding}" Cursor="Arrow" 
                              DeleteCommandParameter="{Binding}" 
-                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.SelectedItem.DeletePeak}">
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeletePeak}">
             <TextBlock VerticalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0:N2}, {1:N2}">
@@ -87,7 +104,7 @@
         <materialDesign:Chip IsDeletable="True"  Tag="{Binding}"
                              x:Name="PART_CHIP"
                              DeleteCommandParameter="{Binding}" 
-                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.SelectedItem.DeleteIntegral}">
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteIntegral}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -133,7 +150,7 @@
                 <Button  Width="16" Height="16" Margin="8 0 0 0" VerticalAlignment="Center" 
                          Grid.Column="1" x:Name="PART_OK_BTN"
                          Grid.Row="1" Visibility="Collapsed"
-                         Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.SelectedItem.UpdateIntegralCommand}">
+                         Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.UpdateIntegralCommand}">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>

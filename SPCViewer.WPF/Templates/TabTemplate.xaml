@@ -2,12 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:viewModel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
                     xmlns:oxy="http://oxyplot.org/skiawpf"
-                    xmlns:oxyshared="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared">
-
-    <Style TargetType="TabItem" x:Key="CollapsedTabHeaders">
-        <Setter Property="Visibility" Value="Collapsed"/>
-    </Style>
-    <!--TAB TEMPLATE-->
+                    xmlns:oxyshared="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <!--PLOTVIEW TAB TEMPLATE-->
     <DataTemplate x:Key="TabTemplate" DataType="viewModel:DocumentViewModel">
         <Grid>
             <oxy:PlotView x:Name="ThePlotView" Model="{Binding Path=Model}" 
@@ -32,5 +29,59 @@
                 </oxy:PlotView.DefaultTrackerTemplate>
             </oxy:PlotView>
            </Grid>
+    </DataTemplate>
+
+    <!--PROPERTIES TAB TEMPLATE-->
+    <DataTemplate x:Key="PropertiesTemplate" DataType="viewModel:SpectrumViewModel">
+        <DataTemplate.Resources>
+            <materialDesign:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+        </DataTemplate.Resources>
+        <ScrollViewer Visibility="{Binding Converter={StaticResource NullableToVisibilityConverter}}">
+            <StackPanel>
+                <TextBlock TextWrapping="Wrap" Text="{Binding Path=Title, Mode=OneWay}"
+                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,10" 
+                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="Properties"/>
+                <ItemsControl ItemsSource="{Binding Path=SpecialParameters, Mode=OneWay}" ItemTemplate="{DynamicResource DictionaryList}"/>
+                <StackPanel>
+                    <TextBlock Text="Peaks" Margin="0,10"
+                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                    <ItemsControl ItemsSource="{Binding Peaks}" ItemTemplate="{DynamicResource PeakItemsControl}" ItemsPanel="{DynamicResource Wrap}"/>
+                    <StackPanel.Style>
+                        <Style TargetType="{x:Type StackPanel}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Peaks.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Integrals" Margin="0,10"
+                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                    <ItemsControl ItemsSource="{Binding Integrals}" ItemTemplate="{DynamicResource IntegralItemsControl}" ItemsPanel="{DynamicResource Wrap}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label>Integration Factor:</Label>
+                        <TextBox Grid.Column="1" Text="{Binding IntegralFactor, Mode=TwoWay}" 
+                                 materialDesign:HintAssist.HelperText="1 = absolute Integrals"
+                                 materialDesign:HintAssist.Hint="Integration Factor"/>
+                    </Grid>
+                    <StackPanel.Style>
+                        <Style TargetType="{x:Type StackPanel}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Integrals.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </DataTemplate>
 </ResourceDictionary>

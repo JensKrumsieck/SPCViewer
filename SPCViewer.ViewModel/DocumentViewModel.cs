@@ -162,6 +162,7 @@ namespace SPCViewer.ViewModel
             Model.Series.Remove(tab.ExperimentalSeries);
             Model.Series.Remove(tab.DerivSeries);
             Model.Series.Remove(tab.IntegralSeries);
+            tab.Annotations.Clear();
             if (SelectedItem == tab)
             {
                 if (SelectedIndex == 0 && Items.Count > 1) SelectedIndex++;
