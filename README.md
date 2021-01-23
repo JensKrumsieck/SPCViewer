@@ -4,6 +4,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/JensKrumsieck/SPCViewer)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/JensKrumsieck/SPCViewer)
 ![GitHub Pre-Releases](https://img.shields.io/github/downloads-pre/JensKrumsieck/SPCViewer/latest/total)
+![.NET](https://github.com/JensKrumsieck/SPCViewer/workflows/.NET/badge.svg)
 # SPCViewer
 
 SPCViewer (fka. BluEPRint) is capable of viewing and analyzing Spectra from Spectrometers listed below.
