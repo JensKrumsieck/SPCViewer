@@ -1,19 +1,15 @@
 ﻿using ChemSharp.DataProviders;
 using ChemSharp.Extensions;
-using ChemSharp.Spectroscopy.DataProviders;
 using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Series;
 using SPCViewer.Core;
 using SPCViewer.Core.Extension;
-using SPCViewer.Core.Plots;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using TinyMVVM.Command;
-using OxyDataPoint = OxyPlot.DataPoint;
 
 namespace SPCViewer.ViewModel
 {
@@ -90,6 +86,7 @@ namespace SPCViewer.ViewModel
         public SpectrumViewModel(DocumentViewModel parent, IXYDataProvider provider) : base(provider)
         {
             Parent = parent;
+            Parent.SelectedIndexChanged += (s, e) => OnPropertyChanged(nameof(IsSelected));
             //init OxyPlot stuff
             Parent.Model.SetUp(Spectrum);
             InitSeries();
@@ -132,7 +129,12 @@ namespace SPCViewer.ViewModel
             Parent.Model.Series.Add(ExperimentalSeries);
             Parent.Model.Series.Add(IntegralSeries);
             Parent.Model.Series.Add(DerivSeries);
-            Parent.Model.YAxisZoom();
+            Parent.Model.YAxisRefresh();
         }
+
+        /// <summary>
+        /// Indicates if this spectrum is selected
+        /// </summary>
+        public bool IsSelected => Parent.SelectedItem == this;
     }
 }

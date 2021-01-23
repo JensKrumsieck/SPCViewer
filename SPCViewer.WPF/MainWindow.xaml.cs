@@ -144,12 +144,12 @@ namespace SPCViewer.WPF
         }
 
         /// <summary>
-        /// Invalidates Plot when Integral/Derivative changed
+        /// Invalidates Plot when Series changed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AdditionalSeries_VisibleChanged(object sender, SelectionChangedEventArgs e) =>
-            ViewModel.SelectedItem.Model.YAxisZoom();
+        private void Series_VisibleChanged(object sender, EventArgs e) =>
+            ViewModel.SelectedItem?.Model.YAxisRefresh(ViewModel.SelectedItem?.Model.Series.Any(s => s.IsVisible)??false);
 
         /// <summary>
         /// Explicit Binding on Enter
@@ -164,5 +164,12 @@ namespace SPCViewer.WPF
             expr?.UpdateSource();
             e.Handled = true;
         }
+
+        /// <summary>
+        /// Creates document
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DocumentCreate_OnClick(object sender, RoutedEventArgs e) => ViewModel.CreateDocument();
     }
 }

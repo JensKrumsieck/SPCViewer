@@ -7,13 +7,16 @@ using SPCViewer.Core.Plots;
 using System;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows.Input;
+using OxyPlot.Series;
 using TinyMVVM;
+using TinyMVVM.Command;
 using OxyDataPoint = OxyPlot.DataPoint;
 
 
 namespace SPCViewer.ViewModel
 {
-    public class DocumentViewModel : ListingViewModel<SpectrumViewModel>
+    public sealed class DocumentViewModel : ListingViewModel<SpectrumViewModel>
     {
         /// <summary>
         /// The used PlotModel
@@ -25,11 +28,10 @@ namespace SPCViewer.ViewModel
         /// </summary>
         public PlotController Controller { get; }
 
+        private UIAction _mouseAction;
         /// <summary>
         /// Currently Active UI Action
         /// </summary>
-        private UIAction _mouseAction;
-
         public UIAction MouseAction
         {
             get => _mouseAction;
@@ -42,18 +44,22 @@ namespace SPCViewer.ViewModel
 
         public DocumentViewModel()
         {
+            Title = $"Untitled_{DateTime.Now:yyyy-MM-dd}";
             Model = new DefaultPlotModel();
             Controller = PlotControls.DefaultController;
             MouseAction = UIAction.Zoom;
             Items.CollectionChanged += ItemsOnCollectionChanged;
         }
 
-        private void ItemsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        /// <summary>
+        /// Binds to event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                foreach(SpectrumViewModel svm in e.NewItems) Subscribe(svm.Annotations, Model.Annotations, () => Model.InvalidatePlot(true));
-            }
+            if (e.Action != NotifyCollectionChangedAction.Add) return;
+            foreach(SpectrumViewModel svm in e.NewItems) Subscribe(svm.Annotations, Model.Annotations, () => Model.InvalidatePlot(true));
         }
 
         /// <summary>
@@ -116,7 +122,7 @@ namespace SPCViewer.ViewModel
             Model.NormalizationFactor = max;
             //send factor to peaks
             foreach (var peak in SelectedItem.Peaks) peak.Factor = max;
-            Model.YAxisZoom();
+            Model.YAxisRefresh();
             Model.InvalidatePlot(true);
         }
 
@@ -140,12 +146,16 @@ namespace SPCViewer.ViewModel
         [DeleteCommand]
         public void DeleteTab(SpectrumViewModel tab)
         {
+            Model.Series.Remove(tab.ExperimentalSeries);
+            Model.Series.Remove(tab.DerivSeries);
+            Model.Series.Remove(tab.IntegralSeries);
             if (SelectedItem == tab)
             {
                 if (SelectedIndex == 0 && Items.Count > 1) SelectedIndex++;
                 else SelectedIndex--;
             }
             Items.Remove(tab);
+            Model.InvalidatePlot(true);
         }
     }
 }

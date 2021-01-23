@@ -104,15 +104,18 @@ namespace SPCViewer.Core.Plots
         /// <summary>
         /// Zooms YAxis based on Spectrum
         /// </summary>
-        public virtual void YAxisZoom()
+        public virtual void YAxisRefresh(bool zoom = true)
         {
-            var min = Minimum();
-            var max = Maximum();
-            min /= NormalizationFactor;
-            max /= NormalizationFactor;
-            YAxis.AbsoluteMinimum = min - max * 0.5;
-            YAxis.AbsoluteMaximum = max * 2;
-            YAxis.Zoom(min - max * .1, max * 1.25);
+            if (zoom)
+            {
+                var min = Minimum();
+                var max = Maximum();
+                min /= NormalizationFactor;
+                max /= NormalizationFactor;
+                YAxis.AbsoluteMinimum = min - max * 0.5;
+                YAxis.AbsoluteMaximum = max * 2;
+                YAxis.Zoom(min - max * .1, max * 1.25);
+            }
             InvalidatePlot(true);
         }
 

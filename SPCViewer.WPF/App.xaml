@@ -6,6 +6,7 @@
              DispatcherUnhandledException="App_OnDispatcherUnhandledException">
     <Application.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Colors.xaml"/>
                 <ResourceDictionary Source="Styles/ListBox.xaml"/>

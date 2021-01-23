@@ -53,7 +53,7 @@
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="EyedropperPlus" ToolTip="PickValue"/>
                     </ListBox>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
-                    <ListBox SelectionMode="Extended" SelectionChanged="AdditionalSeries_VisibleChanged"  Background="Transparent" 
+                    <ListBox SelectionMode="Extended" SelectionChanged="Series_VisibleChanged"  Background="Transparent" 
                          IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -61,16 +61,16 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="Delta" ToolTip="Show Derivative"
-                                 IsSelected="{Binding SelectedItem.DerivSeries.IsVisible, Mode=TwoWay}"/>
+                                 IsSelected="{Binding SelectedItem.SelectedItem.DerivSeries.IsVisible, Mode=TwoWay, IsAsync=True}"/>
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="MathIntegralBox" ToolTip="Show Integral"
-                                 IsSelected="{Binding SelectedItem.IntegralSeries.IsVisible, Mode=TwoWay}"/>
+                                 IsSelected="{Binding SelectedItem.SelectedItem.IntegralSeries.IsVisible, Mode=TwoWay, IsAsync=True}"/>
                     </ListBox>
                 </ToolBar>
             </ToolBarTray>
         </Grid>
     </controls:DefaultWindow.TitlebarContent>
     <controls:DefaultWindow.Resources>
-        <ResourceDictionary Source="Styles/TabTemplate.xaml" >
+        <ResourceDictionary Source="Styles/TabTemplate.xaml">
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="/Styles/Colors.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
@@ -85,15 +85,45 @@
             <RowDefinition/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <Label Margin="10 10 10 0" Content="Documents" FontSize="14" Foreground="{DynamicResource Light}"
-                   FontWeight="SemiBold"/>
+        <DockPanel Grid.Row="0">
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="35"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="10 10 10 0" FontSize="14" Foreground="{DynamicResource Light}"
+                           FontWeight="SemiBold" Text="Documents"/>
+                <Button Grid.Column="1"
+                        ToolTip="Create Document"
+                        FontSize="12" Width="24" Height="24"
+                        Click="DocumentCreate_OnClick"
+                        Background="{DynamicResource HoverColor}"
+                        Content="&#xE710;" Style="{DynamicResource RoundedActionButtonStyle}"/>
+            </Grid>
             <ListBox Margin="10" 
                      ItemsSource="{Binding Path=Items}" 
                      ItemContainerStyle="{DynamicResource ListBoxItemSidebarStyle}"
                      BorderThickness="0"
-                     SelectedIndex="{Binding SelectedIndex}"/>
-        </StackPanel>
+                     SelectedIndex="{Binding SelectedIndex}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="35"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Title}"/>
+                            <Button Grid.Column="1"
+                                    ToolTip="Delete Document"
+                                    Margin="2 0 0 0"
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.DeleteItemCommand}"
+                                    Content="&#xE106;" Style="{DynamicResource RoundedActionButtonStyle}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
         <DockPanel Grid.Row="1" Grid.Column="0">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
@@ -105,6 +135,7 @@
                 <Button Grid.Column="1"
                         FontSize="12" Width="24" Height="24"
                         Click="Open_Click"
+                        ToolTip="Open Spectrum"
                         Background="{DynamicResource HoverColor}"
                         Content="&#xE710;" Style="{DynamicResource RoundedActionButtonStyle}"/>
             </Grid>
@@ -116,16 +147,41 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="35"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Title}"/>
-                            <!--<Button Grid.Column="1"
+                            <ToggleButton Grid.Column="1" Grid.Row="0"
+                                    ToolTip="Change Visibility"
+                                    Margin="2 0 0 0"
+                                    Click="Series_VisibleChanged"
+                                    IsChecked="{Binding ExperimentalSeries.IsVisible}"
+                                    Content="&#xE7B3;" Style="{DynamicResource RoundedActionToggleButtonStyle}"/>
+                            <Button Grid.Column="2" Grid.Row="0"
+                                    ToolTip="Delete Spectrum"
                                     Margin="2 0 0 0"
                                     CommandParameter="{Binding}"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.DeleteItemCommand}"
-                                    Content="&#xE106;" Style="{DynamicResource RoundedActionButtonStyle}"/>-->
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.SelectedItem.DeleteItemCommand}"
+                                    Content="&#xE106;" Style="{DynamicResource RoundedActionButtonStyle}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Integral" Margin="15 0 0 0" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <ToggleButton Grid.Column="1" Grid.Row="1"
+                                    ToolTip="Change Visibility"
+                                    Margin="2 0 0 0"
+                                    IsChecked="{Binding IntegralSeries.IsVisible}"
+                                    Content="&#xE7B3;" Style="{DynamicResource RoundedActionToggleButtonStyle}" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Derivative" Margin="15 0 0 0" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <ToggleButton Grid.Column="1" Grid.Row="2"
+                                    ToolTip="Change Visibility"
+                                    Margin="2 0 0 0"
+                                    IsChecked="{Binding DerivSeries.IsVisible}"
+                                    Content="&#xE7B3;" Style="{DynamicResource RoundedActionToggleButtonStyle}" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

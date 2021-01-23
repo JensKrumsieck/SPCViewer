@@ -7,13 +7,23 @@ namespace SPCViewer.ViewModel
     public class MainViewModel : ListingViewModel<DocumentViewModel>
     {
         /// <summary>
+        /// Creates a new DocumentViewModel
+        /// </summary>
+        public void CreateDocument()
+        {
+            var doc = new DocumentViewModel();
+            Items.Add(doc);
+            SelectedIndex = Items.IndexOf(doc);
+        }
+
+        /// <summary>
         /// Used to open files / create tabviewmodel
         /// </summary>
         /// <param name="files"></param>
         public void OpenFiles(string[] files)
         {
-            var doc = new DocumentViewModel();
-            Items.Add(doc);
+            if(SelectedItem == null) CreateDocument();
+            var doc = SelectedItem;
             if (files == null) return;
             foreach (var file in files)
             {
@@ -33,7 +43,6 @@ namespace SPCViewer.ViewModel
                     doc.Items.Add(page);
                    doc.SelectedIndex = doc.Items.IndexOf(page);
                 }
-                SelectedIndex = Items.IndexOf(doc);
             }
         }
 
