@@ -63,7 +63,7 @@
                 <Label Content="Stroke" Style="{StaticResource SidebarLabel}"/>
                 <UniformGrid>
                     <TextBox Style="{StaticResource SidebarTextBox}"
-                             Text="{Binding SelectedItem.ExperimentalSeries.BindableStrokeThickness, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
+                             Text="{Binding SelectedItem.StrokeThickness, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
                              KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     <TextBox Style="{StaticResource SidebarTextBox}"
                              Text="{Binding SelectedItem.ExperimentalSeries.BindableColor, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit, Converter={converter:StringToOxyColorConverter}}"

@@ -33,6 +33,20 @@ namespace SPCViewer.ViewModel
         /// </summary>
         public LineSeriesEx DerivSeries { get; set; }
 
+        private double _strokeThickness = Settings.Instance.SeriesThickness;
+        /// <summary>
+        /// all Series StrokeThickness
+        /// </summary>
+        public double StrokeThickness
+        {
+            get => _strokeThickness;
+            set => Set(ref _strokeThickness, value, () =>
+            {
+                ExperimentalSeries.StrokeThickness = DerivSeries.StrokeThickness = IntegralSeries.StrokeThickness = value;
+                Parent.Model.InvalidatePlot(true);
+            });
+        }
+
         /// <summary>
         /// List of Annotations
         /// </summary>
@@ -102,7 +116,7 @@ namespace SPCViewer.ViewModel
             {
                 ItemsSource = Spectrum.XYData,
                 Mapping = Parent.Model.Mapping,
-                StrokeThickness = Settings.Instance.SeriesThickness,
+                StrokeThickness = StrokeThickness,
                 Color = OxyColor.Parse(Settings.Instance.ExperimentalColor)
             };
             IntegralSeries = new LineSeriesEx
@@ -110,7 +124,7 @@ namespace SPCViewer.ViewModel
                 ItemsSource = Spectrum.Integral,
                 Mapping = Parent.Model.Mapping,
                 IsVisible = false,
-                StrokeThickness = Settings.Instance.SeriesThickness,
+                StrokeThickness = StrokeThickness,
                 Color = OxyColor.Parse(Settings.Instance.IntegralColor)
             };
             DerivSeries = new LineSeriesEx
@@ -118,7 +132,7 @@ namespace SPCViewer.ViewModel
                 ItemsSource = Spectrum.Derivative,
                 Mapping = Parent.Model.Mapping,
                 IsVisible = false,
-                StrokeThickness = Settings.Instance.SeriesThickness,
+                StrokeThickness = StrokeThickness,
                 Color = OxyColor.Parse(Settings.Instance.DerivativeColor)
             };
             //add series to model

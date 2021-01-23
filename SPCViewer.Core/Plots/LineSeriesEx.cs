@@ -8,18 +8,6 @@ namespace SPCViewer.Core.Plots
     public class LineSeriesEx : LineSeries, INotifyPropertyChanged
     {
         /// <summary>
-        /// Makes StrokeThickness bindable for UI
-        /// </summary>
-        public double BindableStrokeThickness
-        {
-            get => StrokeThickness;
-            set
-            {
-                StrokeThickness = value;
-                OnPropertyChanged();
-            }
-        }
-        /// <summary>
         /// Makes IsVisible bindable for UI
         /// </summary>
         public bool BindableIsVisible
