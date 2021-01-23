@@ -7,9 +7,7 @@ using SPCViewer.Core.Plots;
 using System;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Windows.Input;
 using TinyMVVM;
-using TinyMVVM.Command;
 using OxyDataPoint = OxyPlot.DataPoint;
 
 
@@ -50,8 +48,6 @@ namespace SPCViewer.ViewModel
                 MouseActionChanged();
             }
         }
-
-        public ICommand RefreshCommand => new RelayCommand(Refresh);
 
         public DocumentViewModel(MainViewModel parent)
         {
@@ -171,7 +167,5 @@ namespace SPCViewer.ViewModel
             Items.Remove(tab);
             Model.InvalidatePlot(true);
         }
-
-        public void Refresh() => Model.YAxisRefresh(Model.Series.Any(s => s.IsVisible));
     }
 }

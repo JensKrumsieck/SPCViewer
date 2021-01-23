@@ -17,22 +17,6 @@ namespace SPCViewer.WPF
     /// </summary>
     public partial class MainWindow : DefaultWindow
     {
-        public static readonly DependencyProperty ToolBoxWidthProperty =
-            DependencyProperty.Register("ToolBoxWidth", typeof(GridLength), typeof(MainWindow),
-                new PropertyMetadata(GridLength.Auto, PropertyChangedCallback));
-
-        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            Settings.Instance.ToolBoxWidth = ((GridLength)e.NewValue).Value;
-            Settings.Instance.Save();
-        }
-
-        public GridLength ToolBoxWidth
-        {
-            get => (GridLength)GetValue(ToolBoxWidthProperty);
-            set => SetValue(ToolBoxWidthProperty, value);
-        }
-
         public static IntPtr WindowHandle { get; private set; }
 
         public MainViewModel ViewModel;
@@ -40,7 +24,6 @@ namespace SPCViewer.WPF
         public MainWindow()
         {
             Settings.Instance.Load($"{AppDomain.CurrentDomain.BaseDirectory}/settings.json");
-            ToolBoxWidth = new GridLength(Settings.Instance.ToolBoxWidth);
             ViewModel = new MainViewModel();
             DataContext = ViewModel;
             InitializeComponent();
@@ -140,13 +123,6 @@ namespace SPCViewer.WPF
             handled = true;
             return IntPtr.Zero;
         }
-
-        /// <summary>
-        /// Invalidates Plot when Series changed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Series_VisibleChanged(object sender, EventArgs e) => ViewModel.SelectedItem.Refresh();
 
         /// <summary>
         /// Creates document

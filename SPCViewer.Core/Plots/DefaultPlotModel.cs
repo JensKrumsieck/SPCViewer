@@ -4,7 +4,6 @@ using OxyPlot;
 using OxyPlot.Axes;
 using SPCViewer.Core.Extension;
 using System;
-using System.IO;
 using System.Linq;
 
 namespace SPCViewer.Core.Plots
