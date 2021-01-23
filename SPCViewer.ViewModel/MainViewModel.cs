@@ -22,7 +22,7 @@ namespace SPCViewer.ViewModel
         /// <param name="files"></param>
         public void OpenFiles(string[] files)
         {
-            if(SelectedItem == null) CreateDocument();
+            if (SelectedItem == null) CreateDocument();
             var doc = SelectedItem;
             if (files == null) return;
             foreach (var file in files)
@@ -34,14 +34,14 @@ namespace SPCViewer.ViewModel
                     {
                         var page = new SpectrumViewModel(doc, new GenericCSVProvider(file, ',', i));
                         doc.Items.Add(page);
-                       doc.SelectedIndex = doc.Items.IndexOf(page);
+                        doc.SelectedIndex = doc.Items.IndexOf(page);
                     }
                 }
                 else
                 {
                     var page = new SpectrumViewModel(doc, file);
                     doc.Items.Add(page);
-                   doc.SelectedIndex = doc.Items.IndexOf(page);
+                    doc.SelectedIndex = doc.Items.IndexOf(page);
                 }
             }
         }

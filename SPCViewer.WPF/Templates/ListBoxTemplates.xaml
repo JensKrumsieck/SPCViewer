@@ -4,6 +4,10 @@
                     xmlns:core="clr-namespace:SPCViewer.Core;assembly=SPCViewer.Core"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:converter="clr-namespace:SPCViewer.WPF.Converter">
+    <ItemsPanelTemplate x:Key="HorizontalStack">
+        <StackPanel Orientation="Horizontal"/>
+    </ItemsPanelTemplate>
+
     <!--DOCUMENT LIST-->
     <DataTemplate x:Key="DocumentList" DataType="{x:Type viewModel:DocumentViewModel}">
         <Grid>

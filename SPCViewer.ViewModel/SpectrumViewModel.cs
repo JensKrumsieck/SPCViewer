@@ -37,7 +37,7 @@ namespace SPCViewer.ViewModel
         /// List of Annotations
         /// </summary>
         public ObservableCollection<Annotation> Annotations { get; set; } = new ObservableCollection<Annotation>();
-        
+
         private ICommand _deleteIntegral;
         /// <summary>
         /// Delete Command for Integrals
@@ -74,7 +74,7 @@ namespace SPCViewer.ViewModel
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="path"></param>
-        public SpectrumViewModel(DocumentViewModel parent, string path) : this(parent,ExtensionHandler.Handle(path)) { }
+        public SpectrumViewModel(DocumentViewModel parent, string path) : this(parent, ExtensionHandler.Handle(path)) { }
 
         /// <summary>
         /// ctor with provider given

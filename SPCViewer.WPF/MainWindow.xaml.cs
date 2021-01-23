@@ -25,13 +25,13 @@ namespace SPCViewer.WPF
 
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Settings.Instance.ToolBoxWidth = ((GridLength) e.NewValue).Value;
+            Settings.Instance.ToolBoxWidth = ((GridLength)e.NewValue).Value;
             Settings.Instance.Save();
         }
 
         public GridLength ToolBoxWidth
         {
-            get => (GridLength) GetValue(ToolBoxWidthProperty);
+            get => (GridLength)GetValue(ToolBoxWidthProperty);
             set => SetValue(ToolBoxWidthProperty, value);
         }
 
@@ -64,7 +64,7 @@ namespace SPCViewer.WPF
         {
             var app = Application.Current;
             if (app.Properties["args"] == null) return;
-            var files = ((string[]) app.Properties["args"])
+            var files = ((string[])app.Properties["args"])
                 ?.Where(File.Exists);
             ViewModel.OpenFiles(files.ToArray());
         }
@@ -77,7 +77,7 @@ namespace SPCViewer.WPF
         private void OnFileDrop(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
-            var files = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             ViewModel.OpenFiles(files);
         }
 
@@ -149,7 +149,7 @@ namespace SPCViewer.WPF
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Series_VisibleChanged(object sender, EventArgs e) => ViewModel.SelectedItem.Refresh();
-            
+
 
         /// <summary>
         /// Explicit Binding on Enter
@@ -159,7 +159,7 @@ namespace SPCViewer.WPF
         private void BindingOnEnterUp(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter) return;
-            var textBox = (TextBox) sender;
+            var textBox = (TextBox)sender;
             var expr = textBox.GetBindingExpression(TextBox.TextProperty);
             expr?.UpdateSource();
             e.Handled = true;

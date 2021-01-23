@@ -7,7 +7,8 @@ using System.Windows.Markup;
 namespace SPCViewer.WPF.Converter
 {
     [ValueConversion(typeof(GridLength), typeof(bool), ParameterType = typeof(double))]
-    public class GridLengthToBooleanConverter : MarkupExtension, IValueConverter{
+    public class GridLengthToBooleanConverter : MarkupExtension, IValueConverter
+    {
         public override object ProvideValue(IServiceProvider serviceProvider) => this;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>

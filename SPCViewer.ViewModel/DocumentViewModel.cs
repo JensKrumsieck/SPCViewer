@@ -72,7 +72,7 @@ namespace SPCViewer.ViewModel
         private void ItemsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action != NotifyCollectionChangedAction.Add) return;
-            foreach(SpectrumViewModel svm in e.NewItems) Subscribe(svm.Annotations, Model.Annotations, () => Model.InvalidatePlot(true));
+            foreach (SpectrumViewModel svm in e.NewItems) Subscribe(svm.Annotations, Model.Annotations, () => Model.InvalidatePlot(true));
         }
 
         /// <summary>

@@ -3,6 +3,10 @@
                     xmlns:viewModel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
                     xmlns:oxy="http://oxyplot.org/skiawpf"
                     xmlns:oxyshared="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared">
+
+    <Style TargetType="TabItem" x:Key="CollapsedTabHeaders">
+        <Setter Property="Visibility" Value="Collapsed"/>
+    </Style>
     <!--TAB TEMPLATE-->
     <DataTemplate x:Key="TabTemplate" DataType="viewModel:DocumentViewModel">
         <Grid>

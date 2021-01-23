@@ -108,7 +108,7 @@ namespace SPCViewer.Core
                 SeriesThickness = 1.5,
                 ExportWidth = 2000,
                 ExportHeight = 1000,
-                ExportDPI = 300, 
+                ExportDPI = 300,
                 ToolBoxWidth = 37
             };
     }

@@ -20,7 +20,7 @@ namespace SPCViewer.Core.Plots
                 PlotModel.InvalidatePlot(true);
             }
         }
-        
+
         public double BindableActualMaximum
         {
             get => ActualMaximum;

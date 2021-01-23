@@ -57,7 +57,7 @@ namespace SPCViewer.ViewModel
             Path = provider.Path;
         }
 
-        protected SpectrumBaseViewModel(DocumentViewModel parent, string path) : this(parent,ExtensionHandler.Handle(path)) { }
+        protected SpectrumBaseViewModel(DocumentViewModel parent, string path) : this(parent, ExtensionHandler.Handle(path)) { }
 
         /// <summary>
         /// Fires when IntegralFactor changes

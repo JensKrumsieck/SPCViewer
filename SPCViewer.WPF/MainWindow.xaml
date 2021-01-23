@@ -41,12 +41,8 @@
                          HorizontalAlignment="Right" Margin="0 0 150 0">
                 <ToolBar Style="{DynamicResource ToolbarStyle}" Background="{StaticResource Background}" VerticalAlignment="Bottom">
                     <ListBox SelectedIndex="{Binding SelectedItem.MouseAction, Mode=TwoWay, IsAsync=True, Converter={converter:UIActionToIntConverter}}" 
-                         Background="Transparent" SelectionMode="Single" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
+                         Background="Transparent" SelectionMode="Single" IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}"
+                         ItemsPanel="{DynamicResource HorizontalStack}">
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="MagnifyScan" ToolTip="Zoom"/>
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="EyeDropperVariant" ToolTip="Tracker"/>
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="FitToPageOutline" ToolTip="Normalize"/>
@@ -56,12 +52,8 @@
                     </ListBox>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                     <ListBox SelectionMode="Extended" SelectionChanged="Series_VisibleChanged"  Background="Transparent" 
-                         IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
+                         IsEnabled="{Binding Path=SelectedItem, Converter={converter:NotNullConverter}}"
+                         ItemsPanel="{DynamicResource HorizontalStack}">
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="Delta" ToolTip="Show Derivative"
                                  IsSelected="{Binding SelectedItem.SelectedItem.DerivSeries.IsVisible, Mode=TwoWay, IsAsync=True}"/>
                         <ListBoxItem Style="{StaticResource ToolbarListItem}" extension:ControlExtensions.Icon="MathIntegralBox" ToolTip="Show Integral"
@@ -76,7 +68,6 @@
             <ColumnDefinition Width="275"/>
             <ColumnDefinition />
             <ColumnDefinition Width="275"/>
-            <ColumnDefinition Width="0.417"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -129,13 +120,7 @@
         <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 
                     Grid.Column="1" Grid.RowSpan="2" Grid.Row="0"
                     ItemsSource="{Binding Path=Items}" Drop="OnFileDrop" 
-                    SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
-            <TabControl.ItemContainerStyle>
-                <Style TargetType="TabItem">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </Style>
-            </TabControl.ItemContainerStyle>
-        </TabControl>
+                    SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" ItemContainerStyle="{StaticResource CollapsedTabHeaders}"/>
         <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"></StackPanel>
     </Grid>
 </controls:DefaultWindow>
