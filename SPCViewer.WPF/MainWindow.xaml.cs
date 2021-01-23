@@ -148,8 +148,8 @@ namespace SPCViewer.WPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Series_VisibleChanged(object sender, EventArgs e) =>
-            ViewModel.SelectedItem?.Model.YAxisRefresh(ViewModel.SelectedItem?.Model.Series.Any(s => s.IsVisible)??false);
+        private void Series_VisibleChanged(object sender, EventArgs e) => ViewModel.SelectedItem.Refresh();
+            
 
         /// <summary>
         /// Explicit Binding on Enter

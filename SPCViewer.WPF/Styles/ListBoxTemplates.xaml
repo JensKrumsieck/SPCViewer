@@ -1,0 +1,166 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
+                    xmlns:core="clr-namespace:SPCViewer.Core;assembly=SPCViewer.Core"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:converter="clr-namespace:SPCViewer.WPF.Converter">
+    <!--DOCUMENT LIST-->
+    <DataTemplate x:Key="DocumentList" DataType="{x:Type viewModel:DocumentViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="35"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Title}"/>
+            <Button Grid.Column="1"
+                    ToolTip="Delete Document"
+                    Margin="2 0 0 0"
+                    CommandParameter="{Binding}"
+                    Command="{Binding Parent.DeleteItemCommand}"
+                    Content="&#xE106;" Style="{DynamicResource RoundedActionButtonStyle}"/>
+        </Grid>
+    </DataTemplate>
+
+    <!--SERIES LIST-->
+    <DataTemplate x:Key="SeriesList" DataType="{x:Type viewModel:SpectrumViewModel}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="35"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Title}"/>
+            <ToggleButton Grid.Column="1" Grid.Row="0"
+                                    ToolTip="Change Visibility"
+                                    Margin="2 0 0 0"
+                                    Command="{Binding Parent.RefreshCommand}"
+                                    IsChecked="{Binding ExperimentalSeries.IsVisible}"
+                                    Content="&#xE7B3;" Style="{DynamicResource RoundedActionToggleButtonStyle}"/>
+            <Button Grid.Column="2" Grid.Row="0"
+                                    ToolTip="Delete Spectrum"
+                                    Margin="2 0 0 0"
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding Parent.DeleteItemCommand}"
+                                    Content="&#xE106;" Style="{DynamicResource RoundedActionButtonStyle}"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Integral" Margin="15 0 0 0" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <ToggleButton Grid.Column="1" Grid.Row="1"
+                                    ToolTip="Change Visibility"
+                                    Margin="2 0 0 0"
+                                    IsChecked="{Binding IntegralSeries.IsVisible}"
+                                    Content="&#xE7B3;" Style="{DynamicResource RoundedActionToggleButtonStyle}" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Derivative" Margin="15 0 0 0" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <ToggleButton Grid.Column="1" Grid.Row="2"
+                                    ToolTip="Change Visibility"
+                                    Margin="2 0 0 0"
+                                    IsChecked="{Binding DerivSeries.IsVisible}"
+                                    Content="&#xE7B3;" Style="{DynamicResource RoundedActionToggleButtonStyle}" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+    </DataTemplate>
+
+    <!--PEAK LIST-->
+    <DataTemplate x:Key="PeakItemsControl" DataType="core:Peak">
+        <materialDesign:Chip IsDeletable="True" Tag="{Binding}" Cursor="Arrow" 
+                             DeleteCommandParameter="{Binding}" 
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.SelectedItem.DeletePeak}">
+            <TextBlock VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0:N2}, {1:N2}">
+                        <Binding Path="X"/>
+                        <Binding Path="Value"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </materialDesign:Chip>
+    </DataTemplate>
+
+    <!--INTEGRAL LIST-->
+    <DataTemplate x:Key="IntegralItemsControl" DataType="core:Integral">
+        <materialDesign:Chip IsDeletable="True"  Tag="{Binding}"
+                             x:Name="PART_CHIP"
+                             DeleteCommandParameter="{Binding}" 
+                             DeleteCommand="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.SelectedItem.DeleteIntegral}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="auto" x:Name="PART_HEIGHT"/>
+                </Grid.RowDefinitions>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}[{0:N2} - {1:N2}]: {2:N2}">
+                            <Binding Path="From"/>
+                            <Binding Path="To"/>
+                            <Binding Path="Value"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <ToggleButton Width="16" Height="16" Margin="8 0 0 0" VerticalAlignment="Center" 
+                              Grid.Column="1" x:Name="PART_BTN"
+                              Grid.Row="0" IsChecked="{Binding EditIndicator}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Grid>
+                                <Ellipse x:Name="Bg" Fill="#FFA6A6A6" Stroke="{StaticResource ActiveColor}" StrokeThickness="0" />
+                                <materialDesign:PackIcon Kind="Pencil" Width="12" Height="12"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bg" Property="StrokeThickness" Value="1" />
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Fill" TargetName="Bg" Value="{StaticResource ActiveColor}"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+                <TextBox Text="{Binding Path=Value, Mode=OneWay}" Visibility="Collapsed"
+                         x:Name="PART_INPUT" Grid.Column="0" Grid.Row="1"/>
+                <Button  Width="16" Height="16" Margin="8 0 0 0" VerticalAlignment="Center" 
+                         Grid.Column="1" x:Name="PART_OK_BTN"
+                         Grid.Row="1" Visibility="Collapsed"
+                         Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.SelectedItem.UpdateIntegralCommand}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Ellipse x:Name="Bg" Fill="#FFA6A6A6" Stroke="{StaticResource ActiveColor}" StrokeThickness="0" />
+                                <materialDesign:PackIcon Kind="Check" Width="12" Height="12"
+                                                         HorizontalAlignment="Center"
+                                                         VerticalAlignment="Center" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bg" Property="StrokeThickness" Value="1" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{converter:MultiBindingConverter}">
+                            <Binding/>
+                            <Binding ElementName="PART_INPUT" Path="Text"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+            </Grid>
+        </materialDesign:Chip>
+        <DataTemplate.Triggers>
+            <Trigger SourceName="PART_BTN" Property="IsChecked" Value="True">
+                <Setter TargetName="PART_INPUT" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="PART_OK_BTN" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="PART_HEIGHT" Property="Height" Value="1*"/>
+                <Setter TargetName="PART_CHIP" Property="Height" Value="64"/>
+            </Trigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

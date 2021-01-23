@@ -16,8 +16,18 @@ using OxyDataPoint = OxyPlot.DataPoint;
 
 namespace SPCViewer.ViewModel
 {
-    public sealed class DocumentViewModel : ListingViewModel<SpectrumViewModel>
+    public sealed class DocumentViewModel : ListingViewModel<SpectrumViewModel>, IListItemViewModel<MainViewModel, DocumentViewModel>
     {
+        /// <summary>
+        /// The active MainViewModel
+        /// </summary>
+        public MainViewModel Parent { get; }
+
+        /// <summary>
+        /// Indicates whether this is the selected item
+        /// </summary>
+        public bool IsSelected => Parent?.SelectedItem == this;
+
         /// <summary>
         /// The used PlotModel
         /// </summary>
@@ -42,8 +52,12 @@ namespace SPCViewer.ViewModel
             }
         }
 
-        public DocumentViewModel()
+        public ICommand RefreshCommand => new RelayCommand(Refresh);
+
+        public DocumentViewModel(MainViewModel parent)
         {
+            Parent = parent;
+            Parent.SelectedIndexChanged += (s, e) => OnPropertyChanged(nameof(IsSelected));
             Title = $"Untitled_{DateTime.Now:yyyy-MM-dd}";
             Model = new DefaultPlotModel();
             Controller = PlotControls.DefaultController;
@@ -157,5 +171,7 @@ namespace SPCViewer.ViewModel
             Items.Remove(tab);
             Model.InvalidatePlot(true);
         }
+
+        public void Refresh() => Model.YAxisRefresh(Model.Series.Any(s => s.IsVisible));
     }
 }

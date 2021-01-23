@@ -11,7 +11,7 @@ namespace SPCViewer.ViewModel
         /// </summary>
         public void CreateDocument()
         {
-            var doc = new DocumentViewModel();
+            var doc = new DocumentViewModel(this);
             Items.Add(doc);
             SelectedIndex = Items.IndexOf(doc);
         }
@@ -46,6 +46,10 @@ namespace SPCViewer.ViewModel
             }
         }
 
+        /// <summary>
+        /// Saves the current document
+        /// </summary>
+        /// <param name="filename"></param>
         public void SaveFile(string filename) => SaveHandler.Handle(SelectedItem.SelectedItem, filename);
 
         /// <summary>

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converter="clr-namespace:SPCViewer.WPF.Converter"
         xmlns:extension="clr-namespace:SPCViewer.WPF.Extension" 
         xmlns:viewmodel="clr-namespace:SPCViewer.ViewModel;assembly=SPCViewer.ViewModel"
@@ -16,13 +15,16 @@
         Background="{DynamicResource Dark}"
         Icon="Resources/spc_icon.ico"
         Style="{DynamicResource WindowStyle}"
-        AllowDrop="True" Height="700" MinHeight="600" Width="1280" MinWidth="1280">
+        AllowDrop="True" Height="700" MinHeight="600" Width="1440" MinWidth="1280">
     <controls:DefaultWindow.TitlebarContent>
         <Grid VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="275"/> <!--title-->
-                <ColumnDefinition Width="300"/> <!--open save col-->
-                <ColumnDefinition/> <!--toolbar col-->
+                <ColumnDefinition Width="275"/>
+                <!--title-->
+                <ColumnDefinition Width="300"/>
+                <!--open save col-->
+                <ColumnDefinition/>
+                <!--toolbar col-->
             </Grid.ColumnDefinitions>
             <Label Content="SPCViewer" FontSize="16" Foreground="{DynamicResource Light}" FontWeight="SemiBold"/>
             <StackPanel Orientation="Horizontal" Grid.Column="1">
@@ -69,23 +71,18 @@
             </ToolBarTray>
         </Grid>
     </controls:DefaultWindow.TitlebarContent>
-    <controls:DefaultWindow.Resources>
-        <ResourceDictionary Source="Styles/TabTemplate.xaml">
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/Styles/Colors.xaml"/>
-			</ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </controls:DefaultWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="275"/>
             <ColumnDefinition />
+            <ColumnDefinition Width="275"/>
+            <ColumnDefinition Width="0.417"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0">
+        <DockPanel Grid.Row="0" Grid.Column="0">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -104,27 +101,10 @@
                      ItemsSource="{Binding Path=Items}" 
                      ItemContainerStyle="{DynamicResource ListBoxItemSidebarStyle}"
                      BorderThickness="0"
-                     SelectedIndex="{Binding SelectedIndex}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="35"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Title}"/>
-                            <Button Grid.Column="1"
-                                    ToolTip="Delete Document"
-                                    Margin="2 0 0 0"
-                                    CommandParameter="{Binding}"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.DeleteItemCommand}"
-                                    Content="&#xE106;" Style="{DynamicResource RoundedActionButtonStyle}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                     SelectedIndex="{Binding SelectedIndex}"
+                     ItemTemplate="{StaticResource DocumentList}"/>
         </DockPanel>
-        <DockPanel Grid.Row="1" Grid.Column="0">
+        <DockPanel Grid.Column="0" Grid.Row="0" Margin="0,228,0,0" Grid.RowSpan="2">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -143,49 +123,8 @@
                      ItemsSource="{Binding Path=SelectedItem.Items}" 
                      ItemContainerStyle="{DynamicResource ListBoxItemSidebarStyle}"
                      BorderThickness="0"
-                     SelectedIndex="{Binding SelectedItem.SelectedIndex}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="35"/>
-                                <ColumnDefinition Width="35"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Title}"/>
-                            <ToggleButton Grid.Column="1" Grid.Row="0"
-                                    ToolTip="Change Visibility"
-                                    Margin="2 0 0 0"
-                                    Click="Series_VisibleChanged"
-                                    IsChecked="{Binding ExperimentalSeries.IsVisible}"
-                                    Content="&#xE7B3;" Style="{DynamicResource RoundedActionToggleButtonStyle}"/>
-                            <Button Grid.Column="2" Grid.Row="0"
-                                    ToolTip="Delete Spectrum"
-                                    Margin="2 0 0 0"
-                                    CommandParameter="{Binding}"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.SelectedItem.DeleteItemCommand}"
-                                    Content="&#xE106;" Style="{DynamicResource RoundedActionButtonStyle}"/>
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Integral" Margin="15 0 0 0" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                            <ToggleButton Grid.Column="1" Grid.Row="1"
-                                    ToolTip="Change Visibility"
-                                    Margin="2 0 0 0"
-                                    IsChecked="{Binding IntegralSeries.IsVisible}"
-                                    Content="&#xE7B3;" Style="{DynamicResource RoundedActionToggleButtonStyle}" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Derivative" Margin="15 0 0 0" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                            <ToggleButton Grid.Column="1" Grid.Row="2"
-                                    ToolTip="Change Visibility"
-                                    Margin="2 0 0 0"
-                                    IsChecked="{Binding DerivSeries.IsVisible}"
-                                    Content="&#xE7B3;" Style="{DynamicResource RoundedActionToggleButtonStyle}" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                     SelectedIndex="{Binding SelectedItem.SelectedIndex}"
+                     ItemTemplate="{StaticResource SeriesList}"/>
         </DockPanel>
         <TabControl x:Name="TabContainer" ContentTemplate="{StaticResource TabTemplate}" 
                     Grid.Column="1" Grid.RowSpan="2" Grid.Row="0"
@@ -197,5 +136,6 @@
                 </Style>
             </TabControl.ItemContainerStyle>
         </TabControl>
+        <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"></StackPanel>
     </Grid>
 </controls:DefaultWindow>
