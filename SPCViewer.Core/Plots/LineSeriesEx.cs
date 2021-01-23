@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using OxyPlot;
 using OxyPlot.Series;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SPCViewer.Core.Plots
 {
@@ -16,10 +17,11 @@ namespace SPCViewer.Core.Plots
             {
                 StrokeThickness = value;
                 OnPropertyChanged();
-                PlotModel.InvalidatePlot(true);
             }
         }
-
+        /// <summary>
+        /// Makes IsVisible bindable for UI
+        /// </summary>
         public bool BindableIsVisible
         {
             get => IsVisible;
@@ -27,11 +29,26 @@ namespace SPCViewer.Core.Plots
             {
                 IsVisible = value;
                 OnPropertyChanged();
-                PlotModel.InvalidatePlot(true);
+            }
+        }
+        /// <summary>
+        /// Makes Color bindable for UI
+        /// </summary>
+        public OxyColor BindableColor
+        {
+            get => Color;
+            set
+            {
+                Color = value;
+                OnPropertyChanged();
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PlotModel.InvalidatePlot(true);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

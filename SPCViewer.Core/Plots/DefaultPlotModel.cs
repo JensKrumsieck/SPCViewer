@@ -2,7 +2,6 @@
 using ChemSharp.Spectroscopy.Extension;
 using OxyPlot;
 using OxyPlot.Axes;
-using OxyPlot.Series;
 using SPCViewer.Core.Extension;
 using System;
 using System.IO;
@@ -112,7 +111,7 @@ namespace SPCViewer.Core.Plots
                 var max = Maximum();
                 min /= NormalizationFactor;
                 max /= NormalizationFactor;
-                YAxis.AbsoluteMinimum = min - max * 0.5;
+                YAxis.AbsoluteMinimum = min - max;
                 YAxis.AbsoluteMaximum = max * 2;
                 YAxis.Zoom(min - max * .1, max * 1.25);
             }

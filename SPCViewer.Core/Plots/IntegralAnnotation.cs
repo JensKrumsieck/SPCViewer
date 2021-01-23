@@ -1,6 +1,5 @@
 ﻿using OxyPlot;
 using OxyPlot.Annotations;
-using OxyPlot.Series;
 using System.ComponentModel;
 using System.Linq;
 
