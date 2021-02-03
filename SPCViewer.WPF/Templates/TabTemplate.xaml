@@ -88,8 +88,8 @@
                     <StackPanel>
                         <Label Content="Minimum"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
-                                                           Text="{Binding Model.YAxis.BindableActualMinimum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
-                                                           materialDesign:HintAssist.HelperText="Y Axis Minimum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
+                                 Text="{Binding Model.YAxis.BindableActualMinimum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
+                                 materialDesign:HintAssist.HelperText="Y Axis Minimum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                     <StackPanel>
                         <Label Content="Maximum"/>
