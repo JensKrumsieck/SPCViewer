@@ -100,14 +100,14 @@
                     <StackPanel>
                         <Label Content="Major Tick Size"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
-                                 Text="{Binding Model.XAxis.BindableMajorStep, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
-                                 materialDesign:HintAssist.HelperText="X Axis Major Step" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
+                                 Text="{Binding Model.YAxis.BindableMajorStep, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
+                                 materialDesign:HintAssist.HelperText="Y Axis Major Step" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                     <StackPanel>
                         <Label Content="Minor Tick Size"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
-                                 Text="{Binding Model.XAxis.BindableMinorStep, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
-                                 materialDesign:HintAssist.HelperText="X Axis Major Step" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
+                                 Text="{Binding Model.YAxis.BindableMinorStep, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
+                                 materialDesign:HintAssist.HelperText="Y Axis Major Step" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                 </UniformGrid>
                 <Separator/>
