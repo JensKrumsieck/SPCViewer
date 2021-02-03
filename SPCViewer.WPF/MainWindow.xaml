@@ -13,6 +13,7 @@
         IconSize="24"
         mc:Ignorable="d"
         TitlebarHeight="55" 
+        Background="{DynamicResource Dark}"
         TitlebarBackground="{DynamicResource Dark}"
         Icon="Resources/spc_icon.ico"
         AllowDrop="True" Height="700" MinHeight="600" Width="1440" MinWidth="1280">
@@ -107,6 +108,7 @@
                         FontSize="12" Width="24" Height="24"
                         Click="Open_Click"
                         ToolTip="Open Spectrum"
+                        Foreground="{DynamicResource Light}"
                         Background="{DynamicResource Green}"
                         Content="&#xE710;" Style="{DynamicResource RoundedIconButton}"/>
             </Grid>
@@ -121,9 +123,9 @@
                     Grid.Column="1" Grid.RowSpan="2" Grid.Row="0"
                     ItemsSource="{Binding Path=Items}" Drop="OnFileDrop" 
                     SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" ItemContainerStyle="{StaticResource CollapsedTabHeaders}"/>
-        <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Background="{DynamicResource Dark}">
+        <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Background="{DynamicResource Transparent}">
             <TabControl ItemContainerStyle="{DynamicResource TabHeaderStyle}" ContentTemplateSelector="{StaticResource TemplateByTypeSelector}"
-                        Background="{DynamicResource Dark}" Foreground="{DynamicResource Light}">
+                        Background="Transparent" Foreground="{DynamicResource Light}">
                 <TabItem extension:ControlExtension.AttachedIcon="ListStatus" Header="Properties" DataContext="{Binding SelectedItem.SelectedItem}" Content="{Binding}" />
                 <TabItem extension:ControlExtension.AttachedIcon="Cog" Header="Settings" DataContext="{Binding SelectedItem}" Content="{Binding}" />
             </TabControl>

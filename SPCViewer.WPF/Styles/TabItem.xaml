@@ -5,7 +5,7 @@
     <Style TargetType="TabItem" x:Key="TabHeaderStyle">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Background" Value="{DynamicResource Dark}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{StaticResource Light}"/>
         <Setter Property="Template">
             <Setter.Value>

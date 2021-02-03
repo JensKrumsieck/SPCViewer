@@ -66,7 +66,7 @@
                     <TextBox Style="{StaticResource SidebarTextBox}"
                              Text="{Binding SelectedItem.StrokeThickness, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
                              KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
-                    <controls:ColorPickerTextBox
+                    <controls:ColorPickerTextBox Style="{StaticResource SidebarColorPickerTextBox}"
                              Text="{Binding SelectedItem.Color, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit, Converter={converter:StringToOxyColorConverter}}"
                              KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                 </UniformGrid>
