@@ -11,17 +11,17 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource ActiveColor}"/>
+                            <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource Green}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource HoverColor}"/>
+                            <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource Blue}"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True"/>
                                 <Condition Property="IsMouseOver" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource Green}"/>
+                            <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource Blue}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -6,6 +6,7 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:selector="clr-namespace:ThemeCommons.Selector;assembly=ThemeCommons"
                     xmlns:converter="clr-namespace:SPCViewer.WPF.Converter"
+                    xmlns:controls="clr-namespace:ThemeCommons.Controls;assembly=ThemeCommons"
                     x:Class="SPCViewer.WPF.Templates.TabTemplate">
     <!--PLOTVIEW TAB TEMPLATE-->
     <DataTemplate x:Key="TabTemplate" DataType="viewModel:DocumentViewModel">
@@ -14,7 +15,7 @@
                           Controller="{Binding Controller}">
                 <oxy:PlotView.ZoomRectangleTemplate>
                     <ControlTemplate>
-                        <Rectangle Fill="{StaticResource ActiveColorOpacity}" Stroke="{StaticResource Background}" StrokeDashArray="3,3" />
+                        <Rectangle Fill="{DynamicResource BlueBorder}" Stroke="{DynamicResource Dark}" StrokeDashArray="3,3" />
                     </ControlTemplate>
                 </oxy:PlotView.ZoomRectangleTemplate>
                 <oxy:PlotView.DefaultTrackerTemplate>
@@ -24,7 +25,7 @@
                                                   Background="{StaticResource Background}"
                                                   BorderEdgeMode="Unspecified"
                                                   BorderThickness="2"
-                                                  BorderBrush="{StaticResource ActiveColor}"
+                                                  BorderBrush="{StaticResource Green}"
                                                   Foreground="{StaticResource Foreground}">
                             <TextBlock Text="{Binding}" Margin="10" />
                         </oxyshared:TrackerControl>
@@ -65,7 +66,7 @@
                     <TextBox Style="{StaticResource SidebarTextBox}"
                              Text="{Binding SelectedItem.StrokeThickness, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
                              KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
-                    <TextBox Style="{StaticResource SidebarTextBox}"
+                    <controls:ColorPickerTextBox
                              Text="{Binding SelectedItem.Color, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit, Converter={converter:StringToOxyColorConverter}}"
                              KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                 </UniformGrid>
