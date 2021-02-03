@@ -1,4 +1,5 @@
-﻿using OxyPlot.Axes;
+﻿using OxyPlot;
+using OxyPlot.Axes;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -32,6 +33,87 @@ namespace SPCViewer.Core.Plots
                 PlotModel.InvalidatePlot(true);
             }
         }
+
+        public double BindableMajorStep
+        {
+            get => MajorStep;
+            set
+            {
+                MajorStep = value;
+                OnPropertyChanged();
+                PlotModel.InvalidatePlot(true);
+            }
+        }
+
+        public double BindableMinorStep
+        {
+            get => MinorStep;
+            set
+            {
+                MinorStep = value;
+                OnPropertyChanged();
+                PlotModel.InvalidatePlot(true);
+            }
+        }
+
+        private bool _isVisible = true;
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                _isVisible = value;
+                OnPropertyChanged();
+                Toggle();
+            }
+        }
+
+        private bool _isInverted;
+
+        public bool IsInverted
+        {
+            get => _isInverted;
+            set
+            {
+                _isInverted = value;
+                OnPropertyChanged();
+                Invert();
+            }
+        }
+
+        private void Toggle()
+        {
+            //enable
+            if (IsVisible)
+            {
+                TickStyle = TickStyle.Outside;
+                LabelFormatter = null;
+                AxislineStyle = LineStyle.Solid;
+                TitleColor = OxyColors.Black;
+            }
+            //disable
+            else
+            {
+                TickStyle = TickStyle.None;
+                LabelFormatter = d => null;
+                AxislineStyle = LineStyle.None;
+                TitleColor = OxyColors.Transparent;
+            }
+            PlotModel.InvalidatePlot(true);
+        }
+
+        /// <summary>
+        /// Inverts XAxis
+        /// </summary>
+        public void Invert()
+        {
+            var start = StartPosition;
+            StartPosition = EndPosition;
+            EndPosition = start;
+            PlotModel.InvalidatePlot(true);
+        }
+
 
         /// <summary>
         /// Raise Update notification

@@ -86,6 +86,7 @@
                         ToolTip="Create Document"
                         FontSize="12" Width="24" Height="24"
                         Click="DocumentCreate_OnClick"
+                        Foreground="{DynamicResource Light}"
                         Background="{DynamicResource Green}"
                         Content="&#xE710;" Style="{DynamicResource RoundedIconButton}"/>
             </Grid>

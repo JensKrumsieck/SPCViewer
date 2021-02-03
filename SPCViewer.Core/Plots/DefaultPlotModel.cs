@@ -61,27 +61,6 @@ namespace SPCViewer.Core.Plots
         }
 
         /// <summary>
-        /// Inverts XAxis
-        /// </summary>
-        public void InvertX()
-        {
-            var start = XAxis.StartPosition;
-            XAxis.StartPosition = XAxis.EndPosition;
-            XAxis.EndPosition = start;
-        }
-
-        /// <summary>
-        /// toggles Y Axis visibility
-        /// </summary>
-        public void DisableY()
-        {
-            YAxis.TickStyle = TickStyle.None;
-            YAxis.LabelFormatter = d => null;
-            YAxis.Title = null;
-            YAxis.AxislineStyle = LineStyle.None;
-        }
-
-        /// <summary>
         /// Sets up the Model with Spectrum Data
         /// </summary>
         public void SetUp(Spectrum spectrum)
@@ -94,8 +73,8 @@ namespace SPCViewer.Core.Plots
             //setup y axis
             YAxis.Title = spectrum.YQuantity();
 
-            if (spectrum.IsNMRSpectrum()) InvertX();
-            if (spectrum.IsEPRSpectrum() || spectrum.IsNMRSpectrum()) DisableY();
+            if (spectrum.IsNMRSpectrum()) XAxis.IsInverted = true;
+            if (spectrum.IsEPRSpectrum() || spectrum.IsNMRSpectrum()) YAxis.IsVisible = false;
         }
 
         /// <summary>
