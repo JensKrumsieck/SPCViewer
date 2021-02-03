@@ -5,6 +5,9 @@ using OxyPlot.Axes;
 using SPCViewer.Core.Extension;
 using System;
 using System.Linq;
+using ChemSharp.Spectroscopy.DataProviders;
+using ChemSharp.UnitConversion;
+using ChemSharp.Extensions;
 
 namespace SPCViewer.Core.Plots
 {
@@ -12,6 +15,7 @@ namespace SPCViewer.Core.Plots
     {
         public LinearAxisEx XAxis { get; }
         public LinearAxisEx YAxis { get; }
+        public LinearAxisEx SecondaryAxis { get; }
 
         /// <summary>
         /// Mapping Factor
@@ -51,6 +55,18 @@ namespace SPCViewer.Core.Plots
                 AxislineThickness = Settings.Instance.AxisThickness,
                 IsZoomEnabled = true
             };
+            SecondaryAxis = new LinearAxisEx
+            {
+                Position = AxisPosition.Top,
+                Key = "TopX",
+                TitleFormatString = Settings.Instance.AxisFormat,
+                AxislineThickness = Settings.Instance.AxisThickness,
+                IsZoomEnabled = true
+            };
+            Axes.Add(SecondaryAxis);
+            SecondaryAxis.LinkedTo = XAxis;
+            SecondaryAxis.IsInverted = true;
+
             if (PlotAreaBorderThickness.Equals(new OxyThickness(0)))
             {
                 YAxis.AxislineStyle = LineStyle.Solid;
@@ -66,8 +82,8 @@ namespace SPCViewer.Core.Plots
         public void SetUp(Spectrum spectrum)
         {
             //setup x axis 
-            XAxis.Title = spectrum.Quantity();
-            XAxis.Unit = spectrum.Unit();
+            XAxis.Title = SecondaryAxis.Title = spectrum.Quantity();
+            XAxis.Unit = SecondaryAxis.Unit = spectrum.Unit();
             XAxis.AbsoluteMinimum = spectrum.XYData.Min(s => s.X);
             XAxis.AbsoluteMaximum = spectrum.XYData.Max(s => s.X);
             //setup y axis
@@ -75,6 +91,7 @@ namespace SPCViewer.Core.Plots
 
             if (spectrum.IsNMRSpectrum()) XAxis.IsInverted = true;
             if (spectrum.IsEPRSpectrum() || spectrum.IsNMRSpectrum()) YAxis.IsVisible = false;
+            if(spectrum.IsEPRSpectrum() || spectrum.IsUVSpectrum()) SecondaryAxis.SecondarySetUp(spectrum);
         }
 
         /// <summary>

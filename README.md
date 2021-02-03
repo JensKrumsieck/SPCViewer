@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/JensKrumsieck/SPCViewer/chemsharp/.github/spc.png" alt="logo" width="128"/>
+<img src="https://raw.githubusercontent.com/JensKrumsieck/SPCViewer/master/.github/spc.png" alt="logo" width="128"/>
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/36b9fd90a6fcdc263702/maintainability)](https://codeclimate.com/github/JensKrumsieck/SPCViewer/maintainability)
 ![GitHub repo size](https://img.shields.io/github/repo-size/JensKrumsieck/SPCViewer)
@@ -8,6 +8,8 @@
 # SPCViewer
 
 SPCViewer (fka. BluEPRint) is capable of viewing and analyzing Spectra from Spectrometers listed below.
+
+<img src="https://raw.githubusercontent.com/JensKrumsieck/SPCViewer/master/.github/screenshot.png" alt="screenshot" width="500"/>
 
 ## Supported Spectra
 - Bruker EMX EPR
@@ -19,6 +21,7 @@ SPCViewer (fka. BluEPRint) is capable of viewing and analyzing Spectra from Spec
 - View and analyze spectra
 - Mark Integrals, Peaks, Custom Points ...
 - Multiple exports
+
 
 ### Used Libraries
 * [ChemSharp](https://github.com/JensKrumsieck/ChemSharp) by Jens Krumsieck (MIT License)
