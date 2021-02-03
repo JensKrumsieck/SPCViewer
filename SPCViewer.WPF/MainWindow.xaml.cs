@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using SPCViewer.Core;
 using SPCViewer.ViewModel;
-using SPCViewer.WPF.Extension;
 using SPCViewer.WPF.Resources;
 using System;
 using System.IO;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using ThemeCommons.Controls;
+using ThemeCommons.Extension.Native;
 
 namespace SPCViewer.WPF
 {
