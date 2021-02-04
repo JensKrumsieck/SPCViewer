@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageId>SPCViewer</PackageId>
     <Authors>Jens Krumsieck</Authors>
-    <Version>3.0.0-alpha20201230</Version>
+    <Version>3.0.0-beta1</Version>
     <LangVersion>latest</LangVersion>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
@@ -13,6 +13,8 @@
     <ApplicationIcon>Resources\spc_icon.ico</ApplicationIcon>
     <Product>SPCViewer</Product>
     <PackageIcon>Resources\spc_icon.ico</PackageIcon>
+    <AssemblyName>SPCViewer</AssemblyName>
+    <RootNamespace>SPCViewer</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Resources\spc_icon.ico" />
