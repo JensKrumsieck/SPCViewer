@@ -14,8 +14,9 @@ namespace SPCViewer.Test
         [TestInitialize]
         public void SetUp()
         {
-            const string path = "files/uvvis.dsw";
-            var doc = new DocumentViewModel();
+            const string path = "files/uvvis.dsw"; 
+            var mvm = new MainViewModel();
+            var doc = new DocumentViewModel(mvm);
             _svm = new SpectrumViewModel(doc, path);
             _spc = _svm.Spectrum;
         }

@@ -1,5 +1,4 @@
-﻿using ChemSharp.DataProviders;
-using ChemSharp.Spectroscopy;
+﻿using ChemSharp.Spectroscopy;
 using SPCViewer.Core;
 using System.Collections.ObjectModel;
 using TinyMVVM;
@@ -50,14 +49,16 @@ namespace SPCViewer.ViewModel
         public ObservableCollection<Peak> Peaks { get; set; } =
             new ObservableCollection<Peak>();
 
-        protected SpectrumBaseViewModel(DocumentViewModel parent, IXYDataProvider provider) : base(parent)
+        protected SpectrumBaseViewModel(DocumentViewModel parent, Spectrum spc) : base(parent)
         {
             //load file and set up spectrum
-            Spectrum = new Spectrum { DataProvider = provider };
-            Path = provider.Path;
+            Spectrum = spc;
         }
 
-        protected SpectrumBaseViewModel(DocumentViewModel parent, string path) : this(parent, ExtensionHandler.Handle(path)) { }
+        protected SpectrumBaseViewModel(DocumentViewModel parent, string path) : this(parent, SpectrumFactory.Create(path))
+        {
+            Path = path;
+        }
 
         /// <summary>
         /// Fires when IntegralFactor changes

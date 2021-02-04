@@ -1,5 +1,5 @@
-﻿using ChemSharp.DataProviders;
-using ChemSharp.Extensions;
+﻿using ChemSharp.Extensions;
+using ChemSharp.Spectroscopy;
 using OxyPlot;
 using OxyPlot.Annotations;
 using SPCViewer.Core;
@@ -102,14 +102,14 @@ namespace SPCViewer.ViewModel
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="path"></param>
-        public SpectrumViewModel(DocumentViewModel parent, string path) : this(parent, ExtensionHandler.Handle(path)) { }
+        public SpectrumViewModel(DocumentViewModel parent, string path) : this(parent, SpectrumFactory.Create(path)) { }
 
         /// <summary>
         /// ctor with provider given
         /// </summary>
         /// <param name="parent"></param>
-        /// <param name="provider"></param>
-        public SpectrumViewModel(DocumentViewModel parent, IXYDataProvider provider) : base(parent, provider)
+        /// <param name="spc"></param>
+        public SpectrumViewModel(DocumentViewModel parent, Spectrum spc) : base(parent, spc)
         {
             //init OxyPlot stuff
             Parent.Model.SetUp(Spectrum);

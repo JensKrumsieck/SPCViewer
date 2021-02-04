@@ -35,8 +35,8 @@ namespace SPCViewer.Core.Plots
         private static void SetUpWaveAxis(this LinearAxisEx secondaryAxis, Spectrum spc)
         {
             var converter = new EnergyUnitConverter("nm", "cm^-1");
-            secondaryAxis.Converter = s=>converter.Convert(s) /1000;
-            secondaryAxis.InverseConverter = s=>converter.ConvertInverted(s) *1000;
+            secondaryAxis.Converter = s => converter.Convert(s) / 1000;
+            secondaryAxis.InverseConverter = s => converter.ConvertInverted(s) * 1000;
             secondaryAxis.Title = "ν";
             secondaryAxis.Unit = "10^{3} cm^{-1}";
         }

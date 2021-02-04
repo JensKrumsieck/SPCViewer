@@ -15,7 +15,8 @@ namespace SPCViewer.Test
         public void SetUp()
         {
             const string path = "files/epr.par";
-            var doc = new DocumentViewModel();
+            var mvm = new MainViewModel();
+            var doc = new DocumentViewModel(mvm);
             _svm = new SpectrumViewModel(doc, path);
             _spc = _svm.Spectrum;
         }

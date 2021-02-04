@@ -1,6 +1,6 @@
-﻿using System;
-using OxyPlot;
+﻿using OxyPlot;
 using OxyPlot.Axes;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 

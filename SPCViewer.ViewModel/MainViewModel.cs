@@ -1,4 +1,5 @@
-﻿using ChemSharp.Spectroscopy.DataProviders;
+﻿using ChemSharp.Spectroscopy;
+using ChemSharp.Spectroscopy.DataProviders;
 using SPCViewer.Core;
 using TinyMVVM;
 
@@ -32,7 +33,7 @@ namespace SPCViewer.ViewModel
                     var multiCSV = new MultiCSVProvider(file);
                     for (var i = 0; i < multiCSV.MultiXYData.Count; i++)
                     {
-                        var page = new SpectrumViewModel(doc, new GenericCSVProvider(file, ',', i));
+                        var page = new SpectrumViewModel(doc, new Spectrum(new GenericCSVProvider(file, ',', i)));
                         doc.Items.Add(page);
                         doc.SelectedIndex = doc.Items.IndexOf(page);
                     }

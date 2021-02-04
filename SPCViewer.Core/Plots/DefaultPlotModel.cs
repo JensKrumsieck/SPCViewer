@@ -5,9 +5,6 @@ using OxyPlot.Axes;
 using SPCViewer.Core.Extension;
 using System;
 using System.Linq;
-using ChemSharp.Spectroscopy.DataProviders;
-using ChemSharp.UnitConversion;
-using ChemSharp.Extensions;
 
 namespace SPCViewer.Core.Plots
 {
@@ -91,7 +88,7 @@ namespace SPCViewer.Core.Plots
 
             if (spectrum.IsNMRSpectrum()) XAxis.IsInverted = true;
             if (spectrum.IsEPRSpectrum() || spectrum.IsNMRSpectrum()) YAxis.IsVisible = false;
-            if(spectrum.IsEPRSpectrum() || spectrum.IsUVSpectrum()) SecondaryAxis.SecondarySetUp(spectrum);
+            if (spectrum.IsEPRSpectrum() || spectrum.IsUVSpectrum()) SecondaryAxis.SecondarySetUp(spectrum);
         }
 
         /// <summary>
