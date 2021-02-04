@@ -30,6 +30,7 @@ namespace SPCViewer.Core.Plots
             secondaryAxis.InverseConverter = InverseConverter;
             secondaryAxis.Title = "g";
             secondaryAxis.Unit = "";
+            secondaryAxis.TitleFormatString = "{0}";
         }
 
         private static void SetUpWaveAxis(this LinearAxisEx secondaryAxis, Spectrum spc)
