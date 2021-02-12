@@ -6,6 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="{DynamicResource OrangeColor}"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/ListBox.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/ThemeCommons.MaterialDesign;component/ThemeCommons.xaml"/>

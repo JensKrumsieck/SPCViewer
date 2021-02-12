@@ -25,7 +25,7 @@
                                                   Background="{StaticResource Background}"
                                                   BorderEdgeMode="Unspecified"
                                                   BorderThickness="2"
-                                                  BorderBrush="{StaticResource Green}"
+                                                  BorderBrush="{StaticResource Orange}"
                                                   Foreground="{StaticResource Foreground}">
                             <TextBlock Text="{Binding}" Margin="10" />
                         </oxyshared:TrackerControl>
@@ -42,76 +42,76 @@
         </DataTemplate.Resources>
         <ScrollViewer Visibility="{Binding Converter={StaticResource NullableToVisibilityConverter}}">
             <StackPanel Margin="5">
-                <Label Content="X Axis" Style="{StaticResource SidebarLabel}"/>
+                <Label Content="X Axis" Style="{StaticResource SidebarBoldLabel}"/>
                 <UniformGrid Margin="10" Columns="2">
                     <StackPanel>
-                        <Label Content="Visible"/>
+                        <Label Content="Visible" Style="{StaticResource SidebarLabel}"/>
                         <ToggleButton IsChecked="{Binding Model.XAxis.IsVisible}"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Reversed"/>
+                        <Label Content="Reversed" Style="{StaticResource SidebarLabel}"/>
                         <ToggleButton IsChecked="{Binding Model.XAxis.IsInverted}"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Minimum"/>
+                        <Label Content="Minimum" Style="{StaticResource SidebarLabel}"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
                                  Text="{Binding Model.XAxis.BindableActualMinimum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
                                  materialDesign:HintAssist.HelperText="X Axis Minimum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Maximum"/>
+                        <Label Content="Maximum" Style="{StaticResource SidebarLabel}"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
                              Text="{Binding Model.XAxis.BindableActualMaximum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}" 
                              materialDesign:HintAssist.HelperText="X Axis Maximum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Major Tick Size"/>
+                        <Label Content="Major Tick Size" Style="{StaticResource SidebarLabel}"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
                                  Text="{Binding Model.XAxis.BindableMajorStep, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
                                  materialDesign:HintAssist.HelperText="X Axis Major Step" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Minor Tick Size"/>
+                        <Label Content="Minor Tick Size" Style="{StaticResource SidebarLabel}"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
                                  Text="{Binding Model.XAxis.BindableMinorStep, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
                                  materialDesign:HintAssist.HelperText="X Axis Major Step" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                 </UniformGrid>
                 <Separator/>
-                <Label Content="Y Axis" Style="{StaticResource SidebarLabel}"/>
+                <Label Content="Y Axis" Style="{StaticResource SidebarBoldLabel}"/>
                 <UniformGrid Columns="2" Margin="10">
                     <StackPanel>
-                        <Label Content="Visible"/>
+                        <Label Content="Visible" Style="{StaticResource SidebarLabel}"/>
                         <ToggleButton IsChecked="{Binding Model.YAxis.IsVisible}"/>
                     </StackPanel>
                     <StackPanel/>
                     <StackPanel>
-                        <Label Content="Minimum"/>
+                        <Label Content="Minimum" Style="{StaticResource SidebarLabel}"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
                                  Text="{Binding Model.YAxis.BindableActualMinimum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
                                  materialDesign:HintAssist.HelperText="Y Axis Minimum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Maximum"/>
+                        <Label Content="Maximum" Style="{StaticResource SidebarLabel}"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
                                  Text="{Binding Model.YAxis.BindableActualMaximum, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}" 
                                                     materialDesign:HintAssist.HelperText="Y Axis Maximum" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Major Tick Size"/>
+                        <Label Content="Major Tick Size" Style="{StaticResource SidebarLabel}"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
                                  Text="{Binding Model.YAxis.BindableMajorStep, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
                                  materialDesign:HintAssist.HelperText="Y Axis Major Step" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Minor Tick Size"/>
+                        <Label Content="Minor Tick Size" Style="{StaticResource SidebarLabel}"/>
                         <TextBox Style="{StaticResource SidebarTextBox}" 
                                  Text="{Binding Model.YAxis.BindableMinorStep, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"
                                  materialDesign:HintAssist.HelperText="Y Axis Major Step" KeyUp="BindingOnEnterUp" LostFocus="TextBoxOnLostFocus"/>
                     </StackPanel>
                 </UniformGrid>
                 <Separator/>
-                <Label Content="Stroke" Style="{StaticResource SidebarLabel}"/>
+                <Label Content="Stroke" Style="{StaticResource SidebarBoldLabel}"/>
                 <UniformGrid Margin="10">
                     <TextBox Style="{StaticResource SidebarTextBox}"
                              Text="{Binding SelectedItem.StrokeThickness, Mode=TwoWay, IsAsync=True, UpdateSourceTrigger=Explicit}"

@@ -12,8 +12,9 @@
         x:Name="TheWindow"
         IconSize="18"
         mc:Ignorable="d"
+        Foreground="{DynamicResource Dark}"
         TitlebarHeight="35" 
-        Background="{DynamicResource Dark}"
+        Background="White"
         TitlebarBackground="{DynamicResource Dark}"
         Icon="Resources/spc_icon.ico"
         AllowDrop="True" Height="700" MinHeight="600" Width="1440" MinWidth="1280">
@@ -80,14 +81,14 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="35"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Margin="10 10 10 0" FontSize="14" Foreground="{DynamicResource Light}"
+                <TextBlock Margin="10 10 10 0" FontSize="14" Foreground="{DynamicResource Dark}"
                            FontWeight="SemiBold" Text="Documents"/>
                 <Button Grid.Column="1"
                         ToolTip="Create Document"
                         FontSize="12" Width="24" Height="24"
                         Click="DocumentCreate_OnClick"
-                        Foreground="{DynamicResource Light}"
-                        Background="{DynamicResource Green}"
+                        Foreground="{DynamicResource Dark}"
+                        Background="{DynamicResource Orange}"
                         Content="&#xE710;" Style="{DynamicResource RoundedIconButton}"/>
             </Grid>
             <ListBox Margin="10" 
@@ -103,14 +104,14 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="35"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Margin="10 10 10 0" FontSize="14" Foreground="{DynamicResource Light}"
+                <TextBlock Margin="10 10 10 0" FontSize="14" Foreground="{DynamicResource Dark}"
                            FontWeight="SemiBold" Text="Spectra"/>
                 <Button Grid.Column="1"
                         FontSize="12" Width="24" Height="24"
                         Click="Open_Click"
                         ToolTip="Open Spectrum"
-                        Foreground="{DynamicResource Light}"
-                        Background="{DynamicResource Green}"
+                        Foreground="{DynamicResource Dark}"
+                        Background="{DynamicResource Orange}"
                         Content="&#xE710;" Style="{DynamicResource RoundedIconButton}"/>
             </Grid>
             <ListBox Margin="10" ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -126,7 +127,7 @@
                     SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" ItemContainerStyle="{StaticResource CollapsedTabHeaders}"/>
         <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Background="{DynamicResource Transparent}">
             <TabControl ItemContainerStyle="{DynamicResource TabHeaderStyle}" ContentTemplateSelector="{StaticResource TemplateByTypeSelector}"
-                        Background="Transparent" Foreground="{DynamicResource Light}">
+                        Background="Transparent" Foreground="{DynamicResource Dark}">
                 <TabItem extension:ControlExtension.AttachedIcon="ListStatus" Header="Properties" DataContext="{Binding SelectedItem.SelectedItem}" Content="{Binding}" />
                 <TabItem extension:ControlExtension.AttachedIcon="Cog" Header="Settings" DataContext="{Binding SelectedItem}" Content="{Binding}" />
             </TabControl>

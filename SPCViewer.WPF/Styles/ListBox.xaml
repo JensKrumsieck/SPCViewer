@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemSidebarStyle">
-        <Setter Property="Foreground" Value="{DynamicResource Light}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Dark}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="FontSize" Value="13"/>
@@ -13,9 +13,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource Green}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Light}"/>
+                            <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource Orange}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource Light}"/>
                             <Setter TargetName="PART_Border" Property="Background" Value="{DynamicResource Blue}"/>
                         </Trigger>
                         <MultiTrigger>

@@ -2,7 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     >
     <Style TargetType="{x:Type Label}" x:Key="SidebarLabel">
-        <Setter Property="Foreground" Value="{StaticResource Light}"/>
+        <Setter Property="Foreground" Value="{StaticResource Dark}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="SidebarBoldLabel" BasedOn="{StaticResource SidebarLabel}">
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 </ResourceDictionary>

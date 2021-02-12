@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ChemSharp.Spectroscopy" Version="1.0.0-beta1" />
-    <PackageReference Include="ChemSharp" Version="1.0.0-beta1" />
+    <PackageReference Include="ChemSharp.Spectroscopy" Version="1.0.0-beta3" />
+    <PackageReference Include="ChemSharp" Version="1.0.0-beta3" />
     <PackageReference Include="JensKrumsieck.TinyMVVM" Version="1.0.0-beta4" />
     <PackageReference Include="OxyPlot.Core" Version="2.1.0-Preview1" />
     <PackageReference Include="OxyPlot.SkiaSharp" Version="2.1.0-Preview1" />

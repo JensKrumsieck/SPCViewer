@@ -6,13 +6,13 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{StaticResource Light}"/>
+        <Setter Property="Foreground" Value="{StaticResource Dark}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Border BorderThickness="0" BorderBrush="Transparent">
                         <Border x:Name="PART_BORDER" Padding="20 5" IsHitTestVisible="True" Background="{TemplateBinding Background}"
-                                            BorderThickness="0" BorderBrush="{DynamicResource Green}"
+                                            BorderThickness="0" BorderBrush="{DynamicResource Orange}"
                                             materialDesign:RippleAssist.Feedback="{DynamicResource MaterialDesignFlatButtonRipple}">
                             <Grid MinHeight="20">
                                 <Grid.ColumnDefinitions>
@@ -36,11 +36,11 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="PART_BORDER" Property="BorderThickness" Value="0 0 0 1.5"/>
-                            <Setter TargetName="PART_TEXT" Property="Foreground" Value="{DynamicResource Green}"/>
-                            <Setter TargetName="PART_ICON" Property="Foreground" Value="{DynamicResource Green}"/>
+                            <Setter TargetName="PART_TEXT" Property="Foreground" Value="{DynamicResource Orange}"/>
+                            <Setter TargetName="PART_ICON" Property="Foreground" Value="{DynamicResource Orange}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_BORDER" Property="Background" Value="{DynamicResource Green}"/>
+                            <Setter TargetName="PART_BORDER" Property="Background" Value="{DynamicResource Orange}"/>
                             <Setter TargetName="PART_TEXT" Property="Foreground" Value="{DynamicResource Light}"/>
                             <Setter TargetName="PART_ICON" Property="Foreground" Value="{DynamicResource Light}"/>
                         </Trigger>
