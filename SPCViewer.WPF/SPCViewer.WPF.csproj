@@ -7,8 +7,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows10.0.17763.0</TargetFramework>
     <UseWPF>true</UseWPF>
-    <PackageProjectUrl>https://github.com/JensKrumsieck/BluEPRint2</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JensKrumsieck/BluEPRint2</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/JensKrumsieck/SPCViewer</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JensKrumsieck/SPCViewer</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <ApplicationIcon>Resources\spc_icon.ico</ApplicationIcon>
     <Product>SPCViewer</Product>
